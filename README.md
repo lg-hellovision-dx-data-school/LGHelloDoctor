@@ -1,282 +1,244 @@
-# 의료 특화 음성 AI 에이전트 — 시나리오
+# LGHelloDoctor — A팀: STT · 음성 파이프라인
 
-> **대상 사용자**: 노인 (고령층)  
-> **입력 방식**: 음성 (AI 스피커)  
-> **플랫폼**: LG HelloVision AI 스피커
+> LG HelloVision AI 스피커 기반 노인 대상 의료 음성 AI 에이전트  
+> **A팀 담당 범위**: 음성 입력 → VAD → Whisper STT → 텍스트 전처리 → B팀으로 전달
 
 ---
 
-## 시나리오 A — 증상 문의 + 병원 검색
+## 팀 구성 및 역할
+
+| 팀 | 담당 |
+|----|------|
+| **A팀 (이 레포)** | STT · 음성 파이프라인 (음성 입력 ~ 텍스트 전처리) |
+| B팀 | 의료 LLM · 파인튜닝 (Ollama, LoRA, 의도 분류) |
+| C팀 | RAG · 도구 연동 (ChromaDB, 병원 검색, 응급 처리) |
+| D팀 | API 서버 · 응답 포맷터 · TTS (FastAPI, PostgreSQL) |
+
+---
+
+## A팀 파이프라인 흐름
+
+```
+대기 상태 → Wake word 감지 ("헬로비")
+        ↓
+① 음성 입력 — 마이크 녹음 or 파일 로드
+        ↓
+② VAD 필터 — 침묵 구간 제거 (silero-vad, threshold=0.4)
+        ↓
+③ Whisper STT — 음성 → 텍스트 (Groq whisper-large-v3)
+        ↓
+④ 텍스트 전처리 — 간투어 제거 + 의료 용어 오탈자 보정(50개) + 정규화
+        ↓
+   B팀 의도 분류기로 전달
+```
+
+---
+
+## 완료 현황
+
+| 항목 | 파일 | 상태 |
+|------|------|------|
+| 음성 입력 (마이크 / 파일 로드) | `src/audio_input.py` | ✅ |
+| VAD 필터 (침묵 제거) | `src/vad_filter.py` | ✅ |
+| Whisper STT (Groq API + 로컬 자동 전환) | `src/stt_module.py` | ✅ |
+| 텍스트 전처리 모듈 | `src/preprocessor.py` | ✅ |
+| 의료 용어 오탈자 보정 사전 (50개) | `src/preprocessor.py` | ✅ |
+| 파이프라인 통합 진입점 | `src/pipeline.py` | ✅ |
+| Wake word 감지 ("헬로비") | `src/wake_word.py` | ✅ 구조 완성 |
+| STT 정확도 평가 지표 (WER / CER) | `src/evaluate_stt.py` | ✅ |
+| AI Hub 데이터 가공 프레임워크 | `src/data_prep.py` | ✅ 구조 완성 |
+| Whisper LoRA 파인튜닝 프레임워크 | `src/finetune_whisper.py` | ✅ 구조 완성 |
+| 단위 테스트 (20개 통과) | `tests/test_pipeline.py` | ✅ |
+
+### 남은 작업
+
+| 항목 | 조건 |
+|------|------|
+| AI Hub 데이터 다운로드 및 가공 실행 | AI Hub 승인 후 `data_prep.py` 실행 |
+| Whisper 노인 한국어 파인튜닝 실행 | GPU 환경 + 가공 데이터 준비 후 `finetune_whisper.py` 실행 |
+| Wake word 실기 테스트 | 마이크 연결 환경에서 `wake_word.py` 동작 확인 |
+| 평가용 JSONL 레이블 작성 | 샘플 파일(case1~4.mp3) 정답 텍스트 작성 → WER/CER 실측 |
+| B팀과 출력 스키마 확정 | confidence 임계값 등 인터페이스 협의 |
+
+---
+
+## 폴더 구조
+
+```
+LGHelloDoctor/
+├── src/
+│   ├── audio_input.py        # 마이크 녹음 or 파일 로드
+│   ├── vad_filter.py         # 침묵 제거 (silero-vad)
+│   ├── stt_module.py         # Whisper STT (Groq API / 로컬 파인튜닝 모델 자동 전환)
+│   ├── preprocessor.py       # 간투어 제거 + 의료 용어 오탈자 보정(50개) + 정규화
+│   ├── pipeline.py           # 전체 파이프라인 진입점
+│   ├── wake_word.py          # "헬로비" Wake word 감지 모듈
+│   ├── evaluate_stt.py       # WER / CER 정확도 평가
+│   ├── data_prep.py          # AI Hub 데이터셋 가공 프레임워크
+│   └── finetune_whisper.py   # Whisper LoRA 파인튜닝 프레임워크
+├── tests/
+│   ├── test_pipeline.py      # 단위 테스트 (20개)
+│   └── samples/
+│       ├── case1.mp3         # 시나리오 A — 증상 문의
+│       ├── case2.mp3         # 시나리오 B — 응급 상황
+│       ├── case3.mp3         # 시나리오 C — 약 정보 문의
+│       └── case4.mp3         # 기타 발화
+├── models/
+│   └── whisper-ko-elderly/   # 파인튜닝 완료 시 여기 배치 (자동 전환)
+├── data/
+│   ├── raw/                  # AI Hub 원본 데이터 (로컬에만 보관)
+│   └── processed/            # data_prep.py 실행 후 생성
+├── .env
+└── requirements.txt
+```
+
+---
+
+## 환경 설정
+
+`.env` 파일 생성:
+
+```
+GROQ_API_KEY=your_groq_api_key
+```
+
+패키지 설치:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 실행 방법
+
+### 1. 파일로 파이프라인 테스트
+
+```bash
+cd src
+python -X utf8 pipeline.py --file ../tests/samples/case1.mp3
+```
+
+### 2. 마이크로 실시간 녹음 (7초)
+
+```bash
+cd src
+python -X utf8 pipeline.py --record --duration 7
+```
+
+### 3. Wake word 모드 (마이크 필요)
+
+```bash
+cd src
+python -X utf8 pipeline.py --wake_word
+```
+
+### 4. 단위 테스트 (네트워크 불필요)
+
+```bash
+pytest tests/test_pipeline.py -v -k "not TestSTT and not TestPipeline"
+```
+
+### 5. STT 정확도 평가
+
+```bash
+# tests/eval_data.jsonl 형식: {"reference": "정답", "hypothesis": "STT결과"}
+python src/evaluate_stt.py --input tests/eval_data.jsonl
+```
+
+---
+
+## B팀으로 전달하는 출력 형식
+
+```python
+{
+    "text":       "무릎 통증. 진료 병원 문의",          # 전처리된 텍스트
+    "raw_text":   "무릎이 너무 아파요. 어디 가야 하나요?",  # STT 원본
+    "confidence": 0.94,
+    "language":   "ko"
+}
+```
+
+---
+
+## 파인튜닝 모델 자동 전환
+
+`models/whisper-ko-elderly/` 폴더가 존재하면 자동으로 로컬 모델로 전환됩니다.  
+없으면 Groq Whisper API를 사용합니다.
+
+```
+models/whisper-ko-elderly/ 있음 → 로컬 파인튜닝 모델 사용
+models/whisper-ko-elderly/ 없음 → Groq whisper-large-v3 API 사용  ← 현재
+```
+
+파인튜닝 실행 (GPU + 데이터 준비 후):
+
+```bash
+python src/data_prep.py --raw_dir ./data/raw --output_dir ./data/processed
+python src/finetune_whisper.py --data_dir ./data/processed --output_dir ./models/whisper-ko-elderly
+```
+
+---
+
+## 트러블슈팅
+
+**torchaudio 2.9+ 오류 (`torchcodec` 없음)**
+
+```
+RuntimeError: torchaudio version requires torchcodec for audio I/O
+```
+
+→ `vad_filter.py`에서 `read_audio` 대신 `librosa`로 오디오 로드하도록 수정 완료
+
+**silero-vad 신뢰 확인 오류**
+
+```
+EOFError: EOF when reading a line
+```
+
+→ `torch.hub.load(trust_repo=True)` 추가로 해결 완료
+
+**Windows 한글 인코딩 오류**
+
+```bash
+python -X utf8 your_script.py
+```
+
+---
+
+## 전체 서비스 시나리오
+
+### 시나리오 A — 증상 문의 + 병원 검색
 
 > "무릎이 너무 아파요. 어디 가야 하나요?"
 
----
+| 단계 | 담당 | 처리 내용 |
+|------|------|-----------|
+| ① 음성 입력 | **A팀** | Wake word("헬로비") 감지 후 녹음 |
+| ② VAD | **A팀** | 침묵 구간 제거 |
+| ③ STT | **A팀** | "무릎이 너무 아파요. 어디 가야 하나요?" |
+| ④ 전처리 | **A팀** | 간투어 제거, 오탈자 보정 |
+| ⑤ 의도 분류 | B팀 | `symptom_inquiry` + `hospital_search` |
+| ⑥ 도구 실행 | C팀 | RAG 검색 + 카카오 병원 검색 병렬 실행 |
+| ⑦ LLM 추론 | B팀 | Ollama llama3 + LoRA |
+| ⑧ 포맷터 + TTS | D팀 | 3문장 이하, 존댓말, 속도 0.85x |
 
-### Step 1 · 음성 입력
-
-- AI 스피커 내장 원거리 마이크(far-field)로 음성 수신
-- 사용자가 멀리서 말해도 감지 가능
-- 항상 대기 상태로 Wake word 감지 후 녹음 시작
-
-```
-[입력 방식]
-대기 상태 → Wake word 감지 ("헬로비비") → 녹음 시작
-
-[입력 음성]
-"무릎이 너무 아파요. 어디 가야 하나요?"
-```
-
----
-
-### Step 2 · Wake word 감지 + Whisper STT
-
-- Wake word 감지 후 자동으로 녹음 시작
-- `whisper-large-v3` 모델로 음성 → 텍스트 변환
-- 노인 한국어 음성 데이터(AI Hub)로 파인튜닝
-- VAD 필터로 침묵 구간 자동 제거
-
-```
-[Wake word]
-감지어: "헬로비비"
-대기 전력: 저전력 모드
-
-[STT 결과]
-텍스트: "무릎이 너무 아파요. 어디 가야 하나요?"
-신뢰도: 0.94
-언어:   ko
-```
-
----
-
-### Step 3 · 텍스트 전처리
-
-- 간투어(어~, 음~) 및 반복 어절 제거
-- 의료 용어 오탈자 자동 보정
-- 문장 정규화
-
-```
-[전처리 전] "무릎이 너무 아파요 어디 가야 하나요"
-[전처리 후] "무릎 통증. 진료 병원 문의"
-```
-
----
-
-### Step 4 · 의도 분류 (Intent Classifier)
-
-- `hospital-llm` 모델이 의도와 개체(Entity)를 동시에 추출
-- 복수 의도 감지 시 두 도구 병렬 실행
-
-```json
-{
-  "intent": ["symptom_inquiry", "hospital_search"],
-  "confidence": 0.91,
-  "entities": {
-    "symptom": "무릎 통증",
-    "body_part": "무릎",
-    "location": null,
-    "emergency": false
-  }
-}
-```
-
-| 의도 | 감지 여부 | 비고 |
-|------|-----------|------|
-| `symptom_inquiry` | ✅ | 무릎 통증 |
-| `hospital_search` | ✅ | 근처 정형외과 |
-| `emergency` | ❌ | 응급 아님 |
-| `medication_info` | ❌ | 약 정보 미요청 |
-
----
-
-### Step 5 · 도구 실행 (Tool Router)
-
-두 도구를 병렬로 호출합니다.
-
-#### 5-1. 의료 지식 RAG
-
-- ChromaDB에서 "무릎 통증" 관련 문서 검색
-- Query Rewrite → Hybrid Search → Rerank 파이프라인
-
-```
-[RAG 검색 결과]
-"무릎 통증은 정형외과 또는 관절 전문 클리닉에서 진료 가능.
-관절염, 인대 손상, 반월연골판 손상 등 원인이 다양하며
-X-ray 또는 MRI 검사를 통해 진단합니다."
-
-출처: 증상별 진료과 매핑 v2.1
-```
-
-#### 5-2. 병원 실시간 검색 (Kakao Local API)
-
-```json
-{
-  "keyword": "정형외과",
-  "lat": 37.5012,
-  "lng": 127.0396,
-  "category": "hospital"
-}
-```
-
-```
-[검색 결과]
-1. 서울정형외과     | 0.3km | 031-123-4567 | 운영 중
-2. 연세관절클리닉   | 0.8km | 031-234-5678 | 운영 중
-```
-
----
-
-### Step 6 · Ollama 의료 특화 모델 추론
-
-- 로컬 `hospital-llm:latest` (llama3.2 + LoRA 파인튜닝)
-- RAG 컨텍스트 + 병원 검색 결과를 합쳐 답변 생성
-- 신뢰도 0.7 미만 시 Groq (llama-3.3-70b) fallback
-
-```
-[시스템 프롬프트]
-"당신은 노인 환자를 위한 의료 안내 AI입니다.
-쉬운 말로 3문장 이내로 답하세요."
-
-[생성 답변 (raw)]
-"무릎이 아프시면 정형외과에 가시면 됩니다.
-가까운 서울정형외과 전화번호는 031-123-4567입니다.
-걷기 많이 힘드시면 119에 전화하세요."
-```
-
----
-
-### Step 7 · 응답 포맷터 (노인 모드)
-
-프롬프트가 아닌 코드 레벨에서 강제 적용합니다.
-
-| 규칙 | 설정값 |
-|------|--------|
-| 최대 문장 수 | 3문장 |
-| 문장당 최대 글자 | 30자 |
-| 구조 | 결론 → 이유 → 행동 |
-| 금지 단어 | 예후, 처방전, 투약, 병변 |
-| 어조 | 존댓말 강제 |
-| 시각 요소 | 제거 (화면 없음) |
-
-```
-[포맷 적용 후]
-
-정형외과에 가세요.
-무릎 통증 전문입니다.
-전화번호는 공삼일, 일이삼, 사오육칠입니다.
-```
-
----
-
-### Step 8 · TTS 음성 출력
-
-- AI 스피커 스피커로 음성 출력 (화면 없음, 음성만)
-- 속도 0.85x, 볼륨 high, 문장 사이 0.5초 pause 삽입
-- 숫자는 한글 발음으로 변환
-- 링크·지도 등 시각 요소 없이 전화번호를 말로만 안내
-
-```
-[TTS 발화 순서]
-
-"정형외과에 가세요."
-(0.5초 pause)
-"무릎 통증 전문입니다."
-(0.5초 pause)
-"전화번호는 공삼일, 일이삼, 사오육칠입니다."
-```
-
----
-
-## 시나리오 B — 응급 상황
+### 시나리오 B — 응급 상황
 
 > "가슴이 너무 아프고 숨이 안 쉬어져요"
 
----
+의도 분류에서 `emergency` 감지 즉시 RAG·LLM 건너뛰고 119 안내 출력 (~0.5초)
 
-### 분기 처리
-
-Step 4 의도 분류에서 `emergency` 감지 즉시 **RAG · LLM 건너뜀**.
-
-```json
-{
-  "intent": "emergency",
-  "confidence": 0.97,
-  "entities": {
-    "symptom": "흉통, 호흡곤란",
-    "severity": "high"
-  }
-}
-```
-
-```
-[응급 핸들러 즉시 실행]
-
-심각도: HIGH
-행동:   119 즉시 연결 안내
-LLM:    건너뜀 (지연 최소화)
-```
-
-```
-[TTS 출력]
-
-"119에 바로 전화하세요."
-(0.3초 pause)
-"지금 바로 전화하세요."
-```
-
----
-
-## 시나리오 C — 약 정보 문의
+### 시나리오 C — 약 정보 문의
 
 > "혈압약이랑 감기약 같이 먹어도 되나요?"
 
----
-
-### 분기 처리
-
-`medication_info` 의도 감지 → 병원 검색 없이 **RAG만 단독 실행**.
-
-```json
-{
-  "intent": "medication_info",
-  "confidence": 0.88,
-  "entities": {
-    "medication_1": "혈압약",
-    "medication_2": "감기약",
-    "query_type": "drug_interaction"
-  }
-}
-```
-
-```
-[RAG 검색]
-소스: 의약품 복용 안내 DB
-
-결과: "혈압약 종류에 따라 감기약(NSAIDs 계열)과
-병용 시 혈압 상승 위험이 있습니다.
-복용 전 담당 의사 또는 약사에게 확인하세요."
-```
-
-```
-[TTS 출력]
-
-"같이 드시면 안 될 수 있어요."
-(0.5초 pause)
-"약사 선생님께 꼭 물어보세요."
-(0.5초 pause)
-"가까운 약국 전화번호는 공삼일, 삼사오, 육칠팔구입니다."
-```
-
----
-
-## 전체 시나리오 비교
+`medication_info` 감지 → 병원 검색 없이 RAG만 단독 실행
 
 | 구분 | 시나리오 A | 시나리오 B | 시나리오 C |
 |------|-----------|-----------|-----------|
-| 발화 예시 | 무릎이 아파요 | 가슴이 아프고 숨이 안 쉬어져 | 약 같이 먹어도 되나요 |
 | 감지 의도 | symptom + hospital | emergency | medication_info |
-| RAG 실행 | ✅ | ❌ (스킵) | ✅ |
-| 병원 검색 | ✅ | ❌ (스킵) | ✅ (약국) |
-| LLM 추론 | ✅ | ❌ (스킵) | ✅ |
-| TTS 출력 | ✅ | ✅ (즉시) | ✅ |
-| 시각 출력 | ❌ (음성만) | ❌ (음성만) | ❌ (음성만) |
+| RAG 실행 | ✅ | ❌ | ✅ |
+| 병원 검색 | ✅ | ❌ | ✅ (약국) |
+| LLM 추론 | ✅ | ❌ | ✅ |
 | 응답 시간 | ~2–3초 | ~0.5초 | ~2초 |

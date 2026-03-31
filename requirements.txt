@@ -1,0 +1,26 @@
+# ── 핵심 런타임 ────────────────────────────────────────────────────
+groq                  # Whisper STT API (Groq)
+python-dotenv         # .env 로드
+
+# ── 오디오 입력 / VAD ──────────────────────────────────────────────
+sounddevice           # 마이크 입력
+soundfile             # wav 읽기/쓰기
+librosa               # 오디오 리샘플링 및 로딩
+numpy                 # 오디오 배열 처리
+
+# ── STT / 파인튜닝 ─────────────────────────────────────────────────
+torch                 # PyTorch (VAD, 파인튜닝)
+transformers          # Whisper 모델 로컬 추론
+accelerate            # 학습 가속
+openai-whisper        # Whisper-tiny (Wake word 감지용)
+
+# ── LoRA 파인튜닝 (finetune_whisper.py) ────────────────────────────
+peft                  # LoRA 파인튜닝
+datasets              # HuggingFace Dataset (data_prep.py)
+evaluate              # CER/WER 메트릭
+
+# ── 정확도 평가 ────────────────────────────────────────────────────
+jiwer                 # WER / CER 계산
+
+# ── 테스트 ─────────────────────────────────────────────────────────
+pytest
