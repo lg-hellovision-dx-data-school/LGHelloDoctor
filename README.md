@@ -47,6 +47,7 @@
 | Wake word 감지 ("헬로비") | `src/wake_word.py` | ✅ 구조 완성 |
 | STT 정확도 평가 지표 (WER / CER) | `src/evaluate_stt.py` | ✅ |
 | AI Hub 데이터 가공 프레임워크 | `src/data_prep.py` | ✅ 구조 완성 |
+| 자유대화 음성(노인남녀) 데이터 가공 실행 | `data/processed/` | ✅ 완료 (훈련 80,243개 / 검증 11,202개) |
 | Whisper LoRA 파인튜닝 프레임워크 | `src/finetune_whisper.py` | ✅ 구조 완성 |
 | 단위 테스트 (20개 통과) | `tests/test_pipeline.py` | ✅ |
 
@@ -54,7 +55,7 @@
 
 | 항목 | 조건 |
 |------|------|
-| AI Hub 데이터 다운로드 및 가공 실행 | AI Hub 승인 후 `data_prep.py` 실행 |
+| ~~AI Hub 데이터 다운로드 및 가공 실행~~ | ✅ 완료 |
 | Whisper 노인 한국어 파인튜닝 실행 | GPU 환경 + 가공 데이터 준비 후 `finetune_whisper.py` 실행 |
 | Wake word 실기 테스트 | 마이크 연결 환경에서 `wake_word.py` 동작 확인 |
 | 평가용 JSONL 레이블 작성 | 샘플 파일(case1~4.mp3) 정답 텍스트 작성 → WER/CER 실측 |
@@ -176,6 +177,18 @@ models/whisper-ko-elderly/ 없음 → Groq whisper-large-v3 API 사용  ← 현�
 ```bash
 python src/data_prep.py --raw_dir ./data/raw --output_dir ./data/processed
 python src/finetune_whisper.py --data_dir ./data/processed --output_dir ./models/whisper-ko-elderly
+```
+
+AI Hub 원본 폴더를 바로 쓰는 경우 (현재 워크스페이스 구조 기준):
+
+```bash
+python src/data_prep.py --raw_dir "./자유대화 음성(노인남녀)" --output_dir ./data/processed
+```
+
+대용량 데이터 사전 점검(스모크 테스트):
+
+```bash
+python src/data_prep.py --raw_dir "./자유대화 음성(노인남녀)" --output_dir ./data/processed_smoke --train_limit 200 --val_limit 50
 ```
 
 ---

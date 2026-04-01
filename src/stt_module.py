@@ -8,7 +8,10 @@ client = Groq(api_key=os.environ["GROQ_API_KEY"])
 
 # 파인튜닝 모델 경로 (완성되면 여기만 교체)
 FINETUNED_MODEL_PATH = "./models/whisper-ko-elderly"
-USE_FINETUNED = os.path.exists(FINETUNED_MODEL_PATH)
+
+
+def _has_finetuned_model() -> bool:
+    return os.path.exists(FINETUNED_MODEL_PATH)
 
 
 def transcribe(audio_path: str) -> dict:
@@ -16,7 +19,7 @@ def transcribe(audio_path: str) -> dict:
     음성 파일을 텍스트로 변환합니다.
     파인튜닝 모델이 있으면 로컬 모델 사용, 없으면 Groq API 사용.
     """
-    if USE_FINETUNED:
+    if _has_finetuned_model():
         return _transcribe_local(audio_path)
     return _transcribe_groq(audio_path)
 
@@ -38,7 +41,7 @@ def _transcribe_groq(audio_path: str) -> dict:
 
 
 def _transcribe_local(audio_path: str) -> dict:
-    """파인튜닝 완료 후 활성화됩니다."""
+    """로컬 파인튜닝 Whisper 모델로 한국어 전사를 수행합니다."""
     import torch
     import librosa
     from transformers import WhisperProcessor, WhisperForConditionalGeneration
@@ -48,9 +51,13 @@ def _transcribe_local(audio_path: str) -> dict:
 
     audio, _ = librosa.load(audio_path, sr=16000)
     inputs = processor(audio, return_tensors="pt", sampling_rate=16000)
+    forced_decoder_ids = processor.get_decoder_prompt_ids(language="ko", task="transcribe")
 
     with torch.no_grad():
-        output = model.generate(inputs.input_features)
+        output = model.generate(
+            inputs.input_features,
+            forced_decoder_ids=forced_decoder_ids,
+        )
 
     text = processor.batch_decode(output, skip_special_tokens=True)[0]
     return {

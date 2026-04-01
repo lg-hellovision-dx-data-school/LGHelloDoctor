@@ -10,8 +10,13 @@ __pycache__/
 # 모델 파일 (용량 큼)
 models/
 
-# 데이터 (AI Hub 원본)
+# 데이터
 data/raw/
+data/processed/
+data/processed_smoke/
+
+# AI Hub 음성 데이터 (대용량)
+자유대화 음성(노인남녀)/
 
 # IDE
 .vscode/
