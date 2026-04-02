@@ -219,21 +219,45 @@ def clean_label(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+_DIALECT_KEYWORDS = {
+    "제주": "jeju",
+    "경상": "gyeongsang",
+    "수도권": "sudogwon",
+    "전라": "jeolla",
+    "충청": "chungcheong",
+    "강원": "gangwon",
+    "표준": "standard",
+}
+
+
+def _detect_dialect(path: Path) -> str:
+    """파일 경로에서 방언 키워드를 감지합니다."""
+    path_str = str(path)
+    for keyword, tag in _DIALECT_KEYWORDS.items():
+        if keyword in path_str:
+            return tag
+    return "standard"
+
+
 def load_split(split_dir: str, limit: int = 0) -> List[Dict]:
     """
     데이터 분할 폴더에서 (오디오 경로, 전사 텍스트) 쌍 로드.
     split_dir/원천데이터/ + split_dir/라벨링데이터/ 구조 가정.
+    limit > 0 이면 방언별 균등 샘플링 후 섞어서 반환.
     """
     base = Path(split_dir)
     audio_dir, label_dir = _find_split_dirs(base)
     index = _audio_index(audio_dir)
 
-    samples = []
+    # 방언별 버킷에 수집
+    buckets: Dict[str, List[Dict]] = {}
     for label_file in sorted(label_dir.rglob("*.json")):
         try:
             meta = json.loads(label_file.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, UnicodeDecodeError):
             continue
+
+        dialect = _detect_dialect(label_file)
 
         for utt in _extract_utterances(meta):
             audio_id = _pick_audio_id(utt)
@@ -245,11 +269,38 @@ def load_split(split_dir: str, limit: int = 0) -> List[Dict]:
             if not text:
                 continue
 
-            samples.append({"audio": str(audio_path), "transcription": text})
+            buckets.setdefault(dialect, []).append({
+                "audio": str(audio_path),
+                "transcription": text,
+                "dialect": dialect,
+            })
 
-            if limit > 0 and len(samples) >= limit:
-                return samples
+    if not buckets:
+        return []
 
+    dialect_list = sorted(buckets.keys())
+    print(f"  방언 분포: { {d: len(buckets[d]) for d in dialect_list} }")
+
+    if limit <= 0:
+        # 전체 반환 (방언 순서대로 섞기)
+        import random
+        all_samples = [s for d in dialect_list for s in buckets[d]]
+        random.shuffle(all_samples)
+        return all_samples
+
+    # 방언별 균등 할당
+    import random
+    per_dialect = limit // len(dialect_list)
+    remainder   = limit % len(dialect_list)
+
+    samples = []
+    for i, dialect in enumerate(dialect_list):
+        n = per_dialect + (1 if i < remainder else 0)
+        pool = buckets[dialect]
+        chosen = random.sample(pool, min(n, len(pool)))
+        samples.extend(chosen)
+
+    random.shuffle(samples)
     return samples
 
 
