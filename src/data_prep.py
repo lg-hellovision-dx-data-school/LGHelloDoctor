@@ -245,19 +245,36 @@ def load_split(split_dir: str, limit: int = 0) -> List[Dict]:
     split_dir/원천데이터/ + split_dir/라벨링데이터/ 구조 가정.
     limit > 0 이면 방언별 균등 샘플링 후 섞어서 반환.
     """
+    import random
     base = Path(split_dir)
     audio_dir, label_dir = _find_split_dirs(base)
-    index = _audio_index(audio_dir)
 
-    # 방언별 버킷에 수집
+    # limit이 있으면 방언당 목표치 계산 (나중에 실제 방언 수 확인 후 조정)
+    # 우선 넉넉하게 per_dialect_cap을 설정해두고 버킷이 차면 스킵
+    per_dialect_cap = (limit // 2) if limit > 0 else 0  # 방언 수 모르니 절반으로 시작, 나중에 조정
+
+    # 방언별 버킷에 수집 — 버킷이 cap 초과하면 그 방언은 스킵
     buckets: Dict[str, List[Dict]] = {}
+    index: Dict[str, Path] = {}  # 지연 빌드
+    index_built = False
+
     for label_file in sorted(label_dir.rglob("*.json")):
+        dialect = _detect_dialect(label_file)
+
+        # 이 방언 버킷이 이미 충분하면 스킵
+        if per_dialect_cap > 0 and len(buckets.get(dialect, [])) >= per_dialect_cap:
+            continue
+
         try:
             meta = json.loads(label_file.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, UnicodeDecodeError):
             continue
 
-        dialect = _detect_dialect(label_file)
+        # 오디오 인덱스 지연 빌드 (처음 필요할 때 한 번만)
+        if not index_built:
+            print("  [오디오 인덱스 구축 중...]")
+            index = _audio_index(audio_dir)
+            index_built = True
 
         for utt in _extract_utterances(meta):
             audio_id = _pick_audio_id(utt)
@@ -275,6 +292,12 @@ def load_split(split_dir: str, limit: int = 0) -> List[Dict]:
                 "dialect": dialect,
             })
 
+        # 모든 버킷이 cap을 넘었으면 조기 종료
+        if per_dialect_cap > 0 and len(buckets) >= 2:
+            if all(len(v) >= per_dialect_cap for v in buckets.values()):
+                print("  [목표 샘플 수 달성, 스캔 조기 종료]")
+                break
+
     if not buckets:
         return []
 
@@ -282,14 +305,11 @@ def load_split(split_dir: str, limit: int = 0) -> List[Dict]:
     print(f"  방언 분포: { {d: len(buckets[d]) for d in dialect_list} }")
 
     if limit <= 0:
-        # 전체 반환 (방언 순서대로 섞기)
-        import random
         all_samples = [s for d in dialect_list for s in buckets[d]]
         random.shuffle(all_samples)
         return all_samples
 
     # 방언별 균등 할당
-    import random
     per_dialect = limit // len(dialect_list)
     remainder   = limit % len(dialect_list)
 
