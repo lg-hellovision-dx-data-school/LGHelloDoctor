@@ -249,54 +249,57 @@ def load_split(split_dir: str, limit: int = 0) -> List[Dict]:
     base = Path(split_dir)
     audio_dir, label_dir = _find_split_dirs(base)
 
-    # limit이 있으면 방언당 목표치 계산 (나중에 실제 방언 수 확인 후 조정)
-    # 우선 넉넉하게 per_dialect_cap을 설정해두고 버킷이 차면 스킵
-    per_dialect_cap = (limit // 2) if limit > 0 else 0  # 방언 수 모르니 절반으로 시작, 나중에 조정
+    # 라벨 하위 폴더를 방언별로 분류 (rglob 없이 한 단계만)
+    dialect_folders: Dict[str, List[Path]] = {}
+    for folder in sorted(label_dir.iterdir()):
+        if not folder.is_dir():
+            continue
+        dialect = _detect_dialect(folder)
+        dialect_folders.setdefault(dialect, []).append(folder)
 
-    # 방언별 버킷에 수집 — 버킷이 cap 초과하면 그 방언은 스킵
+    print(f"  방언 폴더: { {d: len(fs) for d, fs in dialect_folders.items()} }")
+
+    per_dialect_cap = (limit // max(len(dialect_folders), 1)) if limit > 0 else 0
+
     buckets: Dict[str, List[Dict]] = {}
-    index: Dict[str, Path] = {}  # 지연 빌드
-    index_built = False
 
-    for label_file in sorted(label_dir.rglob("*.json")):
-        dialect = _detect_dialect(label_file)
-
-        # 이 방언 버킷이 이미 충분하면 스킵
-        if per_dialect_cap > 0 and len(buckets.get(dialect, [])) >= per_dialect_cap:
-            continue
-
-        try:
-            meta = json.loads(label_file.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, UnicodeDecodeError):
-            continue
-
-        # 오디오 인덱스 지연 빌드 (처음 필요할 때 한 번만)
-        if not index_built:
-            print("  [오디오 인덱스 구축 중...]")
-            index = _audio_index(audio_dir)
-            index_built = True
-
-        for utt in _extract_utterances(meta):
-            audio_id = _pick_audio_id(utt)
-            audio_path = _resolve_audio_path(audio_id, label_file, label_dir, audio_dir, index)
-            if audio_path is None:
-                continue
-
-            text = clean_label(_pick_text(utt))
-            if not text:
-                continue
-
-            buckets.setdefault(dialect, []).append({
-                "audio": str(audio_path),
-                "transcription": text,
-                "dialect": dialect,
-            })
-
-        # 모든 버킷이 cap을 넘었으면 조기 종료
-        if per_dialect_cap > 0 and len(buckets) >= 2:
-            if all(len(v) >= per_dialect_cap for v in buckets.values()):
-                print("  [목표 샘플 수 달성, 스캔 조기 종료]")
+    for dialect, folders in dialect_folders.items():
+        for folder in folders:
+            if per_dialect_cap > 0 and len(buckets.get(dialect, [])) >= per_dialect_cap:
                 break
+
+            for label_file in sorted(folder.glob("*.json")):
+                if per_dialect_cap > 0 and len(buckets.get(dialect, [])) >= per_dialect_cap:
+                    break
+
+                try:
+                    meta = json.loads(label_file.read_text(encoding="utf-8"))
+                except (json.JSONDecodeError, UnicodeDecodeError):
+                    continue
+
+                # 라벨과 동일한 상대경로로 오디오 직접 찾기 (인덱스 불필요)
+                rel = label_file.relative_to(label_dir)
+                audio_path = None
+                for ext in _AUDIO_EXTS:
+                    candidate = audio_dir / rel.with_suffix(ext)
+                    if candidate.exists():
+                        audio_path = candidate
+                        break
+
+                if audio_path is None:
+                    continue
+
+                for utt in _extract_utterances(meta):
+                    text = clean_label(_pick_text(utt))
+                    if not text:
+                        continue
+                    buckets.setdefault(dialect, []).append({
+                        "audio": str(audio_path),
+                        "transcription": text,
+                        "dialect": dialect,
+                    })
+                    if per_dialect_cap > 0 and len(buckets[dialect]) >= per_dialect_cap:
+                        break
 
     if not buckets:
         return []
