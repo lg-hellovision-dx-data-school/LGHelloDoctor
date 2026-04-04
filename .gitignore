@@ -1,0 +1,16 @@
+# 환경변수
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ChromaDB
+RAG/db/
+LG_HelloDoctor/RAG/db/
