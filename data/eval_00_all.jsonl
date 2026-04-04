@@ -1,0 +1,1000 @@
+{"text": "방금 온몸에 갑자기 두드러기가 났어요", "intent": "emergency", "department": null}
+{"text": "헬로비 헬로비 헬로비 오늘 진료하는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 목소리가 갑자기 쉬었어요", "intent": "symptom_inquiry", "department": null}
+{"text": "저기요 입맛이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 그런데 요즘 들어 자꾸 힘이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "산부인과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "지금 저기요 한의원 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 있잖아요 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "갑자기 계속 위가 쓰리고 신물이 올라와요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "머리를 세게 부딪혔어요", "intent": "emergency", "department": null}
+{"text": "지금 헬로비 방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "저기요 다리가 무거워요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 헬로비 야간 진료하는 의원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "방금 저혈당으로 쓰러질 것 같아요", "intent": "emergency", "department": null}
+{"text": "지금 헬로비 정신건강의학과 찾고 있어요", "intent": "hospital_search", "department": null}
+{"text": "계속 귀에서 삐 소리가 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "국가건강검진 어디서 받아요?", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 혹시 그런데 약 먹고 속이 쓰려요", "intent": "medication_info", "department": null}
+{"text": "지금 심장내과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 진통제 매일 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 그런데 병원을 가긴 가야 할 것 같은데 어디 가야 할지", "intent": "hospital_search", "department": null}
+{"text": "갑자기 요즘 갑자기 며칠 전부터 계속 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "그런데 약을 냉장고에 보관해야 해요?", "intent": "medication_info", "department": null}
+{"text": "혹시 가까운 보건소 어디예요?", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 어깨가 올라가지를 않아요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 혹시 진통제 매일 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 계속 갑자기 열이 38도 이상 나요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "그런데 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "며칠 전부터 손목이 저리고 아파요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "헬로비 저기요 오늘 진료하는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "혹시 지금 헬로비 정신건강의학과 찾고 있어요", "intent": "hospital_search", "department": null}
+{"text": "며칠 전부터 며칠 전부터 허리 디스크인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "며칠 전부터 어깨가 너무 아파서 팔을 못 들겠어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "가까운 약국 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "발목이 부었어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "혹시 있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "약 먹는 걸 자꾸 잊어버려요", "intent": "medication_info", "department": null}
+{"text": "당뇨약 먹으면 속이 안 좋아요", "intent": "medication_info", "department": null}
+{"text": "관절이 퉁퉁 부었어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "지금 갑자기 한쪽 다리가 마비됐어요", "intent": "emergency", "department": null}
+{"text": "갑자기 갑자기 갑자기 균형을 못 잡겠어요", "intent": "emergency", "department": null}
+{"text": "지금 갑자기 지금 저혈당으로 쓰러질 것 같아요", "intent": "emergency", "department": null}
+{"text": "혹시 헬로비 혹시 저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "혹시 헬로비 헬로비 호흡기내과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "저기요 헬로비 헬로비 오늘 진료하는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "며칠 전부터 허리 디스크인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "헬로비 저기요 한의원 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 혹시 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "방금 숨을 못 쉬겠어요", "intent": "emergency", "department": null}
+{"text": "갑자기 요즘 발목이 삐끗했어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "그런데 있잖아요 혈압약이랑 비타민 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "화상을 심하게 입었어요", "intent": "emergency", "department": null}
+{"text": "헬로비 아이고 다리야", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 혹시 헬로비 호흡기내과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 그런데 아이고 무릎이 왜 이러지", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 저기요 소염제 식전에 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "어깨가 너무 아파서 팔을 못 들겠어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "다리가 무거워요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 있잖아요 스테로이드 오래 먹으면 안 되나요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 방금 방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "한약이랑 양약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "지금 눈앞이 갑자기 캄캄해요", "intent": "emergency", "department": null}
+{"text": "갑자기 한쪽 다리가 마비됐어요", "intent": "emergency", "department": null}
+{"text": "있잖아요 약 먹고 졸려요", "intent": "medication_info", "department": null}
+{"text": "헬로비 혹시 저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 저기요 있잖아요 소염제 식전에 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "한의원 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "요즘 잇몸에서 피가 나요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "며칠 전부터 며칠 전부터 갑상선이 이상한 것 같아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "지금 갑자기 지금 헬로비 헬로비 약을 너무 많이 먹었어요", "intent": "emergency", "department": null}
+{"text": "갑자기 갑상선이 이상한 것 같아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "피부가 너무 가렵고 빨개요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "목에 뭔가 걸린 것 같아요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "혹시 당뇨 잘 보는 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "치아가 흔들려요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "지금 저기요 헬로비 헬로비 야간 진료하는 의원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "가까운 보건소 어디예요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 헬로비 호흡기내과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "혹시 치과 어디 가야 해요?", "intent": "hospital_search", "department": null}
+{"text": "그런데 그런데 그런데 진통제 하루에 몇 번 먹어요?", "intent": "medication_info", "department": null}
+{"text": "요즘 며칠 전부터 혈압이 자꾸 높아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "혹시 오늘 진료하는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "계속 요즘 피부에 두드러기가 났어요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "며칠 전부터 턱이 아프고 입이 잘 안 벌어져요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "며칠 전부터 갑자기 발목이 너무 아파서 못 걷겠어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "계속 계속 사랑니가 아파요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "혹시 한약이랑 양약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "지금 갑자기 대변에 피가 엄청 나왔어요", "intent": "emergency", "department": null}
+{"text": "혹시 혹시 저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "류마티스내과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 몸이 영 찜찜해요", "intent": "symptom_inquiry", "department": null}
+{"text": "손이 자꾸 저려요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "그런데 저기요 저기요 어디가 아픈지 모르겠는데 전반적으로 안 좋아요", "intent": "symptom_inquiry", "department": null}
+{"text": "요즘 갑자기 며칠 전부터 계속 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "며칠 전부터 며칠 전부터 편도가 부은 것 같아요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "저기요 목소리가 갑자기 쉬었어요", "intent": "symptom_inquiry", "department": null}
+{"text": "계속 갑자기 열이 38도 이상 나요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "그런데 저기요 있잖아요 혈압약이랑 비타민 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 헬로비 있잖아요 저기요 그런데 소화가 통 안 돼요", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 그런데 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 그런데 잠을 통 못 자겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 머리를 세게 부딪혔어요", "intent": "emergency", "department": null}
+{"text": "있잖아요 헬로비 헬로비 있잖아요 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "요즘 부쩍 살이 빠져요", "intent": "symptom_inquiry", "department": null}
+{"text": "아이고 다리야", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 약 먹고 어지러워요", "intent": "medication_info", "department": null}
+{"text": "저기요 목소리가 갑자기 쉬었어요", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 귀가 어두워졌어요", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 저기요 밥을 먹어도 맛이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 지금 재활의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "계속 배에서 소리가 나고 설사를 해요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "있잖아요 있잖아요 있잖아요 손가락 마디마디가 아파요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 지금 문 연 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "혹시 저기요 진통제 하루에 몇 번 먹어요?", "intent": "medication_info", "department": null}
+{"text": "눈앞이 갑자기 캄캄해요", "intent": "emergency", "department": null}
+{"text": "그런데 헬로비 요즘 부쩍 살이 빠져요", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 혈압약 끊으면 안 되나요?", "intent": "medication_info", "department": null}
+{"text": "그런데 약이 너무 많아서 뭘 먹어야 할지 모르겠어요", "intent": "medication_info", "department": null}
+{"text": "며칠 전부터 며칠 전부터 치아가 흔들려요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "가까운 피부과 어디예요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 손발이 차가워요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 저기요 가정의학과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "혹시 저기요 그런데 약 먹고 속이 쓰려요", "intent": "medication_info", "department": null}
+{"text": "지금 갑자기 한쪽 다리가 마비됐어요", "intent": "emergency", "department": null}
+{"text": "헬로비 지금 방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "헬로비 병원을 가긴 가야 할 것 같은데 어디 가야 할지", "intent": "hospital_search", "department": null}
+{"text": "피부에 두드러기가 났어요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "눈앞에 날파리 같은 게 떠다녀요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "저기요 그런데 소화가 통 안 돼요", "intent": "symptom_inquiry", "department": null}
+{"text": "약을 잘못 먹은 것 같아요", "intent": "emergency", "department": null}
+{"text": "당뇨 발이 저려요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "있잖아요 저기요 목소리가 갑자기 쉬었어요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 혹시 있잖아요 있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "저기요 혹시 있잖아요 저기요 저기요 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 균형을 못 잡겠어요", "intent": "emergency", "department": null}
+{"text": "저기요 그런데 약을 냉장고에 보관해야 해요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "저기요 피부가 자꾸 가려워요", "intent": "symptom_inquiry", "department": null}
+{"text": "사랑니가 아파요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "있잖아요 손가락 마디마디가 아파요", "intent": "symptom_inquiry", "department": null}
+{"text": "갑자기 눈이 건조하고 따가워요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "혹시 혹시 약 먹고 어지러워요", "intent": "medication_info", "department": null}
+{"text": "저기요 혹시 혹시 약 먹고 어지러워요", "intent": "medication_info", "department": null}
+{"text": "저기요 어디가 아픈지 모르겠는데 전반적으로 안 좋아요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 진통제 하루에 몇 번 먹어요?", "intent": "medication_info", "department": null}
+{"text": "혹시 그런데 약 먹고 속이 쓰려요", "intent": "medication_info", "department": null}
+{"text": "눈이 자꾸 떨려요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "소화가 통 안 돼요", "intent": "symptom_inquiry", "department": null}
+{"text": "며칠 전부터 사랑니가 아파요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "그런데 약 유통기한이 지났는데 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "요즘 요즘 사랑니가 아파요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "저기요 저기요 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 있잖아요 손가락 마디마디가 아파요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 저기요 한의원 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 혹시 그런데 약 먹고 속이 쓰려요", "intent": "medication_info", "department": null}
+{"text": "숨을 못 쉬겠어요", "intent": "emergency", "department": null}
+{"text": "며칠 전부터 요즘 사랑니가 아파요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "저기요 병원을 가긴 가야 할 것 같은데 어디 가야 할지", "intent": "hospital_search", "department": null}
+{"text": "요즘 갑상선이 이상한 것 같아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "방금 눈앞이 갑자기 캄캄해요", "intent": "emergency", "department": null}
+{"text": "무릎 인대가 끊어진 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "며칠 전부터 습진이 생긴 것 같아요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "그런데 그런데 저기요 어디가 아픈지 모르겠는데 전반적으로 안 좋아요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 혹시 있잖아요 스테로이드 오래 먹으면 안 되나요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 방금 숨을 못 쉬겠어요", "intent": "emergency", "department": null}
+{"text": "헬로비 헬로비 가슴이 쥐어짜는 것 같아요", "intent": "emergency", "department": null}
+{"text": "저기요 소염제 식전에 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 그런데 저기요 밥을 먹어도 맛이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "계속 얼굴에 뭔가 올라왔어요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "약 유통기한이 지났는데 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 헬로비 호흡기내과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "며칠 전부터 귀가 잘 안 들려요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "혹시 저기요 혈압약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "지금 혹시 헬로비 헬로비 주말에도 여는 병원 있나요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 요즘 들어 자꾸 힘이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 소화기내과 찾고 있어요", "intent": "hospital_search", "department": null}
+{"text": "헬로비 주말에도 여는 병원 있나요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 헬로비 헬로비 야간 진료하는 의원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 헬로비 오늘 진료하는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "갑자기 무릎 인대가 끊어진 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "소화기내과 찾고 있어요", "intent": "hospital_search", "department": null}
+{"text": "방금 지금 방금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "헬로비 입이 돌아간 것 같아요", "intent": "emergency", "department": null}
+{"text": "걸어서 갈 수 있는 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "계속 혈압이 자꾸 높아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "갑자기 갑자기 오십견인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "갑자기 어깨가 너무 아파서 팔을 못 들겠어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "며칠 전부터 며칠 전부터 얼굴에 뭔가 올라왔어요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "MRI 찍을 수 있는 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "약 먹고 두드러기가 났어요", "intent": "medication_info", "department": null}
+{"text": "있잖아요 저기요 그런데 약 먹고 속이 쓰려요", "intent": "medication_info", "department": null}
+{"text": "헬로비 혹시 혹시 가까운 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 혈압약 먹으면 어지러워요", "intent": "medication_info", "department": null}
+{"text": "있잖아요 어디가 아픈지 모르겠는데 전반적으로 안 좋아요", "intent": "symptom_inquiry", "department": null}
+{"text": "온몸에 갑자기 두드러기가 났어요", "intent": "emergency", "department": null}
+{"text": "있잖아요 아이고 다리야", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 저기요 있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 혹시 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "눈이 건조하고 따가워요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "방금 방금 헬로비 눈앞이 갑자기 캄캄해요", "intent": "emergency", "department": null}
+{"text": "저기요 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "저기요 저기요 있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "그런데 약을 냉장고에 보관해야 해요?", "intent": "medication_info", "department": null}
+{"text": "계속 며칠 전부터 소변 볼 때 따가워요", "intent": "symptom_inquiry", "department": "비뇨의학과"}
+{"text": "방금 지금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "저기요 저기요 요즘 들어 자꾸 힘이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 저기요 목소리가 갑자기 쉬었어요", "intent": "symptom_inquiry", "department": null}
+{"text": "저기요 지금 당뇨 잘 보는 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "약을 깜빡했는데 지금 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "며칠 전부터 요즘 며칠 전부터 눈이 너무 빨개요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "혼자 병원 가도 돼요?", "intent": "hospital_search", "department": null}
+{"text": "귀가 잘 안 들려요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "그런데 약 유통기한이 지났는데 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "항히스타민제 먹으면 너무 졸려요", "intent": "medication_info", "department": null}
+{"text": "소변 볼 때 따가워요", "intent": "symptom_inquiry", "department": "비뇨의학과"}
+{"text": "방금 지금 헬로비 헬로비 약을 너무 많이 먹었어요", "intent": "emergency", "department": null}
+{"text": "저기요 혹시 저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "혹시 혹시 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "주말에도 여는 병원 있나요?", "intent": "hospital_search", "department": null}
+{"text": "혹시 혹시 약 먹고 어지러워요", "intent": "medication_info", "department": null}
+{"text": "혈압약을 물 말고 주스로 먹어도 되나요?", "intent": "medication_info", "department": null}
+{"text": "지금 지금 숨을 못 쉬겠어요", "intent": "emergency", "department": null}
+{"text": "헬로비 헬로비 밤에 식은땀이 많이 나요", "intent": "symptom_inquiry", "department": null}
+{"text": "갑자기 지금 저혈당으로 쓰러질 것 같아요", "intent": "emergency", "department": null}
+{"text": "계속 며칠 전부터 사랑니가 아파요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "지금 피를 토했어요", "intent": "emergency", "department": null}
+{"text": "지금 저기요 가정의학과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "지금 가까운 약국 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "응급실 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 그런데 진통제 하루에 몇 번 먹어요?", "intent": "medication_info", "department": null}
+{"text": "혹시 저기요 약이 너무 많아요 다 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "발목이 너무 아파서 못 걷겠어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "헬로비 가슴이 쥐어짜는 것 같아요", "intent": "emergency", "department": null}
+{"text": "며칠 전부터 갑자기 오십견인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "며칠 전부터 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "며칠 전부터 피부가 너무 가렵고 빨개요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "요즘 무릎 연골이 닳은 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "있잖아요 있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "계속 며칠 전부터 며칠 전부터 갑상선이 이상한 것 같아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "그런데 혹시 저기요 그런데 약 먹고 속이 쓰려요", "intent": "medication_info", "department": null}
+{"text": "지금 종합병원 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "혹시 소화제 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "저기요 이비인후과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 지금 당뇨 잘 보는 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "비뇨의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "갑자기 지금 저혈당으로 쓰러질 것 같아요", "intent": "emergency", "department": null}
+{"text": "배가 아프고 설사가 심해요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "소변에 피가 많이 나와요", "intent": "emergency", "department": null}
+{"text": "있잖아요 약 먹고 어지러워요", "intent": "medication_info", "department": null}
+{"text": "요즘 사랑니가 아파요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "혹시 저기요 정신건강의학과 찾고 있어요", "intent": "hospital_search", "department": null}
+{"text": "헬로비 혹시 소화기내과 찾고 있어요", "intent": "hospital_search", "department": null}
+{"text": "혹시 있잖아요 저기요 저기요 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "혹시 그런데 진통제 하루에 몇 번 먹어요?", "intent": "medication_info", "department": null}
+{"text": "며칠 전부터 위가 쓰리고 신물이 올라와요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "갑자기 가슴이 쥐어짜는 것 같아요", "intent": "emergency", "department": null}
+{"text": "지금 지금 숨을 못 쉬겠어요", "intent": "emergency", "department": null}
+{"text": "헬로비 저기요 그런데 요즘 들어 자꾸 힘이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 영양제랑 혈압약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "가슴이 너무 아프고 숨이 안 쉬어져요", "intent": "emergency", "department": null}
+{"text": "그런데 약이 너무 많아서 뭘 먹어야 할지 모르겠어요", "intent": "medication_info", "department": null}
+{"text": "지금 헬로비 방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "그런데 있잖아요 있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "저기요 혈압약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "저기요 그런데 약 먹고 속이 쓰려요", "intent": "medication_info", "department": null}
+{"text": "혈압약 아침에 먹어야 해요 저녁에 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "지금 지금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "지금 비뇨의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "갑자기 목에 뭔가 걸려서 숨을 못 쉬어요", "intent": "emergency", "department": null}
+{"text": "지금 갑자기 방금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "아이고 허리야 끊어지겠다", "intent": "symptom_inquiry", "department": null}
+{"text": "계속 위가 쓰리고 신물이 올라와요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "그런데 그런데 약을 냉장고에 보관해야 해요?", "intent": "medication_info", "department": null}
+{"text": "며칠 전부터 치아가 흔들려요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "계속 며칠 전부터 혈압이 자꾸 높아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "저기요 있잖아요 온몸이 다 쑤셔요", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 저기요 혈압약 아침에 먹어야 해요 저녁에 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "손가락 마디마디가 아파요", "intent": "symptom_inquiry", "department": null}
+{"text": "저기요 있잖아요 약을 가루로 만들어 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "계속 사랑니가 아파요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "있잖아요 있잖아요 아이고 다리야", "intent": "symptom_inquiry", "department": null}
+{"text": "갑자기 헬로비 갑자기 한쪽 팔이 안 움직여요", "intent": "emergency", "department": null}
+{"text": "혹시 혹시 있잖아요 있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 아스피린이랑 혈압약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "계속 갑자기 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "며칠 전부터 갑자기 갑자기 오십견인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "방금 방금 구토가 계속 멈추지 않아요", "intent": "emergency", "department": null}
+{"text": "헬로비 손발이 차가워요", "intent": "symptom_inquiry", "department": null}
+{"text": "계속 계속 며칠 전부터 계속 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "얼굴이 자꾸 부어요", "intent": "symptom_inquiry", "department": null}
+{"text": "턱이 아프고 입이 잘 안 벌어져요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "있잖아요 약을 깜빡했는데 지금 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 헬로비 저기요 혹시 저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "지금 화상을 심하게 입었어요", "intent": "emergency", "department": null}
+{"text": "있잖아요 온몸이 다 쑤셔요", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 저기요 딸한테 물어보기 미안해서요", "intent": "symptom_inquiry", "department": null}
+{"text": "오늘 몸이 평소랑 달라요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 약을 너무 많이 먹었어요", "intent": "emergency", "department": null}
+{"text": "머리가 자꾸 빙빙 도는 것 같아요", "intent": "symptom_inquiry", "department": null}
+{"text": "계속 갑자기 속이 쓰리고 밥을 못 먹겠어요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "요즘 며칠 전부터 허리 디스크인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "있잖아요 저기요 기운이 하나도 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 요즘 부쩍 살이 빠져요", "intent": "symptom_inquiry", "department": null}
+{"text": "지금 저기요 가정의학과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "지금 헬로비 혹시 저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "그런데 요즘 들어 자꾸 힘이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "갑자기 며칠 전부터 갑상선이 이상한 것 같아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "저기요 그런데 항생제 다 먹기 전에 끊어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 저기요 목소리가 갑자기 쉬었어요", "intent": "symptom_inquiry", "department": null}
+{"text": "지금 걸어서 갈 수 있는 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "혹시 그런데 진통제 하루에 몇 번 먹어요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 지금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "병원을 가긴 가야 할 것 같은데 어디 가야 할지", "intent": "hospital_search", "department": null}
+{"text": "갑자기 속이 쓰리고 밥을 못 먹겠어요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "있잖아요 저기요 혹시 그런데 진통제 하루에 몇 번 먹어요?", "intent": "medication_info", "department": null}
+{"text": "요즘 며칠 전부터 턱이 아프고 입이 잘 안 벌어져요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "피를 토했어요", "intent": "emergency", "department": null}
+{"text": "자식들한테 짐이 되기 싫어서 그냥 참았어요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 주말에도 여는 병원 있나요?", "intent": "hospital_search", "department": null}
+{"text": "며칠 전부터 눈이 자꾸 떨려요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "저기요 혹시 주말에도 여는 병원 있나요?", "intent": "hospital_search", "department": null}
+{"text": "갑자기 계속 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "있잖아요 한약이랑 양약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "혹시 헬로비 호흡기내과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "그런데 잠을 통 못 자겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "가까운 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "목에 뭔가 걸려서 숨을 못 쉬어요", "intent": "emergency", "department": null}
+{"text": "혹시 그런데 혈압약 먹으면 어지러워요", "intent": "medication_info", "department": null}
+{"text": "방금 방금 저혈당으로 쓰러질 것 같아요", "intent": "emergency", "department": null}
+{"text": "있잖아요 저기요 저기요 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "혹시 혹시 약이 너무 많아요 다 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "혹시 있잖아요 오메가3랑 혈압약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "며칠 전부터 계속 며칠 전부터 혈압이 자꾸 높아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "그런데 저기요 있잖아요 눈이 침침해서 잘 안 보여요", "intent": "symptom_inquiry", "department": null}
+{"text": "진통제 매일 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 약을 너무 많이 먹었어요", "intent": "emergency", "department": null}
+{"text": "혈당이 자꾸 올라가요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "수면제 오래 먹으면 안 되나요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 지금 방금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "약을 두 배로 먹으면 빨리 나아요?", "intent": "medication_info", "department": null}
+{"text": "온몸이 다 쑤셔요", "intent": "symptom_inquiry", "department": null}
+{"text": "약 먹고 졸려요", "intent": "medication_info", "department": null}
+{"text": "헬로비 눈앞이 갑자기 캄캄해요", "intent": "emergency", "department": null}
+{"text": "갑자기 며칠 전부터 며칠 전부터 허리 디스크인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "내분비내과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "요즘 요즘 무릎 연골이 닳은 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "저기요 진통제 하루에 몇 번 먹어요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 갑자기 갑자기 한쪽 다리가 마비됐어요", "intent": "emergency", "department": null}
+{"text": "요즘 자꾸 깜빡깜빡해요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 혹시 혹시 약 먹고 어지러워요", "intent": "medication_info", "department": null}
+{"text": "저기요 그런데 저기요 목소리가 갑자기 쉬었어요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 저기요 있잖아요 있잖아요 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "요즘 갑자기 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "혹시 헬로비 호흡기내과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "저기요 그런데 다리가 무거워요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 약 먹고 졸려요", "intent": "medication_info", "department": null}
+{"text": "습진이 생긴 것 같아요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "그런데 혈압약을 물 말고 주스로 먹어도 되나요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 있잖아요 헬로비 손발이 차가워요", "intent": "symptom_inquiry", "department": null}
+{"text": "골반이 아파요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "며칠 전부터 소변에 피가 섞여 나와요", "intent": "symptom_inquiry", "department": "비뇨의학과"}
+{"text": "요즘 가래가 노랗게 나와요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "지금 당뇨 잘 보는 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "그런데 있잖아요 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "손발톱이 변색됐어요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "혹시 지금 헬로비 혹시 저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "그런데 항생제 다 먹기 전에 끊어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 심장내과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 그런데 요즘 부쩍 살이 빠져요", "intent": "symptom_inquiry", "department": null}
+{"text": "기침이 한 달째 안 멈춰요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "허리 디스크인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "지금 폐렴인 것 같고 너무 힘들어요", "intent": "emergency", "department": null}
+{"text": "며칠 전부터 갑상선이 이상한 것 같아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "그런데 스테로이드 오래 먹으면 안 되나요?", "intent": "medication_info", "department": null}
+{"text": "호흡기내과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "계속 며칠 전부터 발목이 삐끗했어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "며칠 전부터 턱이 아프고 입이 잘 안 벌어져요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "헬로비 혹시 당뇨 잘 보는 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "그런데 다리가 무거워요", "intent": "symptom_inquiry", "department": null}
+{"text": "저기요 있잖아요 있잖아요 병원이 멀어서 가기 힘들어요", "intent": "hospital_search", "department": null}
+{"text": "손발이 차가워요", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 요즘 부쩍 살이 빠져요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 잠을 통 못 자겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "계속 관절이 퉁퉁 부었어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "그런데 손발이 차가워요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 야간 진료하는 의원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "눈앞이 갑자기 안 보여요", "intent": "emergency", "department": null}
+{"text": "저기요 헬로비 여기가 아파요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 온몸에 갑자기 두드러기가 났어요", "intent": "emergency", "department": null}
+{"text": "헬로비 헬로비 혹시 헬로비 호흡기내과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "갑자기 열이 38도 이상 나요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "있잖아요 혹시 있잖아요 혈압약 끊으면 안 되나요?", "intent": "medication_info", "department": null}
+{"text": "약을 어떻게 먹어야 할지 모르겠어요", "intent": "medication_info", "department": null}
+{"text": "있잖아요 스테로이드 오래 먹으면 안 되나요?", "intent": "medication_info", "department": null}
+{"text": "방금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "갑자기 갑자기 숨쉬기가 힘들어요", "intent": "emergency", "department": null}
+{"text": "계속 눈이 자꾸 떨려요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "지금 숨을 못 쉬겠어요", "intent": "emergency", "department": null}
+{"text": "며칠 전부터 기침이 한 달째 안 멈춰요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "요즘 며칠 전부터 갑상선이 이상한 것 같아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "영양제랑 혈압약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "지금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "얼굴 한쪽이 마비됐어요", "intent": "emergency", "department": null}
+{"text": "아이고 무릎이 왜 이러지", "intent": "symptom_inquiry", "department": null}
+{"text": "계속 며칠 전부터 혈압이 자꾸 높아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "있잖아요 있잖아요 병원이 멀어서 가기 힘들어요", "intent": "hospital_search", "department": null}
+{"text": "요즘 며칠 전부터 눈이 너무 빨개요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "있잖아요 있잖아요 있잖아요 소염제 식전에 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "몸이 영 찜찜해요", "intent": "symptom_inquiry", "department": null}
+{"text": "지금 허리 전문 병원 어디예요?", "intent": "hospital_search", "department": null}
+{"text": "방금 헬로비 갑자기 지금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "며칠 전부터 며칠 전부터 턱이 아프고 입이 잘 안 벌어져요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "갑자기 가슴이 너무 아프고 식은땀이 나요", "intent": "emergency", "department": null}
+{"text": "저기요 오늘 진료하는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 소염제 식전에 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 그런데 요즘 들어 자꾸 힘이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 저기요 그런데 다리가 무거워요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 있잖아요 저기요 밥을 먹어도 맛이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "무릎 연골이 닳은 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "방금 갑자기 한쪽 다리가 마비됐어요", "intent": "emergency", "department": null}
+{"text": "헬로비 지금 갑자기 대변에 피가 엄청 나왔어요", "intent": "emergency", "department": null}
+{"text": "갑자기 구토가 계속 멈추지 않아요", "intent": "emergency", "department": null}
+{"text": "구토가 계속 멈추지 않아요", "intent": "emergency", "department": null}
+{"text": "있잖아요 아침부터 몸이 이상해요", "intent": "symptom_inquiry", "department": null}
+{"text": "열이 38도 이상 나요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "요즘 귀에서 삐 소리가 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "며칠 전부터 계속 얼굴에 뭔가 올라왔어요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "있잖아요 오메가3랑 혈압약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "가슴이 너무 아프고 식은땀이 나요", "intent": "emergency", "department": null}
+{"text": "혹시 혹시 응급실 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "그런데 혈압약 먹으면 어지러워요", "intent": "medication_info", "department": null}
+{"text": "갑자기 머리가 갑자기 너무 심하게 아파요", "intent": "emergency", "department": null}
+{"text": "저기요 그런데 그런데 약을 냉장고에 보관해야 해요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 폐렴인 것 같고 너무 힘들어요", "intent": "emergency", "department": null}
+{"text": "그런데 혹시 약이 너무 많아요 다 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "머리가 갑자기 너무 심하게 아파요", "intent": "emergency", "department": null}
+{"text": "며칠 전부터 요즘 며칠 전부터 턱이 아프고 입이 잘 안 벌어져요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "저기요 혹시 그런데 혈압약 먹으면 어지러워요", "intent": "medication_info", "department": null}
+{"text": "며칠 전부터 눈이 너무 빨개요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "저기요 있잖아요 아침부터 몸이 이상해요", "intent": "symptom_inquiry", "department": null}
+{"text": "계속 눈앞에 날파리 같은 게 떠다녀요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "혹시 정신건강의학과 찾고 있어요", "intent": "hospital_search", "department": null}
+{"text": "저기요 밥을 먹어도 맛이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "혈압약 끊으면 안 되나요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 화상을 심하게 입었어요", "intent": "emergency", "department": null}
+{"text": "지금 저기요 저기요 비뇨의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "그런데 있잖아요 저기요 약이 너무 많아서 뭘 먹어야 할지 모르겠어요", "intent": "medication_info", "department": null}
+{"text": "저기요 있잖아요 있잖아요 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "저기요 혹시 혹시 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "저혈당으로 쓰러질 것 같아요", "intent": "emergency", "department": null}
+{"text": "혹시 저기요 오늘 진료하는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "며칠 전부터 며칠 전부터 기침이 한 달째 안 멈춰요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "지금 혹시 응급실 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "진통제 하루에 몇 번 먹어요?", "intent": "medication_info", "department": null}
+{"text": "귀에서 삐 소리가 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "내일 예약 가능한 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "그런데 아이고 무릎이 왜 이러지", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 당뇨약 먹으면 속이 안 좋아요", "intent": "medication_info", "department": null}
+{"text": "요즘 요즘 며칠 전부터 갑상선이 이상한 것 같아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "있잖아요 저기요 그런데 다리가 무거워요", "intent": "symptom_inquiry", "department": null}
+{"text": "목소리가 갑자기 쉬었어요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 헬로비 입이 돌아간 것 같아요", "intent": "emergency", "department": null}
+{"text": "있잖아요 헬로비 요즘 부쩍 살이 빠져요", "intent": "symptom_inquiry", "department": null}
+{"text": "혈압약 먹으면 어지러워요", "intent": "medication_info", "department": null}
+{"text": "저기요 목소리가 갑자기 쉬었어요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "방금 소변에 피가 많이 나와요", "intent": "emergency", "department": null}
+{"text": "저기요 혹시 있잖아요 오메가3랑 혈압약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 있잖아요 아이고 다리야", "intent": "symptom_inquiry", "department": null}
+{"text": "스테로이드 오래 먹으면 안 되나요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 있잖아요 있잖아요 소염제 식전에 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 헬로비 지금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "머리가 갑자기 너무 아파요", "intent": "symptom_inquiry", "department": "신경과"}
+{"text": "있잖아요 약이 너무 많아서 뭘 먹어야 할지 모르겠어요", "intent": "medication_info", "department": null}
+{"text": "며칠 전부터 며칠 전부터 귀가 잘 안 들려요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "그런데 저기요 그런데 있잖아요 소염제 식전에 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 방금 지금 숨을 못 쉬겠어요", "intent": "emergency", "department": null}
+{"text": "며칠 전부터 얼굴에 뭔가 올라왔어요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "약이 너무 많아요 다 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "당뇨 잘 보는 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "저기요 저기요 어린이 병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "지금 지금 문 연 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "근처 정형외과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "지금 갑자기 귀가 전혀 안 들려요", "intent": "emergency", "department": null}
+{"text": "갑자기 계속 배에서 소리가 나고 설사를 해요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "있잖아요 있잖아요 아침부터 몸이 이상해요", "intent": "symptom_inquiry", "department": null}
+{"text": "방금 방금 저혈당으로 쓰러질 것 같아요", "intent": "emergency", "department": null}
+{"text": "저기요 혹시 소화기내과 찾고 있어요", "intent": "hospital_search", "department": null}
+{"text": "혹시 가까운 약국 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "요즘 계속 며칠 전부터 위가 쓰리고 신물이 올라와요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "헬로비 갑자기 가슴이 너무 아프고 식은땀이 나요", "intent": "emergency", "department": null}
+{"text": "방금 구토가 계속 멈추지 않아요", "intent": "emergency", "department": null}
+{"text": "그런데 병원을 가긴 가야 할 것 같은데 어디 가야 할지", "intent": "hospital_search", "department": null}
+{"text": "헬로비 헬로비 주말에도 여는 병원 있나요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 방금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "저기요 있잖아요 혈압약 먹으면 어지러워요", "intent": "medication_info", "department": null}
+{"text": "그런데 약 먹고 속이 쓰려요", "intent": "medication_info", "department": null}
+{"text": "이뇨제 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "며칠 전부터 발목이 삐끗했어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "약이 너무 많아서 뭘 먹어야 할지 모르겠어요", "intent": "medication_info", "department": null}
+{"text": "등이 갑자기 찢어지는 것 같아요", "intent": "emergency", "department": null}
+{"text": "그런데 그런데 혹시 약이 너무 많아요 다 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "항생제 다 먹기 전에 끊어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 저기요 기운이 하나도 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 갑자기 헬로비 방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "갑자기 갑자기 균형을 못 잡겠어요", "intent": "emergency", "department": null}
+{"text": "저기요 저기요 어디가 아픈지 모르겠는데 전반적으로 안 좋아요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 헬로비 호흡기내과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "헬로비 헬로비 약을 너무 많이 먹었어요", "intent": "emergency", "department": null}
+{"text": "소변에 피가 섞여 나와요", "intent": "symptom_inquiry", "department": "비뇨의학과"}
+{"text": "혹시 약 먹고 어지러워요", "intent": "medication_info", "department": null}
+{"text": "지금 지금 비뇨의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 목에 뭔가 걸려서 숨을 못 쉬어요", "intent": "emergency", "department": null}
+{"text": "지금 저기요 혹시 저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "열이 40도가 넘어요", "intent": "emergency", "department": null}
+{"text": "갑자기 갑자기 한쪽 다리가 마비됐어요", "intent": "emergency", "department": null}
+{"text": "딸한테 물어보기 미안해서요", "intent": "symptom_inquiry", "department": null}
+{"text": "약 먹고 속이 쓰려요", "intent": "medication_info", "department": null}
+{"text": "혹시 헬로비 헬로비 주말에도 여는 병원 있나요?", "intent": "hospital_search", "department": null}
+{"text": "방금 열이 40도가 넘어요", "intent": "emergency", "department": null}
+{"text": "혹시 아스피린이랑 혈압약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 발목이 너무 아파서 못 걷겠어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "헬로비 뭔가 이상한데 뭔지 모르겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 그런데 진통제 하루에 몇 번 먹어요?", "intent": "medication_info", "department": null}
+{"text": "지금 지금 헬로비 폐렴인 것 같고 너무 힘들어요", "intent": "emergency", "department": null}
+{"text": "위가 쓰리고 신물이 올라와요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "계속 요즘 계속 눈이 자꾸 떨려요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "저기요 혹시 종합병원 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "혹시 그런데 혈압약 먹으면 어지러워요", "intent": "medication_info", "department": null}
+{"text": "있잖아요 소염제 식전에 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "편도가 부은 것 같아요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "어깨가 올라가지를 않아요", "intent": "symptom_inquiry", "department": null}
+{"text": "의식을 잃었다가 깨어났어요", "intent": "emergency", "department": null}
+{"text": "저기요 혈압약 아침에 먹어야 해요 저녁에 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "가정의학과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "감기약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "지금 헬로비 지금 문 연 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "노인 전문 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "저기요 가정의학과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 그런데 요즘 들어 자꾸 힘이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 헬로비 혹시 저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "지금 재활의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "혹시 헬로비 지금 문 연 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "갑자기 뼈가 부러진 것 같아요", "intent": "emergency", "department": null}
+{"text": "혹시 혹시 종합병원 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 가까운 약국 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "기운이 하나도 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 오메가3랑 혈압약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "그런데 혹시 약 먹고 어지러워요", "intent": "medication_info", "department": null}
+{"text": "지금 혹시 헬로비 헬로비 주말에도 여는 병원 있나요?", "intent": "hospital_search", "department": null}
+{"text": "지금 헬로비 지금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "넘어져서 머리를 부딪혔어요", "intent": "emergency", "department": null}
+{"text": "갑자기 방금 방금 헬로비 눈앞이 갑자기 캄캄해요", "intent": "emergency", "department": null}
+{"text": "아침부터 몸이 이상해요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 약이 너무 많아요 다 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "그런데 그런데 저기요 있잖아요 혈압약이랑 비타민 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "저기요 혹시 헬로비 헬로비 주말에도 여는 병원 있나요?", "intent": "hospital_search", "department": null}
+{"text": "약을 냉장고에 보관해야 해요?", "intent": "medication_info", "department": null}
+{"text": "그런데 저기요 혈압약이랑 비타민 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "저기요 그런데 요즘 들어 자꾸 힘이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "갑자기 발목이 너무 아파서 못 걷겠어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "있잖아요 그런데 혹시 있잖아요 오메가3랑 혈압약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 그런데 눈이 침침해서 잘 안 보여요", "intent": "symptom_inquiry", "department": null}
+{"text": "지금 지금 문 연 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 지금 문 연 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "갑자기 지금 헬로비 가슴이 쥐어짜는 것 같아요", "intent": "emergency", "department": null}
+{"text": "계속 며칠 전부터 치아가 흔들려요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "갑자기 갑자기 지금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "혹시 약을 깜빡했는데 지금 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 뼈가 부러진 것 같아요", "intent": "emergency", "department": null}
+{"text": "그런데 혹시 있잖아요 오메가3랑 혈압약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "혈압이 자꾸 높아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "헬로비 피를 토했어요", "intent": "emergency", "department": null}
+{"text": "있잖아요 혈압약이랑 비타민 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "며칠 전부터 혈압이 자꾸 높아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "혹시 있잖아요 저기요 저기요 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "약을 너무 많이 먹었어요", "intent": "emergency", "department": null}
+{"text": "있잖아요 저기요 약이 너무 많아서 뭘 먹어야 할지 모르겠어요", "intent": "medication_info", "department": null}
+{"text": "며칠 전부터 열이 38도 이상 나요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "약이 남았는데 다음에 또 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 저기요 목소리가 갑자기 쉬었어요", "intent": "symptom_inquiry", "department": null}
+{"text": "지금 방금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "있잖아요 약을 가루로 만들어 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 갑자기 계속 위가 쓰리고 신물이 올라와요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "헬로비 호흡기내과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "그런데 잠을 통 못 자겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "지금 지금 당뇨 잘 보는 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "나이가 드니까 원래 이런 건지 모르겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "여기가 아파요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 저기요 가정의학과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 있잖아요 저기요 혈압약 아침에 먹어야 해요 저녁에 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "그런데 그런데 잠을 통 못 자겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 아들한테 말하기 싫어서 그냥 참았는데", "intent": "symptom_inquiry", "department": null}
+{"text": "요즘 갑자기 열이 38도 이상 나요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "계속 며칠 전부터 며칠 전부터 허리 디스크인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "있잖아요 눈이 침침해서 잘 안 보여요", "intent": "symptom_inquiry", "department": null}
+{"text": "요즘 갑자기 요즘 계속 눈이 자꾸 떨려요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "헬로비 의식을 잃었다가 깨어났어요", "intent": "emergency", "department": null}
+{"text": "그런데 저기요 자식들한테 짐이 되기 싫어서 그냥 참았어요", "intent": "symptom_inquiry", "department": null}
+{"text": "심장내과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "대변에 피가 엄청 나왔어요", "intent": "emergency", "department": null}
+{"text": "그런데 있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "허리 전문 병원 어디예요?", "intent": "hospital_search", "department": null}
+{"text": "요즘 요즘 사랑니가 아파요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "그런데 저기요 기운이 하나도 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 저기요 목소리가 갑자기 쉬었어요", "intent": "symptom_inquiry", "department": null}
+{"text": "이비인후과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 갑자기 한쪽 팔이 안 움직여요", "intent": "emergency", "department": null}
+{"text": "헬로비 있잖아요 저기요 그런데 소화가 통 안 돼요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 헬로비 손발이 차가워요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 한의원 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "며칠 전부터 며칠 전부터 며칠 전부터 갑상선이 이상한 것 같아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "혹시 헬로비 야간 진료하는 의원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "처방전 없이 약국에서 살 수 있어요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 지금 지금 숨을 못 쉬겠어요", "intent": "emergency", "department": null}
+{"text": "방금 헬로비 지금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "헬로비 신경과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "야간 진료하는 의원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "혹시 지금 저기요 비뇨의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "지금 숨을 못 쉬겠어요", "intent": "emergency", "department": null}
+{"text": "오늘 진료하는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 얼굴 한쪽이 마비됐어요", "intent": "emergency", "department": null}
+{"text": "저기요 종합병원 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 저기요 저기요 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "그런데 눈이 침침해서 잘 안 보여요", "intent": "symptom_inquiry", "department": null}
+{"text": "지금 저혈당으로 쓰러질 것 같아요", "intent": "emergency", "department": null}
+{"text": "계속 어깨가 너무 아파서 팔을 못 들겠어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "병원 가면 뭐라고 말해야 할지 모르겠어요", "intent": "hospital_search", "department": null}
+{"text": "헬로비 저기요 어디가 아픈지 모르겠는데 전반적으로 안 좋아요", "intent": "symptom_inquiry", "department": null}
+{"text": "목이 뻣뻣하고 어깨까지 아파요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "있잖아요 저기요 밥을 먹어도 맛이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "저기요 있잖아요 눈이 침침해서 잘 안 보여요", "intent": "symptom_inquiry", "department": null}
+{"text": "지금 당장 갈 수 있는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "그런데 그런데 혹시 저기요 그런데 약 먹고 속이 쓰려요", "intent": "medication_info", "department": null}
+{"text": "혹시 가까운 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "헬로비 있잖아요 있잖아요 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "저기요 당뇨 잘 보는 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "혈압약이랑 비타민 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "저기요 정신건강의학과 찾고 있어요", "intent": "hospital_search", "department": null}
+{"text": "그런데 나이가 드니까 원래 이런 건지 모르겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 얼굴이 자꾸 부어요", "intent": "symptom_inquiry", "department": null}
+{"text": "며칠 전부터 요즘 계속 눈이 자꾸 떨려요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "혹시 저기요 혹시 혹시 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "그런데 약을 씹어서 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 지금 지금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "혹시 저기요 있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "저기요 근처 정형외과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "갑자기 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "혹시 류마티스내과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "혹시 재활의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "며칠 전부터 발뒤꿈치가 너무 아파요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "저기요 기운이 하나도 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "계속 치아가 흔들려요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "숨쉬기가 힘들어요", "intent": "emergency", "department": null}
+{"text": "그런데 있잖아요 소염제 식전에 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "방금 지금 숨을 못 쉬겠어요", "intent": "emergency", "department": null}
+{"text": "속이 쓰리고 밥을 못 먹겠어요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "지금 이비인후과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "혹시 혹시 가까운 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "저기요 있잖아요 있잖아요 저기요 혈압약 아침에 먹어야 해요 저녁에 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "병원이 멀어서 가기 힘들어요", "intent": "hospital_search", "department": null}
+{"text": "헬로비 저기요 있잖아요 온몸이 다 쑤셔요", "intent": "symptom_inquiry", "department": null}
+{"text": "요즘 습진이 생긴 것 같아요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "아들한테 말하기 싫어서 그냥 참았는데", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 헬로비 헬로비 호흡기내과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "입맛이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "갑자기 대변에 피가 엄청 나왔어요", "intent": "emergency", "department": null}
+{"text": "며칠 전부터 계속 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "그런데 혹시 한약이랑 양약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 있잖아요 헬로비 손발이 차가워요", "intent": "symptom_inquiry", "department": null}
+{"text": "신경과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "갑자기 말이 안 나와요", "intent": "emergency", "department": null}
+{"text": "잠을 통 못 자겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 약 먹고 두드러기가 났어요", "intent": "medication_info", "department": null}
+{"text": "헬로비 혹시 주말에도 여는 병원 있나요?", "intent": "hospital_search", "department": null}
+{"text": "계속 며칠 전부터 위가 쓰리고 신물이 올라와요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "헬로비 헬로비 약을 너무 많이 먹었어요", "intent": "emergency", "department": null}
+{"text": "요즘 요즘 사랑니가 아파요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "저기요 가정의학과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "어디가 아픈지 모르겠는데 전반적으로 안 좋아요", "intent": "symptom_inquiry", "department": null}
+{"text": "저기요 어린이 병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "지금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "방금 방금 지금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "방금 헬로비 눈앞이 갑자기 캄캄해요", "intent": "emergency", "department": null}
+{"text": "혈압약이랑 감기약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "지금 지금 갑자기 귀가 전혀 안 들려요", "intent": "emergency", "department": null}
+{"text": "대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "지금 방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "지금 눈앞이 갑자기 캄캄해요", "intent": "emergency", "department": null}
+{"text": "지금 비뇨의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "뼈가 부러진 것 같아요", "intent": "emergency", "department": null}
+{"text": "그런데 잠을 통 못 자겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "갑자기 숨쉬기가 힘들어요", "intent": "emergency", "department": null}
+{"text": "갑자기 귀에서 삐 소리가 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "갑자기 방금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "얼굴에 뭔가 올라왔어요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "술 마시고 약 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "지금 헬로비 갑자기 지금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "있잖아요 처방전 없이 약국에서 살 수 있어요?", "intent": "medication_info", "department": null}
+{"text": "지금 얼굴 한쪽이 마비됐어요", "intent": "emergency", "department": null}
+{"text": "헬로비 갑자기 헬로비 헬로비 방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "어린이 병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "당뇨약 밥 먹기 전에 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "저기요 혹시 한의원 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "갑자기 방금 눈앞이 갑자기 캄캄해요", "intent": "emergency", "department": null}
+{"text": "심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "혹시 혹시 저기요 가정의학과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "그런데 병원을 가긴 가야 할 것 같은데 어디 가야 할지", "intent": "hospital_search", "department": null}
+{"text": "무릎 잘 보는 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "눈이 너무 빨개요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "갑자기 방금 지금 폐렴인 것 같고 너무 힘들어요", "intent": "emergency", "department": null}
+{"text": "혹시 혹시 혹시 혹시 약 먹고 어지러워요", "intent": "medication_info", "department": null}
+{"text": "방금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "폐렴인 것 같고 너무 힘들어요", "intent": "emergency", "department": null}
+{"text": "가까운 병원 전화번호 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "헬로비 등이 갑자기 찢어지는 것 같아요", "intent": "emergency", "department": null}
+{"text": "있잖아요 혈압약 끊으면 안 되나요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 갑자기 말이 어눌해졌어요", "intent": "emergency", "department": null}
+{"text": "그런데 혹시 혹시 약 먹고 어지러워요", "intent": "medication_info", "department": null}
+{"text": "계속 며칠 전부터 허리 디스크인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "있잖아요 저기요 있잖아요 있잖아요 저기요 혈압약 아침에 먹어야 해요 저녁에 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "방금 갑자기 헬로비 헬로비 방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "갑자기 헬로비 방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "갑자기 요즘 계속 눈이 자꾸 떨려요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "있잖아요 헬로비 손발이 차가워요", "intent": "symptom_inquiry", "department": null}
+{"text": "며칠 전부터 계속 귀에서 삐 소리가 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "저기요 있잖아요 혈압약 끊으면 안 되나요?", "intent": "medication_info", "department": null}
+{"text": "그런데 요즘 들어 자꾸 힘이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 지금 가까운 약국 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "그런데 혈압약 먹으면 어지러워요", "intent": "medication_info", "department": null}
+{"text": "지금 저기요 비뇨의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "그런데 저기요 있잖아요 혈압약 끊으면 안 되나요?", "intent": "medication_info", "department": null}
+{"text": "그런데 저기요 밥을 먹어도 맛이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 응급실 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "그런데 소화가 통 안 돼요", "intent": "symptom_inquiry", "department": null}
+{"text": "밥을 먹어도 맛이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 치과 어디 가야 해요?", "intent": "hospital_search", "department": null}
+{"text": "갑자기 갑자기 갑자기 숨쉬기가 힘들어요", "intent": "emergency", "department": null}
+{"text": "저기요 얼굴이 자꾸 부어요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 주말에도 여는 병원 있나요?", "intent": "hospital_search", "department": null}
+{"text": "지금 헬로비 폐렴인 것 같고 너무 힘들어요", "intent": "emergency", "department": null}
+{"text": "혹시 저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "배에서 소리가 나고 설사를 해요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "저기요 혈압약이랑 비타민 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "요즘 어깨가 너무 아파서 팔을 못 들겠어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "요즘 계속 며칠 전부터 허리 디스크인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "저기요 혹시 류마티스내과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 헬로비 있잖아요 있잖아요 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 헬로비 방금 저혈당으로 쓰러질 것 같아요", "intent": "emergency", "department": null}
+{"text": "헬로비 여기가 아파요", "intent": "symptom_inquiry", "department": null}
+{"text": "지금 문 연 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "치과 어디 가야 해요?", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 그런데 잠을 통 못 자겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 약 먹고 졸려요", "intent": "medication_info", "department": null}
+{"text": "요즘 피부에 두드러기가 났어요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "계속 요즘 계속 눈이 자꾸 떨려요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "갑자기 요즘 계속 며칠 전부터 허리 디스크인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "지금 갑자기 갑자기 한쪽 다리가 마비됐어요", "intent": "emergency", "department": null}
+{"text": "지금 방금 저혈당으로 쓰러질 것 같아요", "intent": "emergency", "department": null}
+{"text": "저기요 혹시 그런데 진통제 하루에 몇 번 먹어요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 지금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "갑자기 며칠 전부터 계속 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "그런데 약 먹는 걸 자꾸 잊어버려요", "intent": "medication_info", "department": null}
+{"text": "계속 치아가 흔들려요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "있잖아요 그런데 나이가 드니까 원래 이런 건지 모르겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "저기요 그런데 다리가 무거워요", "intent": "symptom_inquiry", "department": null}
+{"text": "지금 MRI 찍을 수 있는 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "지금 숨을 못 쉬겠어요", "intent": "emergency", "department": null}
+{"text": "지금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "헬로비 그런데 요즘 들어 자꾸 힘이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "지금 저기요 응급실 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 진통제 매일 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "혹시 가까운 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "갑자기 머리가 갑자기 너무 심하게 아파요", "intent": "emergency", "department": null}
+{"text": "지금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "며칠 전부터 편도가 부은 것 같아요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "혹시 진통제 매일 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "저기요 저기요 비뇨의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "갑자기 계속 며칠 전부터 허리 디스크인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "저기요 응급실 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 있잖아요 혈압약이랑 비타민 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "방금 지금 숨을 못 쉬겠어요", "intent": "emergency", "department": null}
+{"text": "혹시 저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "며칠 전부터 소변 볼 때 따가워요", "intent": "symptom_inquiry", "department": "비뇨의학과"}
+{"text": "가슴이 쥐어짜는 것 같아요", "intent": "emergency", "department": null}
+{"text": "골반이 부러진 것 같아요", "intent": "emergency", "department": null}
+{"text": "방금 갑자기 지금 지금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "손목이 저리고 아파요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "요즘 계속 눈이 자꾸 떨려요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "안과 예약 어떻게 해요?", "intent": "hospital_search", "department": null}
+{"text": "그런데 아이고 무릎이 왜 이러지", "intent": "symptom_inquiry", "department": null}
+{"text": "종합병원 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 저기요 그런데 소화가 통 안 돼요", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 밤에 식은땀이 많이 나요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 지금 지금 문 연 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "그런데 저기요 목소리가 갑자기 쉬었어요", "intent": "symptom_inquiry", "department": null}
+{"text": "저기요 약이 너무 많아요 다 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "눈이 침침해서 잘 안 보여요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 그런데 소화가 통 안 돼요", "intent": "symptom_inquiry", "department": null}
+{"text": "며칠 전부터 갑상선이 이상한 것 같아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "요즘 소변 볼 때 따가워요", "intent": "symptom_inquiry", "department": "비뇨의학과"}
+{"text": "갑자기 방금 구토가 계속 멈추지 않아요", "intent": "emergency", "department": null}
+{"text": "헬로비 헬로비 갑자기 지금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "며칠 전부터 혈압이 자꾸 높아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "오십견인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "그런데 있잖아요 저기요 저기요 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "그런데 소화가 통 안 돼요", "intent": "symptom_inquiry", "department": null}
+{"text": "갑자기 헬로비 목에 뭔가 걸려서 숨을 못 쉬어요", "intent": "emergency", "department": null}
+{"text": "지금 헬로비 폐렴인 것 같고 너무 힘들어요", "intent": "emergency", "department": null}
+{"text": "손이 갑자기 떨리고 의식이 흐려요", "intent": "emergency", "department": null}
+{"text": "지금 지금 비뇨의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "지금 헬로비 가슴이 쥐어짜는 것 같아요", "intent": "emergency", "department": null}
+{"text": "지금 저기요 가까운 약국 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "저기요 비뇨의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 호흡기내과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "계속 며칠 전부터 계속 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "헬로비 지금 갑자기 갑자기 한쪽 다리가 마비됐어요", "intent": "emergency", "department": null}
+{"text": "계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "혹시 약이 너무 많아요 다 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "밤에 식은땀이 많이 나요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 머리가 자꾸 빙빙 도는 것 같아요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 저기요 비뇨의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 그런데 혈압약 먹으면 어지러워요", "intent": "medication_info", "department": null}
+{"text": "계속 혈압이 자꾸 높아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "헬로비 손발이 차가워요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 입맛이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "갑자기 헬로비 헬로비 방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "혹시 24시간 운영하는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "갑자기 방금 갑자기 갑자기 균형을 못 잡겠어요", "intent": "emergency", "department": null}
+{"text": "약을 씹어서 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "가스를 마신 것 같아요", "intent": "emergency", "department": null}
+{"text": "저기요 있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "뭔가 이상한데 뭔지 모르겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "저기요 그런데 다리가 무거워요", "intent": "symptom_inquiry", "department": null}
+{"text": "방금 약을 잘못 먹은 것 같아요", "intent": "emergency", "department": null}
+{"text": "저기요 헬로비 있잖아요 있잖아요 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 밤에 식은땀이 많이 나요", "intent": "symptom_inquiry", "department": null}
+{"text": "저기요 비뇨의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 약이 너무 많아서 뭘 먹어야 할지 모르겠어요", "intent": "medication_info", "department": null}
+{"text": "저기요 있잖아요 소염제 식전에 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "지금 지금 헬로비 야간 진료하는 의원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 방금 저혈당으로 쓰러질 것 같아요", "intent": "emergency", "department": null}
+{"text": "갑자기 요즘 갑자기 며칠 전부터 계속 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "저기요 가정의학과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "갑상선이 이상한 것 같아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "소염제 식전에 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 지금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "지금 지금 화상을 심하게 입었어요", "intent": "emergency", "department": null}
+{"text": "지금 지금 지금 당뇨 잘 보는 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "방금 숨쉬기가 힘들어요", "intent": "emergency", "department": null}
+{"text": "입이 돌아간 것 같아요", "intent": "emergency", "department": null}
+{"text": "방금 지금 폐렴인 것 같고 너무 힘들어요", "intent": "emergency", "department": null}
+{"text": "헬로비 오늘 몸이 평소랑 달라요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 그런데 진통제 하루에 몇 번 먹어요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 머리가 갑자기 너무 아파요", "intent": "symptom_inquiry", "department": "신경과"}
+{"text": "그런데 요즘 들어 자꾸 힘이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "저기요 지금 헬로비 혹시 저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "지금 혹시 헬로비 헬로비 주말에도 여는 병원 있나요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 요즘 부쩍 살이 빠져요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 오늘 진료하는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 혹시 혹시 있잖아요 있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "갑자기 오십견인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "혈압이 200이 넘었어요", "intent": "emergency", "department": null}
+{"text": "있잖아요 혹시 혹시 혹시 약 먹고 어지러워요", "intent": "medication_info", "department": null}
+{"text": "저기요 저기요 혹시 혹시 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 헬로비 방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "혹시 약 먹고 어지러워요", "intent": "medication_info", "department": null}
+{"text": "혹시 있잖아요 혈압약 끊으면 안 되나요?", "intent": "medication_info", "department": null}
+{"text": "귀가 어두워졌어요", "intent": "symptom_inquiry", "department": null}
+{"text": "지금 헬로비 야간 진료하는 의원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "그런데 있잖아요 밤에 식은땀이 많이 나요", "intent": "symptom_inquiry", "department": null}
+{"text": "밤에 소변이 너무 자주 마려워요", "intent": "symptom_inquiry", "department": "비뇨의학과"}
+{"text": "저기요 한의원 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "가래가 노랗게 나와요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "있잖아요 있잖아요 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "갑자기 배에서 소리가 나고 설사를 해요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "지금 지금 당뇨 잘 보는 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "방금 방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "헬로비 갑자기 지금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "저기요 그런데 있잖아요 혈압약이랑 비타민 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "계속 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "저기요 저기요 혹시 있잖아요 저기요 저기요 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "저기요 지금 당뇨 잘 보는 내과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "헬로비 저기요 혹시 저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 그런데 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "24시간 운영하는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "요즘 갑자기 요즘 갑자기 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "헬로비 갑자기 한쪽 다리가 마비됐어요", "intent": "emergency", "department": null}
+{"text": "갑자기 목이 뻣뻣하고 어깨까지 아파요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "갑자기 가슴이 너무 아프고 식은땀이 나요", "intent": "emergency", "department": null}
+{"text": "갑자기 요즘 피부에 두드러기가 났어요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "헬로비 있잖아요 저기요 기운이 하나도 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 혹시 저기요 그런데 약 먹고 속이 쓰려요", "intent": "medication_info", "department": null}
+{"text": "헬로비 호흡기내과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 병원이 멀어서 가기 힘들어요", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 헬로비 손발이 차가워요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 입맛이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "갑자기 지금 헬로비 헬로비 약을 너무 많이 먹었어요", "intent": "emergency", "department": null}
+{"text": "저기요 아침부터 몸이 이상해요", "intent": "symptom_inquiry", "department": null}
+{"text": "약을 가루로 만들어 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "지금 지금 지금 문 연 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 헬로비 야간 진료하는 의원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "아스피린이랑 혈압약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "지금 헬로비 헬로비 약을 너무 많이 먹었어요", "intent": "emergency", "department": null}
+{"text": "근처 안과 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "헬로비 헬로비 있잖아요 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "요즘 발목이 삐끗했어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "저기요 그런데 약 먹는 걸 자꾸 잊어버려요", "intent": "medication_info", "department": null}
+{"text": "갑자기 한쪽 팔이 안 움직여요", "intent": "emergency", "department": null}
+{"text": "방금 갑자기 갑자기 균형을 못 잡겠어요", "intent": "emergency", "department": null}
+{"text": "혹시 있잖아요 있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "혹시 고지혈증약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 지금 눈앞이 갑자기 캄캄해요", "intent": "emergency", "department": null}
+{"text": "저기요 그런데 있잖아요 소염제 식전에 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "눈에 뭔가 들어간 것 같아요", "intent": "symptom_inquiry", "department": "안과"}
+{"text": "며칠 전부터 갑자기 오십견인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "발목이 삐끗했어요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "갑자기 말이 어눌해졌어요", "intent": "emergency", "department": null}
+{"text": "방금 눈앞이 갑자기 캄캄해요", "intent": "emergency", "department": null}
+{"text": "혹시 오늘 진료하는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "잇몸에서 피가 나요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "지금 갑자기 헬로비 방금 쓰러졌어요", "intent": "emergency", "department": null}
+{"text": "약 먹고 어지러워요", "intent": "medication_info", "department": null}
+{"text": "무릎이 물이 찬 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "요즘 혈압이 자꾸 높아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "있잖아요 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "그런데 저기요 소염제 식전에 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "저기요 자식들한테 짐이 되기 싫어서 그냥 참았어요", "intent": "symptom_inquiry", "department": null}
+{"text": "헬로비 혹시 주말에도 여는 병원 있나요?", "intent": "hospital_search", "department": null}
+{"text": "헬로비 정신건강의학과 찾고 있어요", "intent": "hospital_search", "department": null}
+{"text": "지금 헬로비 지금 지금 문 연 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "혈압약 언제 먹어요?", "intent": "medication_info", "department": null}
+{"text": "저기요 있잖아요 밤에 식은땀이 많이 나요", "intent": "symptom_inquiry", "department": null}
+{"text": "갑자기 갑자기 귀가 전혀 안 들려요", "intent": "emergency", "department": null}
+{"text": "저기요 있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "계속 계속 혈압이 자꾸 높아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "헬로비 오늘 진료하는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 그런데 약 먹고 속이 쓰려요", "intent": "medication_info", "department": null}
+{"text": "갑자기 며칠 전부터 혈압이 자꾸 높아요", "intent": "symptom_inquiry", "department": "내과"}
+{"text": "저기요 귀가 어두워졌어요", "intent": "symptom_inquiry", "department": null}
+{"text": "이가 너무 시려요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "혹시 저기요 저기요 어린이 병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 혹시 저기요 대학병원 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "저기요 딸한테 물어보기 미안해서요", "intent": "symptom_inquiry", "department": null}
+{"text": "저기요 혹시 오늘 진료하는 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "지금 방금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "며칠 전부터 며칠 전부터 계속 귀에서 삐 소리가 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "헬로비 기운이 하나도 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "갑자기 귀가 전혀 안 들려요", "intent": "emergency", "department": null}
+{"text": "갑자기 골반이 부러진 것 같아요", "intent": "emergency", "department": null}
+{"text": "헬로비 밥을 먹어도 맛이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "요즘 들어 자꾸 힘이 없어요", "intent": "symptom_inquiry", "department": null}
+{"text": "있잖아요 있잖아요 저기요 혈압약 아침에 먹어야 해요 저녁에 먹어야 해요?", "intent": "medication_info", "department": null}
+{"text": "혹시 헬로비 지금 지금 문 연 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "요즘 요즘 피부에 두드러기가 났어요", "intent": "symptom_inquiry", "department": "피부과"}
+{"text": "혹시 산부인과 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "지금 헬로비 지금 문 연 병원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "그런데 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "혹시 소화기내과 찾고 있어요", "intent": "hospital_search", "department": null}
+{"text": "오메가3랑 혈압약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "저기요 지금 지금 헬로비 야간 진료하는 의원 있어요?", "intent": "hospital_search", "department": null}
+{"text": "갑자기 가스를 마신 것 같아요", "intent": "emergency", "department": null}
+{"text": "그런데 어깨가 올라가지를 않아요", "intent": "symptom_inquiry", "department": null}
+{"text": "피부가 자꾸 가려워요", "intent": "symptom_inquiry", "department": null}
+{"text": "발뒤꿈치가 너무 아파요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "갑자기 요즘 갑자기 계속 코피가 자꾸 나요", "intent": "symptom_inquiry", "department": "이비인후과"}
+{"text": "갑자기 지금 헬로비 지금 심장이 갑자기 너무 빠르게 뛰어요", "intent": "emergency", "department": null}
+{"text": "정신건강의학과 찾고 있어요", "intent": "hospital_search", "department": null}
+{"text": "지금 갑자기 방금 계단에서 굴러 떨어졌어요", "intent": "emergency", "department": null}
+{"text": "갑자기 소변에 피가 많이 나와요", "intent": "emergency", "department": null}
+{"text": "혹시 종합병원 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "재활의학과 어디 있어요?", "intent": "hospital_search", "department": null}
+{"text": "며칠 전부터 며칠 전부터 며칠 전부터 허리 디스크인 것 같아요", "intent": "symptom_inquiry", "department": "정형외과"}
+{"text": "며칠 전부터 며칠 전부터 턱이 아프고 입이 잘 안 벌어져요", "intent": "symptom_inquiry", "department": "치과"}
+{"text": "혹시 저기요 혹시 종합병원 근처에 있나요?", "intent": "hospital_search", "department": null}
+{"text": "있잖아요 있잖아요 소염제 식전에 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "헬로비 호흡기내과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "헬로비 신경과 병원 알려주세요", "intent": "hospital_search", "department": null}
+{"text": "소화제 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "있잖아요 헬로비 있잖아요 있잖아요 이가 시려서 못 먹겠어요", "intent": "symptom_inquiry", "department": null}
+{"text": "갑자기 저혈당으로 쓰러질 것 같아요", "intent": "emergency", "department": null}
+{"text": "있잖아요 당뇨약이랑 두통약 같이 먹어도 돼요?", "intent": "medication_info", "department": null}
+{"text": "지금 갑자기 한쪽 다리가 마비됐어요", "intent": "emergency", "department": null}
+{"text": "갑자기 지금 화상을 심하게 입었어요", "intent": "emergency", "department": null}
+{"text": "그런데 저기요 어디가 아픈지 모르겠는데 전반적으로 안 좋아요", "intent": "symptom_inquiry", "department": null}
