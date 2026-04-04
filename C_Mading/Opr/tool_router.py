@@ -2,6 +2,9 @@ from Opr.schemas import CInputPayload
 from Opr.severity import assess_severity
 from Opr.rag_service import run_rag
 from Opr.hospital_search import search_hospital
+from Opr.otc_knowledge import find_otc_from_payload, build_otc_response_text
+
+print("LOADED tool_router:", __file__)
 
 
 # TODO:
@@ -81,10 +84,33 @@ def run_tools(payload: CInputPayload) -> dict:
             }
         }
 
-    # ---------------------------
-    # 2) 약 정보 문의 -> RAG만
+        # ---------------------------
+    # 2) 약 정보 문의 -> OTC 우선, 없으면 RAG
     # ---------------------------
     if "medication_info" in intents:
+        otc_match = find_otc_from_payload(payload)
+
+        print("DEBUG medication_1:", payload.entities.medication_1)
+        print("DEBUG input_text:", payload.input_text)
+        print("DEBUG otc_match:", otc_match)
+
+        if otc_match:
+            _, item = otc_match
+            otc_text = build_otc_response_text(item)
+
+            return {
+                "session_id": payload.session_id,
+                "rag_context": otc_text,
+                "hospital_results": [],
+                "severity": severity,
+                "severity_detail": severity_result,
+                "tool_trace": ["otc_knowledge"],
+                "tool_result": {
+                    "source": "otc_knowledge",
+                    "query": "medication_info_otc"
+                }
+            }
+
         if has_medication_info(payload):
             rag_context = run_rag(payload)
             return {
@@ -100,7 +126,6 @@ def run_tools(payload: CInputPayload) -> dict:
                 }
             }
 
-        # 약 정보 부족
         return {
             "session_id": payload.session_id,
             "rag_context": "약 이름 정보가 부족합니다. 약 이름을 다시 확인해 주세요.",
@@ -120,7 +145,7 @@ def run_tools(payload: CInputPayload) -> dict:
     if "symptom_inquiry" in intents and "hospital_search" in intents:
         if has_symptom_info(payload):
             rag_context = run_rag(payload)
-            hospital_results = search_hospital(payload)
+            hospital_results = search_hospital(payload, severity=severity)
 
             if hospital_results:
                 return {
@@ -167,7 +192,7 @@ def run_tools(payload: CInputPayload) -> dict:
     # 4) 병원 검색만 있는 경우
     # ---------------------------
     if "hospital_search" in intents:
-        hospital_results = search_hospital(payload)
+        hospital_results = search_hospital(payload, severity=severity)
 
         if hospital_results:
             return {

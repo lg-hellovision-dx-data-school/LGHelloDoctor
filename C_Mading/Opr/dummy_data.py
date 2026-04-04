@@ -95,3 +95,31 @@ dummy_case_e3 = {
         "medication_2": None
     }
 }
+
+{
+    "session_id": "test-otc-1",
+    "input_text": "타이레놀 효과가 뭐야?",
+    "intent": ["medication_info"],
+    "entities": {
+        "symptom": None,
+        "body_part": None,
+        "location": "서울 강남구",
+        "emergency": False,
+        "medication_1": "타이레놀",
+        "medication_2": None
+    }
+}
+
+{
+    "session_id": "test-otc-2",
+    "input_text": "타이레놀 몇 번 먹어?",
+    "intent": ["medication_info"],
+    "entities": {
+        "symptom": None,
+        "body_part": None,
+        "location": "서울 강남구",
+        "emergency": False,
+        "medication_1": "타이레놀",
+        "medication_2": None
+    }
+}
