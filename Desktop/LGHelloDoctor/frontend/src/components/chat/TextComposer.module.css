@@ -1,0 +1,84 @@
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.formCenter {
+  flex: 1;
+  justify-content: center;
+  min-height: clamp(10rem, 32vw, 14rem);
+}
+
+.field {
+  width: 100%;
+  min-height: clamp(5rem, 22vw, 7rem);
+  padding: clamp(0.85rem, 2.5vw, 1rem) clamp(1rem, 3vw, 1.15rem);
+  border-radius: 1rem;
+  border: 2px solid var(--chat-border);
+  font-family: inherit;
+  font-size: clamp(1.05rem, 3.2vw, 1.2rem);
+  line-height: 1.5;
+  resize: vertical;
+  box-sizing: border-box;
+  background: #fff;
+  color: var(--chat-text);
+}
+
+.field:focus {
+  outline: none;
+  border-color: var(--chat-primary);
+  box-shadow: 0 0 0 3px var(--chat-primary-15);
+}
+
+
+.footer {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--chat-border-soft);
+  margin-top: auto;
+}
+
+.row {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-end;
+}
+
+.send {
+  flex-shrink: 0;
+  width: clamp(3.25rem, 12vw, 3.75rem);
+  height: clamp(3.25rem, 12vw, 3.75rem);
+  border-radius: 1rem;
+  border: none;
+  background: var(--chat-primary);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s;
+}
+.send:hover {
+  filter: brightness(1.05);
+}
+
+.send:active {
+  transform: scale(0.97);
+}
+
+.send:focus-visible {
+  outline: 3px solid var(--chat-primary);
+  outline-offset: 3px;
+}
+
+.send svg {
+  width: clamp(1.35rem, 4vw, 1.5rem);
+  height: clamp(1.35rem, 4vw, 1.5rem);
+}
+
+.hint {
+  margin: 0;
+  font-size: clamp(0.9rem, 2.8vw, 1rem);
+  color: var(--chat-muted);
+}

@@ -1,0 +1,81 @@
+import { IconMic } from './icons'
+import styles from './VoiceInputPanel.module.css'
+
+type Props = {
+  listening: boolean
+  onPress: () => void
+  variant?: 'hero' | 'compact'
+  disabled?: boolean
+  /** 음성 인식 안내·오류 메시지 */
+  notice?: string | null
+}
+
+export function VoiceInputPanel({
+  listening,
+  onPress,
+  variant = 'hero',
+  disabled = false,
+  notice,
+}: Props) {
+  if (variant === 'compact') {
+    return (
+      <div className={styles.compactWrap}>
+        {notice ? (
+          <p className={styles.notice} role="status">
+            {notice}
+          </p>
+        ) : null}
+        <div className={styles.compactRow}>
+          <button
+            type="button"
+            className={`${styles.compactMic} ${listening ? styles.listening : ''}`}
+            onClick={() => {
+              if (!disabled) onPress()
+            }}
+            disabled={disabled}
+            aria-pressed={listening}
+            aria-label={listening ? '음성 입력 중지' : '음성 입력 시작'}
+          >
+            <IconMic />
+          </button>
+        </div>
+        <p className={styles.compactHint}>
+          {disabled
+            ? 'AI 응답을 기다리는 중입니다.'
+            : listening
+              ? '듣고 있어요. 말씀이 끝나면 잠시만 기다려 주세요.'
+              : '마이크를 눌러 증상을 말씀해 주세요.'}
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <div className={styles.wrap}>
+      {notice ? (
+        <p className={styles.notice} role="status">
+          {notice}
+        </p>
+      ) : null}
+      <button
+        type="button"
+        className={`${styles.micOuter} ${listening ? styles.listening : ''}`}
+        onClick={() => {
+          if (!disabled) onPress()
+        }}
+        disabled={disabled}
+        aria-pressed={listening}
+        aria-label={listening ? '음성 입력 중지' : '음성 입력 시작'}
+      >
+        <IconMic />
+      </button>
+      <p className={styles.hint}>
+        {disabled
+          ? 'AI 응답을 기다리는 중입니다.'
+          : listening
+            ? '듣고 있습니다. 증상을 천천히 말씀해 주세요.'
+            : '마이크 버튼을 눌러 증상을 말씀해주세요'}
+      </p>
+    </div>
+  )
+}

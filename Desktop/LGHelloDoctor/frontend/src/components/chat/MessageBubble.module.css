@@ -1,0 +1,51 @@
+.row {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.rowUser {
+  justify-content: flex-end;
+}
+
+.bubble {
+  max-width: min(100%, 28rem);
+  padding: clamp(0.75rem, 2.5vw, 1rem) clamp(1rem, 3vw, 1.25rem);
+  border-radius: 1.125rem;
+  font-size: clamp(1.05rem, 3.2vw, 1.2rem);
+  line-height: 1.5;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.assistant {
+  background: var(--chat-accent-bg);
+  color: var(--chat-text);
+  border-bottom-left-radius: 0.25rem;
+}
+
+
+
+.label {
+  display: block;
+  font-size: clamp(0.75rem, 2.2vw, 0.85rem);
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  opacity: 0.85;
+}
+
+.user .label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+
+/* 아래 두 클래스를 찾아 교체하십시오 */
+.user {
+  background: var(--chat-primary);
+  color: #fff;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.assistant .label {
+  color: var(--chat-primary);
+}
