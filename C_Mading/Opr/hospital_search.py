@@ -1,16 +1,9 @@
 from Opr.schemas import CInputPayload
 from Opr.hospital_rules import get_department_keyword
 from Opr.hospital_dummy_backend import search_hospital_dummy
-
-
-# TODO:
-# 이 파일은 병원/약국 검색의 오케스트레이션 레이어입니다.
-# 현재는 더미 백엔드(search_hospital_dummy)를 사용하지만,
-# 실제 배포 시 Kakao Local API 또는 병원 검색 API 호출로 교체 예정입니다.
-# 교체 대상:
-# - location 기반 좌표 변환
-# - keyword/category 기반 병원 검색
-# - 응답 결과를 HospitalResult 형식으로 매핑
+from Opr.hospital_api_kakao import search_places_by_keyword
+from Opr.hospital_api_hybrid import search_hospital_hybrid
+from Opr.config import HOSPITAL_SEARCH_BACKEND
 
 
 def build_search_params(payload: CInputPayload, severity: str = "low") -> dict:
@@ -27,15 +20,15 @@ def build_search_params(payload: CInputPayload, severity: str = "low") -> dict:
         severity=severity
     )
 
-    category = "pharmacy" if keyword == "약국" else "hospital"
-    radius = 1500 if keyword == "약국" else 3000
+    target = "pharmacy" if keyword == "약국" else "hospital"
+    radius = 1500 if target == "pharmacy" else 3000
 
     return {
         "keyword": keyword,
         "location": location,
         "lat": None,
         "lng": None,
-        "category": category,
+        "target": target,
         "radius": radius
     }
 
@@ -43,9 +36,28 @@ def build_search_params(payload: CInputPayload, severity: str = "low") -> dict:
 def search_hospital(payload: CInputPayload, severity: str = "low") -> list:
     params = build_search_params(payload, severity=severity)
     keyword = params["keyword"]
+    location = params["location"]
+    radius = params["radius"]
+    target = params["target"]
 
-    # TODO:
-    # 실제 구현 시 location 값이 있으면 좌표 기반 검색 사용
-    # location이 없으면 기본 위치 / 사용자 현재 위치 fallback 가능
+    if HOSPITAL_SEARCH_BACKEND == "dummy":
+        return search_hospital_dummy(keyword)
 
-    return search_hospital_dummy(keyword)
+    if HOSPITAL_SEARCH_BACKEND == "kakao":
+        return search_places_by_keyword(
+            keyword=keyword,
+            location=location,
+            radius=radius,
+            size=5,
+        )
+
+    if HOSPITAL_SEARCH_BACKEND == "hybrid":
+        return search_hospital_hybrid(
+            keyword=keyword,
+            location=location,
+            radius=radius,
+            size=5,
+            target=target,
+        )
+
+    return []

@@ -6,7 +6,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "무릎 통증은 정형외과 진료가 가능합니다.",
+    "rag_preview": "무릎 통증은 정형외과 진료가 가능하며, 관절염이나 연골·인대 문제와 관련될 수 있습니다. 우선적으로는 정형외",
     "hospital_count": 0
   },
   {
@@ -16,7 +16,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "허리 통증 관련 진료 정보가 필요합니다.",
+    "rag_preview": "허리 통증은 정형외과 진료가 가능하며, 디스크나 근육성 통증과 관련될 수 있습니다. 우선적으로는 정형외과 진",
     "hospital_count": 0
   },
   {
@@ -26,7 +26,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "어깨 통증 관련 진료 정보가 필요합니다.",
+    "rag_preview": "어깨 통증은 정형외과 진료가 가능하며, 오십견이나 회전근개 문제와 관련될 수 있습니다. 우선적으로는 정형외과",
     "hospital_count": 0
   },
   {
@@ -36,7 +36,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "기침 관련 진료 정보가 필요합니다.",
+    "rag_preview": "기침은 내과 진료가 가능하며, 감기나 기관지염과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할 수 있",
     "hospital_count": 0
   },
   {
@@ -46,7 +46,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "몸살 관련 진료 정보가 필요합니다.",
+    "rag_preview": "몸살은 내과 진료가 가능하며, 감기나 독감 같은 감염성 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를",
     "hospital_count": 0
   },
   {
@@ -56,7 +56,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "두통 관련 진료 정보가 필요합니다.",
+    "rag_preview": "두통은 내과 진료가 가능하며, 긴장성 두통이나 편두통과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
     "hospital_count": 0
   },
   {
@@ -66,7 +66,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "복통 관련 진료 정보가 필요합니다.",
+    "rag_preview": "복통은 내과 진료가 가능하며, 위장염이나 소화기 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
     "hospital_count": 0
   },
   {
@@ -76,7 +76,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "소화불량 관련 진료 정보가 필요합니다.",
+    "rag_preview": "소화불량은 내과 진료가 가능하며, 기능성 소화불량이나 위염과 관련될 수 있습니다. 우선적으로는 내과 진료를 ",
     "hospital_count": 0
   },
   {
@@ -86,7 +86,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "설사 관련 진료 정보가 필요합니다.",
+    "rag_preview": "설사는 내과 진료가 가능하며, 장염이나 음식 관련 문제와 관련될 수 있습니다. 우선적으로는 내과 진료를 고려",
     "hospital_count": 0
   },
   {
@@ -96,7 +96,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "인후통 관련 진료 정보가 필요합니다.",
+    "rag_preview": "인후통은 이비인후과 진료가 가능하며, 감기나 편도염과 관련될 수 있습니다. 우선적으로는 이비인후과 진료를 고",
     "hospital_count": 0
   },
   {
@@ -176,7 +176,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "혈압약과 감기약은 함께 복용 시 주의가 필요할 수 있습니다.",
+    "rag_preview": "혈압약과 감기약은 함께 복용 시 주의가 필요할 수 있습니다. 정확한 복용 가능 여부는 약사 또는 의료진 상담",
     "hospital_count": 0
   },
   {
@@ -186,7 +186,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "당뇨약과 소화제은 함께 복용 시 주의가 필요할 수 있습니다.",
+    "rag_preview": "당뇨약과 소화제은 함께 복용 시 주의가 필요할 수 있습니다. 정확한 복용 가능 여부는 약사 또는 의료진 상담",
     "hospital_count": 0
   },
   {
@@ -217,7 +217,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 2
+    "hospital_count": 5
   },
   {
     "session_id": "mock-023",
@@ -227,7 +227,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 1
+    "hospital_count": 5
   },
   {
     "session_id": "mock-024",
@@ -237,7 +237,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 1
+    "hospital_count": 5
   },
   {
     "session_id": "mock-025",
@@ -247,7 +247,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 1
+    "hospital_count": 5
   },
   {
     "session_id": "mock-026",
@@ -257,7 +257,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 1
+    "hospital_count": 5
   },
   {
     "session_id": "mock-027",
@@ -267,8 +267,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "무릎 통증은 정형외과 진료가 가능합니다.",
-    "hospital_count": 2
+    "rag_preview": "무릎 통증은 정형외과 진료가 가능하며, 관절염이나 연골·인대 문제와 관련될 수 있습니다. 우선적으로는 정형외",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-028",
@@ -278,8 +278,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "허리 통증 관련 진료 정보가 필요합니다.",
-    "hospital_count": 2
+    "rag_preview": "허리 통증은 정형외과 진료가 가능하며, 디스크나 근육성 통증과 관련될 수 있습니다. 우선적으로는 정형외과 진",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-029",
@@ -289,8 +289,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "어깨 통증 관련 진료 정보가 필요합니다.",
-    "hospital_count": 2
+    "rag_preview": "어깨 통증은 정형외과 진료가 가능하며, 오십견이나 회전근개 문제와 관련될 수 있습니다. 우선적으로는 정형외과",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-030",
@@ -300,8 +300,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "기침 관련 진료 정보가 필요합니다.",
-    "hospital_count": 1
+    "rag_preview": "기침은 내과 진료가 가능하며, 감기나 기관지염과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할 수 있",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-031",
@@ -311,8 +311,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "몸살 관련 진료 정보가 필요합니다.",
-    "hospital_count": 1
+    "rag_preview": "몸살은 내과 진료가 가능하며, 감기나 독감 같은 감염성 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-032",
@@ -322,8 +322,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "두통 관련 진료 정보가 필요합니다.",
-    "hospital_count": 1
+    "rag_preview": "두통은 내과 진료가 가능하며, 긴장성 두통이나 편두통과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-033",
@@ -333,8 +333,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "복통 관련 진료 정보가 필요합니다.",
-    "hospital_count": 1
+    "rag_preview": "복통은 내과 진료가 가능하며, 위장염이나 소화기 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-034",
@@ -344,8 +344,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "소화불량 관련 진료 정보가 필요합니다.",
-    "hospital_count": 1
+    "rag_preview": "소화불량은 내과 진료가 가능하며, 기능성 소화불량이나 위염과 관련될 수 있습니다. 우선적으로는 내과 진료를 ",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-035",
@@ -355,8 +355,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "설사 관련 진료 정보가 필요합니다.",
-    "hospital_count": 1
+    "rag_preview": "설사는 내과 진료가 가능하며, 장염이나 음식 관련 문제와 관련될 수 있습니다. 우선적으로는 내과 진료를 고려",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-036",
@@ -366,8 +366,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "인후통 관련 진료 정보가 필요합니다.",
-    "hospital_count": 1
+    "rag_preview": "인후통은 이비인후과 진료가 가능하며, 감기나 편도염과 관련될 수 있습니다. 우선적으로는 이비인후과 진료를 고",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-037",
@@ -376,7 +376,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "무릎 통증은 정형외과 진료가 가능합니다.",
+    "rag_preview": "무릎 통증은 정형외과 진료가 가능하며, 관절염이나 연골·인대 문제와 관련될 수 있습니다. 우선적으로는 정형외",
     "hospital_count": 0
   },
   {
@@ -386,7 +386,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "허리 통증 관련 진료 정보가 필요합니다.",
+    "rag_preview": "허리 통증은 정형외과 진료가 가능하며, 디스크나 근육성 통증과 관련될 수 있습니다. 우선적으로는 정형외과 진",
     "hospital_count": 0
   },
   {
@@ -396,7 +396,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "어깨 통증 관련 진료 정보가 필요합니다.",
+    "rag_preview": "어깨 통증은 정형외과 진료가 가능하며, 오십견이나 회전근개 문제와 관련될 수 있습니다. 우선적으로는 정형외과",
     "hospital_count": 0
   },
   {
@@ -406,7 +406,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "기침 관련 진료 정보가 필요합니다.",
+    "rag_preview": "기침은 내과 진료가 가능하며, 감기나 기관지염과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할 수 있",
     "hospital_count": 0
   },
   {
@@ -416,7 +416,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "몸살 관련 진료 정보가 필요합니다.",
+    "rag_preview": "몸살은 내과 진료가 가능하며, 감기나 독감 같은 감염성 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를",
     "hospital_count": 0
   },
   {
@@ -426,7 +426,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "두통 관련 진료 정보가 필요합니다.",
+    "rag_preview": "두통은 내과 진료가 가능하며, 긴장성 두통이나 편두통과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
     "hospital_count": 0
   },
   {
@@ -436,7 +436,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "복통 관련 진료 정보가 필요합니다.",
+    "rag_preview": "복통은 내과 진료가 가능하며, 위장염이나 소화기 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
     "hospital_count": 0
   },
   {
@@ -446,7 +446,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "소화불량 관련 진료 정보가 필요합니다.",
+    "rag_preview": "소화불량은 내과 진료가 가능하며, 기능성 소화불량이나 위염과 관련될 수 있습니다. 우선적으로는 내과 진료를 ",
     "hospital_count": 0
   },
   {
@@ -456,7 +456,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "설사 관련 진료 정보가 필요합니다.",
+    "rag_preview": "설사는 내과 진료가 가능하며, 장염이나 음식 관련 문제와 관련될 수 있습니다. 우선적으로는 내과 진료를 고려",
     "hospital_count": 0
   },
   {
@@ -466,7 +466,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "인후통 관련 진료 정보가 필요합니다.",
+    "rag_preview": "인후통은 이비인후과 진료가 가능하며, 감기나 편도염과 관련될 수 있습니다. 우선적으로는 이비인후과 진료를 고",
     "hospital_count": 0
   },
   {
@@ -546,7 +546,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "혈압약과 감기약은 함께 복용 시 주의가 필요할 수 있습니다.",
+    "rag_preview": "혈압약과 감기약은 함께 복용 시 주의가 필요할 수 있습니다. 정확한 복용 가능 여부는 약사 또는 의료진 상담",
     "hospital_count": 0
   },
   {
@@ -556,7 +556,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "당뇨약과 소화제은 함께 복용 시 주의가 필요할 수 있습니다.",
+    "rag_preview": "당뇨약과 소화제은 함께 복용 시 주의가 필요할 수 있습니다. 정확한 복용 가능 여부는 약사 또는 의료진 상담",
     "hospital_count": 0
   },
   {
@@ -587,7 +587,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 2
+    "hospital_count": 5
   },
   {
     "session_id": "mock-059",
@@ -597,7 +597,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 1
+    "hospital_count": 5
   },
   {
     "session_id": "mock-060",
@@ -607,7 +607,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 1
+    "hospital_count": 5
   },
   {
     "session_id": "mock-061",
@@ -617,7 +617,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 1
+    "hospital_count": 5
   },
   {
     "session_id": "mock-062",
@@ -627,7 +627,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 1
+    "hospital_count": 5
   },
   {
     "session_id": "mock-063",
@@ -637,8 +637,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "무릎 통증은 정형외과 진료가 가능합니다.",
-    "hospital_count": 2
+    "rag_preview": "무릎 통증은 정형외과 진료가 가능하며, 관절염이나 연골·인대 문제와 관련될 수 있습니다. 우선적으로는 정형외",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-064",
@@ -648,8 +648,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "허리 통증 관련 진료 정보가 필요합니다.",
-    "hospital_count": 2
+    "rag_preview": "허리 통증은 정형외과 진료가 가능하며, 디스크나 근육성 통증과 관련될 수 있습니다. 우선적으로는 정형외과 진",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-065",
@@ -659,8 +659,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "어깨 통증 관련 진료 정보가 필요합니다.",
-    "hospital_count": 2
+    "rag_preview": "어깨 통증은 정형외과 진료가 가능하며, 오십견이나 회전근개 문제와 관련될 수 있습니다. 우선적으로는 정형외과",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-066",
@@ -670,8 +670,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "기침 관련 진료 정보가 필요합니다.",
-    "hospital_count": 1
+    "rag_preview": "기침은 내과 진료가 가능하며, 감기나 기관지염과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할 수 있",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-067",
@@ -681,8 +681,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "몸살 관련 진료 정보가 필요합니다.",
-    "hospital_count": 1
+    "rag_preview": "몸살은 내과 진료가 가능하며, 감기나 독감 같은 감염성 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-068",
@@ -692,8 +692,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "두통 관련 진료 정보가 필요합니다.",
-    "hospital_count": 1
+    "rag_preview": "두통은 내과 진료가 가능하며, 긴장성 두통이나 편두통과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-069",
@@ -703,8 +703,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "복통 관련 진료 정보가 필요합니다.",
-    "hospital_count": 1
+    "rag_preview": "복통은 내과 진료가 가능하며, 위장염이나 소화기 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-070",
@@ -714,8 +714,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "소화불량 관련 진료 정보가 필요합니다.",
-    "hospital_count": 1
+    "rag_preview": "소화불량은 내과 진료가 가능하며, 기능성 소화불량이나 위염과 관련될 수 있습니다. 우선적으로는 내과 진료를 ",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-071",
@@ -725,8 +725,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "설사 관련 진료 정보가 필요합니다.",
-    "hospital_count": 1
+    "rag_preview": "설사는 내과 진료가 가능하며, 장염이나 음식 관련 문제와 관련될 수 있습니다. 우선적으로는 내과 진료를 고려",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-072",
@@ -736,8 +736,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "인후통 관련 진료 정보가 필요합니다.",
-    "hospital_count": 1
+    "rag_preview": "인후통은 이비인후과 진료가 가능하며, 감기나 편도염과 관련될 수 있습니다. 우선적으로는 이비인후과 진료를 고",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-073",
@@ -746,7 +746,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "무릎 통증은 정형외과 진료가 가능합니다.",
+    "rag_preview": "무릎 통증은 정형외과 진료가 가능하며, 관절염이나 연골·인대 문제와 관련될 수 있습니다. 우선적으로는 정형외",
     "hospital_count": 0
   },
   {
@@ -756,7 +756,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "허리 통증 관련 진료 정보가 필요합니다.",
+    "rag_preview": "허리 통증은 정형외과 진료가 가능하며, 디스크나 근육성 통증과 관련될 수 있습니다. 우선적으로는 정형외과 진",
     "hospital_count": 0
   },
   {
@@ -766,7 +766,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "어깨 통증 관련 진료 정보가 필요합니다.",
+    "rag_preview": "어깨 통증은 정형외과 진료가 가능하며, 오십견이나 회전근개 문제와 관련될 수 있습니다. 우선적으로는 정형외과",
     "hospital_count": 0
   },
   {
@@ -776,7 +776,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "기침 관련 진료 정보가 필요합니다.",
+    "rag_preview": "기침은 내과 진료가 가능하며, 감기나 기관지염과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할 수 있",
     "hospital_count": 0
   },
   {
@@ -786,7 +786,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "몸살 관련 진료 정보가 필요합니다.",
+    "rag_preview": "몸살은 내과 진료가 가능하며, 감기나 독감 같은 감염성 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를",
     "hospital_count": 0
   },
   {
@@ -796,7 +796,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "두통 관련 진료 정보가 필요합니다.",
+    "rag_preview": "두통은 내과 진료가 가능하며, 긴장성 두통이나 편두통과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
     "hospital_count": 0
   },
   {
@@ -806,7 +806,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "복통 관련 진료 정보가 필요합니다.",
+    "rag_preview": "복통은 내과 진료가 가능하며, 위장염이나 소화기 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
     "hospital_count": 0
   },
   {
@@ -816,7 +816,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "소화불량 관련 진료 정보가 필요합니다.",
+    "rag_preview": "소화불량은 내과 진료가 가능하며, 기능성 소화불량이나 위염과 관련될 수 있습니다. 우선적으로는 내과 진료를 ",
     "hospital_count": 0
   },
   {
@@ -826,7 +826,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "설사 관련 진료 정보가 필요합니다.",
+    "rag_preview": "설사는 내과 진료가 가능하며, 장염이나 음식 관련 문제와 관련될 수 있습니다. 우선적으로는 내과 진료를 고려",
     "hospital_count": 0
   },
   {
@@ -836,7 +836,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "인후통 관련 진료 정보가 필요합니다.",
+    "rag_preview": "인후통은 이비인후과 진료가 가능하며, 감기나 편도염과 관련될 수 있습니다. 우선적으로는 이비인후과 진료를 고",
     "hospital_count": 0
   },
   {
@@ -916,7 +916,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "혈압약과 감기약은 함께 복용 시 주의가 필요할 수 있습니다.",
+    "rag_preview": "혈압약과 감기약은 함께 복용 시 주의가 필요할 수 있습니다. 정확한 복용 가능 여부는 약사 또는 의료진 상담",
     "hospital_count": 0
   },
   {
@@ -926,7 +926,7 @@
       "rag"
     ],
     "tool_source": "rag_service",
-    "rag_preview": "당뇨약과 소화제은 함께 복용 시 주의가 필요할 수 있습니다.",
+    "rag_preview": "당뇨약과 소화제은 함께 복용 시 주의가 필요할 수 있습니다. 정확한 복용 가능 여부는 약사 또는 의료진 상담",
     "hospital_count": 0
   },
   {
@@ -957,7 +957,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 2
+    "hospital_count": 5
   },
   {
     "session_id": "mock-095",
@@ -967,7 +967,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 1
+    "hospital_count": 5
   },
   {
     "session_id": "mock-096",
@@ -977,7 +977,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 1
+    "hospital_count": 5
   },
   {
     "session_id": "mock-097",
@@ -987,7 +987,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 1
+    "hospital_count": 5
   },
   {
     "session_id": "mock-098",
@@ -997,7 +997,7 @@
     ],
     "tool_source": "hospital_search",
     "rag_preview": "",
-    "hospital_count": 1
+    "hospital_count": 5
   },
   {
     "session_id": "mock-099",
@@ -1007,8 +1007,8 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "무릎 통증은 정형외과 진료가 가능합니다.",
-    "hospital_count": 2
+    "rag_preview": "무릎 통증은 정형외과 진료가 가능하며, 관절염이나 연골·인대 문제와 관련될 수 있습니다. 우선적으로는 정형외",
+    "hospital_count": 5
   },
   {
     "session_id": "mock-100",
@@ -1018,7 +1018,7 @@
       "hospital_search"
     ],
     "tool_source": "rag_service+hospital_search",
-    "rag_preview": "허리 통증 관련 진료 정보가 필요합니다.",
-    "hospital_count": 2
+    "rag_preview": "허리 통증은 정형외과 진료가 가능하며, 디스크나 근육성 통증과 관련될 수 있습니다. 우선적으로는 정형외과 진",
+    "hospital_count": 5
   }
 ]
