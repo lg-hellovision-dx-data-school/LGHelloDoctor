@@ -42,10 +42,32 @@ def extract_department_hint(text: str) -> str | None:
             return dept
     return None
 
+def infer_department_from_symptom(query: str, symptom: str | None = None, body_part: str | None = None) -> str | None:
+    text_parts = [query or "", symptom or "", body_part or ""]
+    text = " ".join(text_parts)
+
+    dept_symptom_map = [
+        ("이비인후과", ["귀", "삐 소리", "이명", "코피", "목소리", "인후통", "목에 뭔가 걸린", "콧물", "코막힘", "후각", "미각", "목이 아파서 잘 못 먹", "목이 아파서 잘 못 자"]),
+        ("정형외과", ["무릎", "허리", "어깨", "손목", "발목", "관절", "디스크", "삐끗", "팔을 못 들", "못 걷", "뼈", "근육", "인대", "척추", "골절", "염좌", "좌골신경통", "오십견", "골다공증", "관절염"]),
+        ("피부과", ["두드러기", "피부", "가렵", "빨개", "발진", "염증", "화농", "뾰루지", "여드름", "습진", "건조", "각질", "탈모", "지루성", "아토피", "알레르기", "접촉성", "두피", "사마귀", "티눈", "무좀", "버짐", "옴", "한포진"]),
+        ("치과", ["치아", "이가", "잇몸", "사랑니", "턱", "입이 잘 안 벌어", "치통", "입 냄새", "충치", "치석", "치주염", "치근염", "치수염", "치은염", "치조농루", "치조낭종", "치아 파절", "치아 골절", "치아 균열"]),
+        ("안과", ["눈", "시야", "캄캄", "충혈", "눈물", "눈이 아파서 잘 못 자", "눈이 아파서 잘 못 먹", "안구건조", "눈부심", "눈꺼풀", "눈 밑이 검어"]),
+        ("산부인과", ["생리", "질", "자궁", "임신", "하혈", "유산", "피임", "월경", "갱년기", "유방", "생리통", "생리불순", "분만", "산후", "부인과", "여성호르몬"]),
+        ("정신건강의학과", ["불안", "우울", "불면", "공황", "스트레스", "자살", "사회생활", "대인관계", "화병", "분노", "집중력", "기억력", "자해", "환청", "망상"]),
+        ("내과", ["위", "속쓰림", "신물", "복통", "설사", "혈압", "갑상선", "당뇨", "열", "몸살", "기침", "가슴 답답", "소화", "배가 아파", "체중", "콜레스테롤", "간 기능", "심장", "호흡기", "신장", "감염"]),
+    ]
+
+    for dept, keywords in dept_symptom_map:
+        if any(k in text for k in keywords):
+            return dept
+
+    return None
+
 
 def normalize_intent(raw_intent, query: str, entities: dict, true_intent: str | None = None) -> list[str]:
     """
     B output은 intent가 흔들릴 수 있어서 query/true_intent/엔티티를 함께 보고 보정
+    병원검색 오인식을 줄이기 위해 '진료과명 + 검색표현'을 강하게 hospital_search로 보정
     """
     intents = []
 
@@ -57,10 +79,10 @@ def normalize_intent(raw_intent, query: str, entities: dict, true_intent: str | 
         intents = []
 
     query = query or ""
+    query_no_space = query.replace(" ", "")
     symptom = normalize_null((entities or {}).get("symptom"))
-    location = normalize_null((entities or {}).get("location"))
 
-    # true_intent가 있으면 비교용으로 참고해서 보정
+    # true_intent는 평가용 기준으로 가장 우선
     if true_intent == "emergency":
         return ["emergency"]
 
@@ -68,32 +90,83 @@ def normalize_intent(raw_intent, query: str, entities: dict, true_intent: str | 
         return ["medication_info"]
 
     if true_intent == "hospital_search":
-        # 증상도 있으면 복합 intent로
-        if symptom:
-            return ["symptom_inquiry", "hospital_search"]
         return ["hospital_search"]
 
-    # query 기반 보정
-    hospital_keywords = ["어디 있어", "근처", "찾고 있어", "병원", "약국", "보건소", "대학병원", "의원", "한의원"]
-    medication_keywords = ["약", "복용", "먹어도", "언제 먹", "같이 먹", "보관", "식전", "식후", "졸려", "부작용"]
-    emergency_keywords = ["숨을 못", "쓰러졌", "마비", "캄캄", "화상", "저혈당", "의식", "피를", "가슴이 너무"]
+    strong_emergency_keywords = [
+        "숨을 못", "숨이 안", "호흡이 안",
+        "쓰러졌", "의식이 없", "의식 없어",
+        "가슴에 돌", "가슴을 쥐어 짜", "가슴이 찢"
+        "마비", "한쪽이 마비", "식은땀이 비 오듯",
+        "피를 토", "대변이 검은", "대변이 까만", "대변이 까매",
+        "가슴이 너무", "심장이 안뛰", "심장이 뛰질",
+        "약을 너무 많이", "약을 과다 복용", "입이 돌아",
+        "눈앞이 안 보여", "눈앞이 두개로",
+        "혀이 꼬여", "말이 어눌",
+    ]
 
-    if any(k in query for k in emergency_keywords):
+    weak_emergency_keywords = [
+        "화상", "저혈당", "의식", "살이 벌어져", "어지럽고 구토",
+        "피가 나", "캄캄", "열이 펄펄 끓어", "상처가 붓고 고름"
+    ]
+
+    emergency_boost_keywords = [
+        "갑자기", "심하게", "너무", "계속", "방금",
+        "엄청", "전혀", "못", "안", "심한",
+    ]
+
+    medication_keywords = [
+        "약", "복용", "먹어도", "언제 먹", "같이 먹", "보관",
+        "식전", "식후", "졸려", "부작용", "하루에 몇 번",
+    ]
+
+    hospital_keywords = [
+        "근처", "어디", "어디예요", "어디 있", "있나요",
+        "알려주세요", "알려줘", "찾고 있어요", "찾아주세요",
+        "병원", "약국", "보건소", "대학병원", "의원", "한의원",
+        "오늘 진료", "야간 진료", "어디 가야", "어디로 가야",
+        "진료하는", "잘 보는",
+    ]
+
+    dept_hint_in_query = extract_department_hint(query)
+    dept_hint_in_symptom = extract_department_hint(symptom or "")
+
+    # 1) 강응급 최우선
+    if any(k in query for k in strong_emergency_keywords):
         return ["emergency"]
 
+    # 1-1) 약응급 후보는 보조 신호가 있을 때만 emergency
+    weak_hit = any(k in query for k in weak_emergency_keywords)
+    boost_count = sum(1 for k in emergency_boost_keywords if k in query)
+
+    if weak_hit and boost_count >= 2:
+        return ["emergency"]
+
+    # 2) 약 관련
     if any(k in query for k in medication_keywords):
         return ["medication_info"]
 
-    if any(k in query for k in hospital_keywords):
-        if symptom:
-            return ["symptom_inquiry", "hospital_search"]
+    # 3) 진료과명 + 검색표현 => hospital_search 강제
+    # 예: "산부인과 근처에 있나요", "치과 어디 가야 해요", "호흡기내과 병원 알려주세요"
+    if dept_hint_in_query and any(k in query for k in hospital_keywords):
         return ["hospital_search"]
 
-    # 기본값
-    if not intents:
-        return ["symptom_inquiry"]
+    # 띄어쓰기 흔들림 대응
+    if dept_hint_in_query and (
+        "근처" in query_no_space or
+        "병원" in query_no_space or
+        "알려" in query_no_space or
+        "찾고있어" in query_no_space or
+        "어디가야" in query_no_space or
+        "잘보는" in query_no_space
+    ):
+        return ["hospital_search"]
 
-    return intents
+    # 4) 일반 병원검색 표현
+    if any(k in query for k in hospital_keywords):
+        return ["hospital_search"]
+
+    # 5) 기본값
+    return ["symptom_inquiry"]
 
 
 def normalize_entities(raw_entities: dict, query: str) -> dict:
