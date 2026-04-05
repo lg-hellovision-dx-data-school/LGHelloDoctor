@@ -8,6 +8,8 @@ __pycache__/
 venv/
 .venv/
 
+README_personal.md
+
 # Jupyter
 .ipynb_checkpoints/
 
