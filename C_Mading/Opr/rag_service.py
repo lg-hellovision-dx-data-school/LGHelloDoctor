@@ -59,7 +59,7 @@ def _handle_medication_rag(payload: CInputPayload) -> str:
     med2 = entities.medication_2 or ""
 
     if med1 and med2:
-        return f"{med1}과 {med2}은 함께 복용 시 주의가 필요할 수 있습니다. 정확한 복용 가능 여부는 약사 또는 의료진 상담이 권장됩니다."
+        return f"{med1}, {med2} 병용 시 주의가 필요할 수 있습니다. 정확한 복용 가능 여부는 약사 또는 의료진 상담이 권장됩니다."
 
     if med1:
         return f"{med1} 관련 복용 정보가 필요합니다. 제품명과 성분을 함께 확인하면 더 정확한 안내가 가능합니다."

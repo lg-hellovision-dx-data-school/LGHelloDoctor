@@ -10,6 +10,7 @@ RAG_BACKEND = "dummy"
 HOSPITAL_SEARCH_BACKEND = "hybrid"   # dummy / kakao / hira / hybrid
 SEVERITY_BACKEND = "rule"
 DEFAULT_LOCATION = "서울 강남구"
+HOSPITAL_SEARCH_SIZE = 5
 
 # Kakao Local API
 KAKAO_REST_API_KEY = os.getenv("KAKAO_REST_API_KEY", "")

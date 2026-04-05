@@ -17,7 +17,7 @@ def geocode_location(location: str) -> tuple[float | None, float | None]:
         url,
         headers=_headers(),
         params={"query": location},
-        timeout=5,
+        timeout=10,
     )
     resp.raise_for_status()
     data = resp.json()
@@ -49,7 +49,7 @@ def search_places_by_keyword(keyword: str, location: str, radius: int = 3000, si
             "size": size,
             "sort": "distance",
         },
-        timeout=5,
+        timeout=10,
     )
     resp.raise_for_status()
     data = resp.json()

@@ -1,0 +1,1024 @@
+[
+  {
+    "session_id": "mock-001",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "무릎 통증은 정형외과 진료가 가능하며, 관절염이나 연골·인대 문제와 관련될 수 있습니다. 우선적으로는 정형외",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-002",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "허리 통증은 정형외과 진료가 가능하며, 디스크나 근육성 통증과 관련될 수 있습니다. 우선적으로는 정형외과 진",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-003",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "어깨 통증은 정형외과 진료가 가능하며, 오십견이나 회전근개 문제와 관련될 수 있습니다. 우선적으로는 정형외과",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-004",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "기침은 내과 진료가 가능하며, 감기나 기관지염과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할 수 있",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-005",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "몸살은 내과 진료가 가능하며, 감기나 독감 같은 감염성 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-006",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "두통은 내과 진료가 가능하며, 긴장성 두통이나 편두통과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-007",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "복통은 내과 진료가 가능하며, 위장염이나 소화기 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-008",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "소화불량은 내과 진료가 가능하며, 기능성 소화불량이나 위염과 관련될 수 있습니다. 우선적으로는 내과 진료를 ",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-009",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "설사는 내과 진료가 가능하며, 장염이나 음식 관련 문제와 관련될 수 있습니다. 우선적으로는 내과 진료를 고려",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-010",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "인후통은 이비인후과 진료가 가능하며, 감기나 편도염과 관련될 수 있습니다. 우선적으로는 이비인후과 진료를 고",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-011",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-012",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-013",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-014",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-015",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-016",
+    "severity": "low",
+    "tool_trace": [
+      "otc_knowledge"
+    ],
+    "tool_source": "otc_knowledge",
+    "rag_preview": "효과: 열과 두통, 몸살, 치통 같은 통증 완화에 쓰입니다.\n복용: 일반 성인 기준으로는 보통 500mg 1",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-017",
+    "severity": "low",
+    "tool_trace": [
+      "otc_knowledge"
+    ],
+    "tool_source": "otc_knowledge",
+    "rag_preview": "효과: 열과 두통, 몸살, 치통 같은 통증 완화에 쓰입니다.\n복용: 일반 성인 기준으로는 보통 500mg 1",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-018",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "혈압약과 감기약은 함께 복용 시 주의가 필요할 수 있습니다. 정확한 복용 가능 여부는 약사 또는 의료진 상담",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-019",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "당뇨약과 소화제은 함께 복용 시 주의가 필요할 수 있습니다. 정확한 복용 가능 여부는 약사 또는 의료진 상담",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-020",
+    "severity": "low",
+    "tool_trace": [
+      "otc_knowledge"
+    ],
+    "tool_source": "otc_knowledge",
+    "rag_preview": "효과: 두통, 근육통, 생리통처럼 염증이나 통증이 있을 때 자주 쓰입니다.\n복용: 일반 성인 기준으로는 보통",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-021",
+    "severity": "low",
+    "tool_trace": [
+      "otc_knowledge"
+    ],
+    "tool_source": "otc_knowledge",
+    "rag_preview": "효과: 콧물, 기침, 목아픔, 몸살처럼 여러 감기 증상이 함께 있을 때 사용할 수 있습니다.\n복용: 제품마다",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-022",
+    "severity": "low",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-023",
+    "severity": "low",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-024",
+    "severity": "low",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-025",
+    "severity": "low",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-026",
+    "severity": "medium",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-027",
+    "severity": "medium",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "무릎 통증은 정형외과 진료가 가능하며, 관절염이나 연골·인대 문제와 관련될 수 있습니다. 우선적으로는 정형외",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-028",
+    "severity": "medium",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "허리 통증은 정형외과 진료가 가능하며, 디스크나 근육성 통증과 관련될 수 있습니다. 우선적으로는 정형외과 진",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-029",
+    "severity": "low",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "어깨 통증은 정형외과 진료가 가능하며, 오십견이나 회전근개 문제와 관련될 수 있습니다. 우선적으로는 정형외과",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-030",
+    "severity": "low",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "기침은 내과 진료가 가능하며, 감기나 기관지염과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할 수 있",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-031",
+    "severity": "low",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "몸살은 내과 진료가 가능하며, 감기나 독감 같은 감염성 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-032",
+    "severity": "medium",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "두통은 내과 진료가 가능하며, 긴장성 두통이나 편두통과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-033",
+    "severity": "medium",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "복통은 내과 진료가 가능하며, 위장염이나 소화기 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-034",
+    "severity": "low",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "소화불량은 내과 진료가 가능하며, 기능성 소화불량이나 위염과 관련될 수 있습니다. 우선적으로는 내과 진료를 ",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-035",
+    "severity": "low",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "설사는 내과 진료가 가능하며, 장염이나 음식 관련 문제와 관련될 수 있습니다. 우선적으로는 내과 진료를 고려",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-036",
+    "severity": "medium",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "인후통은 이비인후과 진료가 가능하며, 감기나 편도염과 관련될 수 있습니다. 우선적으로는 이비인후과 진료를 고",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-037",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "무릎 통증은 정형외과 진료가 가능하며, 관절염이나 연골·인대 문제와 관련될 수 있습니다. 우선적으로는 정형외",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-038",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "허리 통증은 정형외과 진료가 가능하며, 디스크나 근육성 통증과 관련될 수 있습니다. 우선적으로는 정형외과 진",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-039",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "어깨 통증은 정형외과 진료가 가능하며, 오십견이나 회전근개 문제와 관련될 수 있습니다. 우선적으로는 정형외과",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-040",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "기침은 내과 진료가 가능하며, 감기나 기관지염과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할 수 있",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-041",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "몸살은 내과 진료가 가능하며, 감기나 독감 같은 감염성 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-042",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "두통은 내과 진료가 가능하며, 긴장성 두통이나 편두통과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-043",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "복통은 내과 진료가 가능하며, 위장염이나 소화기 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-044",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "소화불량은 내과 진료가 가능하며, 기능성 소화불량이나 위염과 관련될 수 있습니다. 우선적으로는 내과 진료를 ",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-045",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "설사는 내과 진료가 가능하며, 장염이나 음식 관련 문제와 관련될 수 있습니다. 우선적으로는 내과 진료를 고려",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-046",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "인후통은 이비인후과 진료가 가능하며, 감기나 편도염과 관련될 수 있습니다. 우선적으로는 이비인후과 진료를 고",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-047",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-048",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-049",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-050",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-051",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-052",
+    "severity": "low",
+    "tool_trace": [
+      "otc_knowledge"
+    ],
+    "tool_source": "otc_knowledge",
+    "rag_preview": "효과: 열과 두통, 몸살, 치통 같은 통증 완화에 쓰입니다.\n복용: 일반 성인 기준으로는 보통 500mg 1",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-053",
+    "severity": "low",
+    "tool_trace": [
+      "otc_knowledge"
+    ],
+    "tool_source": "otc_knowledge",
+    "rag_preview": "효과: 열과 두통, 몸살, 치통 같은 통증 완화에 쓰입니다.\n복용: 일반 성인 기준으로는 보통 500mg 1",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-054",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "혈압약과 감기약은 함께 복용 시 주의가 필요할 수 있습니다. 정확한 복용 가능 여부는 약사 또는 의료진 상담",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-055",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "당뇨약과 소화제은 함께 복용 시 주의가 필요할 수 있습니다. 정확한 복용 가능 여부는 약사 또는 의료진 상담",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-056",
+    "severity": "low",
+    "tool_trace": [
+      "otc_knowledge"
+    ],
+    "tool_source": "otc_knowledge",
+    "rag_preview": "효과: 두통, 근육통, 생리통처럼 염증이나 통증이 있을 때 자주 쓰입니다.\n복용: 일반 성인 기준으로는 보통",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-057",
+    "severity": "low",
+    "tool_trace": [
+      "otc_knowledge"
+    ],
+    "tool_source": "otc_knowledge",
+    "rag_preview": "효과: 콧물, 기침, 목아픔, 몸살처럼 여러 감기 증상이 함께 있을 때 사용할 수 있습니다.\n복용: 제품마다",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-058",
+    "severity": "low",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-059",
+    "severity": "low",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-060",
+    "severity": "low",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-061",
+    "severity": "low",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-062",
+    "severity": "medium",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-063",
+    "severity": "medium",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "무릎 통증은 정형외과 진료가 가능하며, 관절염이나 연골·인대 문제와 관련될 수 있습니다. 우선적으로는 정형외",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-064",
+    "severity": "medium",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "허리 통증은 정형외과 진료가 가능하며, 디스크나 근육성 통증과 관련될 수 있습니다. 우선적으로는 정형외과 진",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-065",
+    "severity": "low",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "어깨 통증은 정형외과 진료가 가능하며, 오십견이나 회전근개 문제와 관련될 수 있습니다. 우선적으로는 정형외과",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-066",
+    "severity": "low",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "기침은 내과 진료가 가능하며, 감기나 기관지염과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할 수 있",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-067",
+    "severity": "low",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "몸살은 내과 진료가 가능하며, 감기나 독감 같은 감염성 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-068",
+    "severity": "medium",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "두통은 내과 진료가 가능하며, 긴장성 두통이나 편두통과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-069",
+    "severity": "medium",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "복통은 내과 진료가 가능하며, 위장염이나 소화기 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-070",
+    "severity": "low",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "소화불량은 내과 진료가 가능하며, 기능성 소화불량이나 위염과 관련될 수 있습니다. 우선적으로는 내과 진료를 ",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-071",
+    "severity": "low",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "설사는 내과 진료가 가능하며, 장염이나 음식 관련 문제와 관련될 수 있습니다. 우선적으로는 내과 진료를 고려",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-072",
+    "severity": "medium",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "인후통은 이비인후과 진료가 가능하며, 감기나 편도염과 관련될 수 있습니다. 우선적으로는 이비인후과 진료를 고",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-073",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "무릎 통증은 정형외과 진료가 가능하며, 관절염이나 연골·인대 문제와 관련될 수 있습니다. 우선적으로는 정형외",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-074",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "허리 통증은 정형외과 진료가 가능하며, 디스크나 근육성 통증과 관련될 수 있습니다. 우선적으로는 정형외과 진",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-075",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "어깨 통증은 정형외과 진료가 가능하며, 오십견이나 회전근개 문제와 관련될 수 있습니다. 우선적으로는 정형외과",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-076",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "기침은 내과 진료가 가능하며, 감기나 기관지염과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할 수 있",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-077",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "몸살은 내과 진료가 가능하며, 감기나 독감 같은 감염성 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-078",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "두통은 내과 진료가 가능하며, 긴장성 두통이나 편두통과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-079",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "복통은 내과 진료가 가능하며, 위장염이나 소화기 질환과 관련될 수 있습니다. 우선적으로는 내과 진료를 고려할",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-080",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "소화불량은 내과 진료가 가능하며, 기능성 소화불량이나 위염과 관련될 수 있습니다. 우선적으로는 내과 진료를 ",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-081",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "설사는 내과 진료가 가능하며, 장염이나 음식 관련 문제와 관련될 수 있습니다. 우선적으로는 내과 진료를 고려",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-082",
+    "severity": "medium",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "인후통은 이비인후과 진료가 가능하며, 감기나 편도염과 관련될 수 있습니다. 우선적으로는 이비인후과 진료를 고",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-083",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-084",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-085",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-086",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-087",
+    "severity": "high",
+    "tool_trace": [
+      "emergency"
+    ],
+    "tool_source": "severity_rule",
+    "rag_preview": "",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-088",
+    "severity": "low",
+    "tool_trace": [
+      "otc_knowledge"
+    ],
+    "tool_source": "otc_knowledge",
+    "rag_preview": "효과: 열과 두통, 몸살, 치통 같은 통증 완화에 쓰입니다.\n복용: 일반 성인 기준으로는 보통 500mg 1",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-089",
+    "severity": "low",
+    "tool_trace": [
+      "otc_knowledge"
+    ],
+    "tool_source": "otc_knowledge",
+    "rag_preview": "효과: 열과 두통, 몸살, 치통 같은 통증 완화에 쓰입니다.\n복용: 일반 성인 기준으로는 보통 500mg 1",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-090",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "혈압약과 감기약은 함께 복용 시 주의가 필요할 수 있습니다. 정확한 복용 가능 여부는 약사 또는 의료진 상담",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-091",
+    "severity": "low",
+    "tool_trace": [
+      "rag"
+    ],
+    "tool_source": "rag_service",
+    "rag_preview": "당뇨약과 소화제은 함께 복용 시 주의가 필요할 수 있습니다. 정확한 복용 가능 여부는 약사 또는 의료진 상담",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-092",
+    "severity": "low",
+    "tool_trace": [
+      "otc_knowledge"
+    ],
+    "tool_source": "otc_knowledge",
+    "rag_preview": "효과: 두통, 근육통, 생리통처럼 염증이나 통증이 있을 때 자주 쓰입니다.\n복용: 일반 성인 기준으로는 보통",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-093",
+    "severity": "low",
+    "tool_trace": [
+      "otc_knowledge"
+    ],
+    "tool_source": "otc_knowledge",
+    "rag_preview": "효과: 콧물, 기침, 목아픔, 몸살처럼 여러 감기 증상이 함께 있을 때 사용할 수 있습니다.\n복용: 제품마다",
+    "hospital_count": 0
+  },
+  {
+    "session_id": "mock-094",
+    "severity": "low",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-095",
+    "severity": "low",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-096",
+    "severity": "low",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-097",
+    "severity": "low",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-098",
+    "severity": "medium",
+    "tool_trace": [
+      "hospital_search"
+    ],
+    "tool_source": "hospital_search",
+    "rag_preview": "",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-099",
+    "severity": "medium",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "무릎 통증은 정형외과 진료가 가능하며, 관절염이나 연골·인대 문제와 관련될 수 있습니다. 우선적으로는 정형외",
+    "hospital_count": 5
+  },
+  {
+    "session_id": "mock-100",
+    "severity": "medium",
+    "tool_trace": [
+      "rag",
+      "hospital_search"
+    ],
+    "tool_source": "rag_service+hospital_search",
+    "rag_preview": "허리 통증은 정형외과 진료가 가능하며, 디스크나 근육성 통증과 관련될 수 있습니다. 우선적으로는 정형외과 진",
+    "hospital_count": 5
+  }
+]

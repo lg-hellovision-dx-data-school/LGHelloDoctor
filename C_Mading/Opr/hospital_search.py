@@ -3,7 +3,7 @@ from Opr.hospital_rules import get_department_keyword
 from Opr.hospital_dummy_backend import search_hospital_dummy
 from Opr.hospital_api_kakao import search_places_by_keyword
 from Opr.hospital_api_hybrid import search_hospital_hybrid
-from Opr.config import HOSPITAL_SEARCH_BACKEND
+from Opr.config import HOSPITAL_SEARCH_BACKEND, HOSPITAL_SEARCH_SIZE
 
 
 def build_search_params(payload: CInputPayload, severity: str = "low") -> dict:
@@ -41,23 +41,27 @@ def search_hospital(payload: CInputPayload, severity: str = "low") -> list:
     target = params["target"]
 
     if HOSPITAL_SEARCH_BACKEND == "dummy":
-        return search_hospital_dummy(keyword)
+     return search_hospital_dummy(keyword)
 
     if HOSPITAL_SEARCH_BACKEND == "kakao":
-        return search_places_by_keyword(
-            keyword=keyword,
-            location=location,
-            radius=radius,
-            size=5,
-        )
+     return search_places_by_keyword(
+        keyword=keyword,
+        location=location,
+        radius=radius,
+        size=HOSPITAL_SEARCH_SIZE,
+    )
 
     if HOSPITAL_SEARCH_BACKEND == "hybrid":
-        return search_hospital_hybrid(
-            keyword=keyword,
-            location=location,
-            radius=radius,
-            size=5,
-            target=target,
+        try:
+            return search_hospital_hybrid(
+                keyword=keyword,
+                location=location,
+                radius=radius,
+                size=HOSPITAL_SEARCH_SIZE,
+                target=target,
         )
+        except Exception as e:
+            print("DEBUG hospital hybrid fallback:", e)
+            return search_hospital_dummy(keyword)
 
     return []
