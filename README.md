@@ -1,282 +1,134 @@
-# 의료 특화 음성 AI 에이전트 — 시나리오
+# LG HelloDoctor — C팀 RAG 파이프라인
 
-> **대상 사용자**: 노인 (고령층)  
-> **입력 방식**: 음성 (AI 스피커)  
-> **플랫폼**: LG HelloVision AI 스피커
+> **역할**: B팀(STT·NLU)에서 넘어온 의도/개체 정보를 받아 → RAG 검색 + 병원 추천 + 응급 판단 → 결과 반환
 
 ---
 
-## 시나리오 A — 증상 문의 + 병원 검색
+## 담당 작업 요약
 
-> "무릎이 너무 아파요. 어디 가야 하나요?"
+### 1. RAG 파이프라인 구축 (`C_rag.ipynb`)
 
----
+국가건강정보포털에서 질환 정보를 크롤링해 ChromaDB 벡터 DB를 구성하고, 사용자 질문에 맞는 문서를 검색하는 RAG 파이프라인을 구현했다.
 
-### Step 1 · 음성 입력
+| 단계 | 내용 |
+|------|------|
+| 크롤링 | 국가건강정보포털 15개 질환 정보 수집 (무릎관절염, 고혈압, 당뇨병 등) |
+| 보완 문서 | 크롤링 실패 대비 수기 문서 16건 (증상-진료과, 복약 안내, 응급 안내) |
+| 임베딩 | `jhgan/ko-sroberta-multitask` 한국어 임베딩 모델 사용 |
+| 벡터 DB | ChromaDB (cosine similarity, PersistentClient) |
+| 검색 | Query Rewriting + Vector Search + Reranking |
+| 병원 검색 | Kakao Local API (위치 기반 근처 병원) + HIRA 공공 API (진료과별 병원) |
+| 응급 판단 | 심각도 점수 기반 3단계 분류 (low / medium / high) |
 
-- AI 스피커 내장 원거리 마이크(far-field)로 음성 수신
-- 사용자가 멀리서 말해도 감지 가능
-- 항상 대기 상태로 Wake word 감지 후 녹음 시작
-
-```
-[입력 방식]
-대기 상태 → Wake word 감지 ("헬로비") → 녹음 시작
-
-[입력 음성]
-"무릎이 너무 아파요. 어디 가야 하나요?"
-```
-
----
-
-### Step 2 · Wake word 감지 + Whisper STT
-
-- Wake word 감지 후 자동으로 녹음 시작
-- `whisper-large-v3` 모델로 음성 → 텍스트 변환
-- 노인 한국어 음성 데이터(AI Hub)로 파인튜닝
-- VAD 필터로 침묵 구간 자동 제거
-
-```
-[Wake word]
-감지어: "헬로비"
-대기 전력: 저전력 모드
-
-[STT 결과]
-텍스트: "무릎이 너무 아파요. 어디 가야 하나요?"
-신뢰도: 0.94
-언어:   ko
-```
+#### 크롤링 URL 변경 이력
+- **구버전** (404): `GET gnrlzHealthInfoMain.do?cntnts_sn=XXXX`
+- **현재** (정상): `POST gnrlzHealthInfoView.do` + `cntnts_sn` 파라미터
+- 2026년 4월 기준 국가건강정보포털 URL 구조 변경에 따라 새 ID로 업데이트
 
 ---
 
-### Step 3 · 텍스트 전처리
+### 2. FastAPI 서비스 (`C_Mading/Opr/`)
 
-- 간투어(어~, 음~) 및 반복 어절 제거
-- 의료 용어 오탈자 자동 보정
-- 문장 정규화
+B팀 출력을 입력으로 받아 RAG + 병원 검색 + 응급 판단을 실행하고 결과를 반환하는 REST API.
 
 ```
-[전처리 전] "무릎이 너무 아파요 어디 가야 하나요"
-[전처리 후] "무릎 통증. 진료 병원 문의"
+POST /pipeline/tools
+GET  /health
 ```
 
----
-
-### Step 4 · 의도 분류 (Intent Classifier)
-
-- `hospital-llm` 모델이 의도와 개체(Entity)를 동시에 추출
-- 복수 의도 감지 시 두 도구 병렬 실행
-
+**입력 (B팀 → C팀)**
 ```json
 {
-  "intent": ["symptom_inquiry", "hospital_search"],
-  "confidence": 0.91,
+  "session_id": "abc123",
+  "input_text": "무릎이 너무 아파요",
+  "intent": ["symptom_inquiry"],
   "entities": {
     "symptom": "무릎 통증",
     "body_part": "무릎",
     "location": null,
-    "emergency": false
+    "emergency": false,
+    "medication_1": null,
+    "medication_2": null
   }
 }
 ```
 
-| 의도 | 감지 여부 | 비고 |
-|------|-----------|------|
-| `symptom_inquiry` | ✅ | 무릎 통증 |
-| `hospital_search` | ✅ | 근처 정형외과 |
-| `emergency` | ❌ | 응급 아님 |
-| `medication_info` | ❌ | 약 정보 미요청 |
-
----
-
-### Step 5 · 도구 실행 (Tool Router)
-
-두 도구를 병렬로 호출합니다.
-
-#### 5-1. 의료 지식 RAG
-
-- ChromaDB에서 "무릎 통증" 관련 문서 검색
-- Query Rewrite → Hybrid Search → Rerank 파이프라인
-
-```
-[RAG 검색 결과]
-"무릎 통증은 정형외과 또는 관절 전문 클리닉에서 진료 가능.
-관절염, 인대 손상, 반월연골판 손상 등 원인이 다양하며
-X-ray 또는 MRI 검사를 통해 진단합니다."
-
-출처: 증상별 진료과 매핑 v2.1
-```
-
-#### 5-2. 병원 실시간 검색 (Kakao Local API)
-
+**출력 (C팀 → 다음 단계)**
 ```json
 {
-  "keyword": "정형외과",
-  "lat": 37.5012,
-  "lng": 127.0396,
-  "category": "hospital"
+  "rag_context": "무릎관절염은 정형외과에서 진료합니다...",
+  "hospital_results": [...],
+  "severity": "low",
+  "otc_info": null
 }
 ```
 
+**모듈 구성**
+
+| 파일 | 역할 |
+|------|------|
+| `main.py` | FastAPI 앱 진입점 |
+| `router.py` | API 엔드포인트 정의 |
+| `tool_router.py` | intent에 따라 RAG / 병원검색 / 응급판단 분기 |
+| `rag_service.py` | ChromaDB 벡터 검색 (현재 더미 → 실제 연동 예정) |
+| `hospital_search.py` | 증상→진료과 매핑 + Kakao/HIRA API 호출 |
+| `severity.py` | 키워드 패턴 기반 응급도 판단 |
+| `schemas.py` | Pydantic 입출력 모델 정의 |
+| `otc_knowledge.py` | 일반의약품 안내 |
+
+---
+
+## 디렉토리 구조
+
 ```
-[검색 결과]
-1. 서울정형외과     | 0.3km | 031-123-4567 | 운영 중
-2. 연세관절클리닉   | 0.8km | 031-234-5678 | 운영 중
+LGHelloDoctor/
+├── C_rag.ipynb          # RAG 파이프라인 구축 노트북 (크롤링 → ChromaDB)
+├── RAG/
+│   └── db/              # ChromaDB 저장소
+├── C_Mading/
+│   ├── Opr/             # FastAPI 서비스 소스
+│   │   ├── main.py
+│   │   ├── router.py
+│   │   ├── tool_router.py
+│   │   ├── rag_service.py
+│   │   ├── hospital_search.py
+│   │   ├── severity.py
+│   │   ├── schemas.py
+│   │   └── otc_knowledge.py
+│   └── Std/
+│       └── test_dummy_cases.py
+└── .env                 # API 키 (KAKAO_API_KEY, DATA_API_KEY)
 ```
 
 ---
 
-### Step 6 · Ollama 의료 특화 모델 추론
+## 환경 설정
 
-- 로컬 `hospital-llm:latest` (llama3.2 + LoRA 파인튜닝)
-- RAG 컨텍스트 + 병원 검색 결과를 합쳐 답변 생성
-- 신뢰도 0.7 미만 시 Groq (llama-3.3-70b) fallback
-
+```bash
+pip install chromadb sentence-transformers requests beautifulsoup4 python-dotenv fastapi uvicorn
 ```
-[시스템 프롬프트]
-"당신은 노인 환자를 위한 의료 안내 AI입니다.
-쉬운 말로 3문장 이내로 답하세요."
 
-[생성 답변 (raw)]
-"무릎이 아프시면 정형외과에 가시면 됩니다.
-가까운 서울정형외과 전화번호는 031-123-4567입니다.
-걷기 많이 힘드시면 119에 전화하세요."
+**.env 파일**
 ```
+KAKAO_API_KEY=your_kakao_key
+DATA_API_KEY=your_hira_key
+```
+
+**서버 실행**
+```bash
+cd C_Mading
+uvicorn Opr.main:app --reload
+```
+
+**RAG DB 구축**
+`C_rag.ipynb` 셀을 순서대로 실행 (Cell 1 → 마지막)
 
 ---
 
-### Step 7 · 응답 포맷터 (노인 모드)
+## 사용 외부 API
 
-프롬프트가 아닌 코드 레벨에서 강제 적용합니다.
-
-| 규칙 | 설정값 |
-|------|--------|
-| 최대 문장 수 | 3문장 |
-| 문장당 최대 글자 | 30자 |
-| 구조 | 결론 → 이유 → 행동 |
-| 금지 단어 | 예후, 처방전, 투약, 병변 |
-| 어조 | 존댓말 강제 |
-| 시각 요소 | 제거 (화면 없음) |
-
-```
-[포맷 적용 후]
-
-정형외과에 가세요.
-무릎 통증 전문입니다.
-전화번호는 공삼일, 일이삼, 사오육칠입니다.
-```
-
----
-
-### Step 8 · TTS 음성 출력
-
-- AI 스피커 스피커로 음성 출력 (화면 없음, 음성만)
-- 속도 0.85x, 볼륨 high, 문장 사이 0.5초 pause 삽입
-- 숫자는 한글 발음으로 변환
-- 링크·지도 등 시각 요소 없이 전화번호를 말로만 안내
-
-```
-[TTS 발화 순서]
-
-"정형외과에 가세요."
-(0.5초 pause)
-"무릎 통증 전문입니다."
-(0.5초 pause)
-"전화번호는 공삼일, 일이삼, 사오육칠입니다."
-```
-
----
-
-## 시나리오 B — 응급 상황
-
-> "가슴이 너무 아프고 숨이 안 쉬어져요"
-
----
-
-### 분기 처리
-
-Step 4 의도 분류에서 `emergency` 감지 즉시 **RAG · LLM 건너뜀**.
-
-```json
-{
-  "intent": "emergency",
-  "confidence": 0.97,
-  "entities": {
-    "symptom": "흉통, 호흡곤란",
-    "severity": "high"
-  }
-}
-```
-
-```
-[응급 핸들러 즉시 실행]
-
-심각도: HIGH
-행동:   119 즉시 연결 안내
-LLM:    건너뜀 (지연 최소화)
-```
-
-```
-[TTS 출력]
-
-"119에 바로 전화하세요."
-(0.3초 pause)
-"지금 바로 전화하세요."
-```
-
----
-
-## 시나리오 C — 약 정보 문의
-
-> "혈압약이랑 감기약 같이 먹어도 되나요?"
-
----
-
-### 분기 처리
-
-`medication_info` 의도 감지 → 병원 검색 없이 **RAG만 단독 실행**.
-
-```json
-{
-  "intent": "medication_info",
-  "confidence": 0.88,
-  "entities": {
-    "medication_1": "혈압약",
-    "medication_2": "감기약",
-    "query_type": "drug_interaction"
-  }
-}
-```
-
-```
-[RAG 검색]
-소스: 의약품 복용 안내 DB
-
-결과: "혈압약 종류에 따라 감기약(NSAIDs 계열)과
-병용 시 혈압 상승 위험이 있습니다.
-복용 전 담당 의사 또는 약사에게 확인하세요."
-```
-
-```
-[TTS 출력]
-
-"같이 드시면 안 될 수 있어요."
-(0.5초 pause)
-"약사 선생님께 꼭 물어보세요."
-(0.5초 pause)
-"가까운 약국 전화번호는 공삼일, 삼사오, 육칠팔구입니다."
-```
-
----
-
-## 전체 시나리오 비교
-
-| 구분 | 시나리오 A | 시나리오 B | 시나리오 C |
-|------|-----------|-----------|-----------|
-| 발화 예시 | 무릎이 아파요 | 가슴이 아프고 숨이 안 쉬어져 | 약 같이 먹어도 되나요 |
-| 감지 의도 | symptom + hospital | emergency | medication_info |
-| RAG 실행 | ✅ | ❌ (스킵) | ✅ |
-| 병원 검색 | ✅ | ❌ (스킵) | ✅ (약국) |
-| LLM 추론 | ✅ | ❌ (스킵) | ✅ |
-| TTS 출력 | ✅ | ✅ (즉시) | ✅ |
-| 시각 출력 | ❌ (음성만) | ❌ (음성만) | ❌ (음성만) |
-| 응답 시간 | ~2–3초 | ~0.5초 | ~2초 |
+| API | 용도 |
+|-----|------|
+| [국가건강정보포털](https://health.kdca.go.kr) | 질환 정보 크롤링 |
+| Kakao Local API | 위치 기반 근처 병원 검색 |
+| HIRA 공공데이터 API | 진료과별 병원 목록 |
