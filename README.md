@@ -82,22 +82,28 @@ GET  /health
 
 ```
 LGHelloDoctor/
-├── C_rag.ipynb          # RAG 파이프라인 구축 노트북 (크롤링 → ChromaDB)
+├── C_rag.ipynb                    # RAG 파이프라인 구축 노트북 (크롤링 → ChromaDB)
 ├── RAG/
-│   └── db/              # ChromaDB 저장소
+│   └── db/                        # ChromaDB 저장소
 ├── C_Mading/
-│   ├── Opr/             # FastAPI 서비스 소스
-│   │   ├── main.py
-│   │   ├── router.py
-│   │   ├── tool_router.py
-│   │   ├── rag_service.py
-│   │   ├── hospital_search.py
-│   │   ├── severity.py
-│   │   ├── schemas.py
-│   │   └── otc_knowledge.py
-│   └── Std/
-│       └── test_dummy_cases.py
-└── .env                 # API 키 (KAKAO_API_KEY, DATA_API_KEY)
+│   ├── Opr/                       # C파트 핵심 서비스 로직
+│   │   ├── main.py                # FastAPI 앱 진입점
+│   │   ├── router.py              # API 엔드포인트 정의
+│   │   ├── rag_versions.py        # V1~V6 버전별 예측 로직
+│   │   ├── rag_service.py         # 증상/복약 안내 응답 생성
+│   │   ├── chroma_client.py       # ChromaDB 컬렉션 및 임베딩 설정
+│   │   ├── chroma_loader.py       # 내부 seed 문서 적재
+│   │   ├── crawl_official_docs.py # 공공 의료정보 크롤링 및 벡터DB 추가
+│   │   ├── run_rag_eval.py        # 평가 실행
+│   │   ├── rag_eval_config.py     # 평가 버전 설정
+│   │   ├── severity.py            # 응급도 판단
+│   │   ├── schemas.py             # 입출력 스키마 정의
+│   │   ├── hospital_*             # 병원 검색 및 외부 API 관련 모듈
+│   │   ├── otc_*                  # 일반의약품 안내 관련 모듈
+│   │   └── tool_*                 # 도구 라우팅 및 핸들러 모듈
+│   └── Std/                       # 테스트 및 보조 스크립트
+│        └──test_dummy_cases.py    # 테스트 더미데이터
+└── .env                           # 환경 변수 및 API 키
 ```
 
 ---
