@@ -69,12 +69,22 @@ GET  /health
 |------|------|
 | `main.py` | FastAPI 앱 진입점 |
 | `router.py` | API 엔드포인트 정의 |
-| `tool_router.py` | intent에 따라 RAG / 병원검색 / 응급판단 분기 |
-| `rag_service.py` | ChromaDB 벡터 검색 (현재 더미 → 실제 연동 예정) |
-| `hospital_search.py` | 증상→진료과 매핑 + Kakao/HIRA API 호출 |
-| `severity.py` | 키워드 패턴 기반 응급도 판단 |
+| `tool_router.py` | intent에 따라 RAG / 병원검색 / 응급판단 / 복약안내 분기 |
+| `rag_versions.py` | V1~V6 버전별 예측 로직 및 성능 실험 |
+| `rag_service.py` | 증상 안내 / 복약 안내용 RAG 응답 생성 |
+| `chroma_client.py` | ChromaDB 컬렉션 생성 및 임베딩 모델 설정 |
+| `chroma_loader.py` | 내부 seed 문서 생성 및 ChromaDB 적재 |
+| `crawl_official_docs.py` | 공공 의료정보 크롤링 및 벡터DB 보조 문서 추가 |
+| `run_rag_eval.py` | RAG 버전별 평가 실행 |
+| `rag_eval_config.py` | 평가 대상 버전(V1~V6) 설정 |
+| `hospital_search.py` | 증상→진료과 매핑 및 병원 검색 통합 로직 |
+| `severity.py` | 키워드/규칙 기반 응급도 판단 |
 | `schemas.py` | Pydantic 입출력 모델 정의 |
-| `otc_knowledge.py` | 일반의약품 안내 |
+| `otc_knowledge.py` | 일반의약품(OTC) 안내 지식 |
+| `hospital_*` | HIRA / Kakao / Hybrid 기반 병원 검색 보조 모듈 |
+| `otc_*` | 일반의약품 데이터, 매칭, 포맷팅 관련 모듈 |
+| `tool_handlers.py` | 도구 실행 세부 처리 로직 |
+| `result_saver.py` | 평가 결과 저장 |
 
 ---
 
@@ -123,7 +133,7 @@ DATA_API_KEY=your_hira_key
 **서버 실행**
 ```bash
 cd C_Mading
-uvicorn Opr.main:app --reload
+python -m uvicorn Opr.main:app --reload
 ```
 
 **RAG DB 구축**
