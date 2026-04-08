@@ -1,18 +1,18 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo } from 'react'
+import { useGeolocation } from '../../hooks/useGeolocation'
 import { useMedicalChat } from '../../hooks/useMedicalChat'
 import { useVoiceInput } from '../../hooks/useVoiceInput'
-import type { InputMode } from '../../types/chat'
 import { ChatCard, ChatCardBody } from './ChatCard'
 import { ChatHeader } from './ChatHeader'
 import { ChatLayout } from './ChatLayout'
 import { ChatMessageList } from './ChatMessageList'
-import { InputModeToggle } from './InputModeToggle'
-import { TextComposer } from './TextComposer'
+import { HospitalInfoPanel } from './HospitalInfoPanel'
+import { ServiceDisclaimer } from './ServiceDisclaimer'
 import { VoiceInputPanel } from './VoiceInputPanel'
 
 export function MedicalChatScreen() {
-  const { messages, appendUserMessage, isSending } = useMedicalChat()
-  const [mode, setMode] = useState<InputMode>('voice')
+  const { lat, lng } = useGeolocation()
+  const { messages, appendUserMessage, isSending } = useMedicalChat({ lat, lng })
 
   const onVoiceResult = useCallback(
     (text: string) => {
@@ -43,51 +43,46 @@ export function MedicalChatScreen() {
 
   const hasChat = messages.length > 0
 
+  const latestHospitals = useMemo(() => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      const m = messages[i]
+      if (m.role === 'assistant') {
+        return m.hospitals ?? []
+      }
+    }
+    return []
+  }, [messages])
+
   return (
-    <ChatLayout>
-      <ChatCard>
-        <ChatHeader />
-        <InputModeToggle mode={mode} onChange={setMode} />
-        <ChatCardBody>
-          {hasChat && <ChatMessageList messages={messages} />}
+    <ChatLayout
+      chat={
+        <ChatCard>
+          <ChatHeader />
+          <ChatCardBody>
+            {hasChat && <ChatMessageList messages={messages} />}
 
-          {!hasChat && mode === 'voice' && (
-            <VoiceInputPanel
-              listening={listening}
-              onPress={handleMicToggle}
-              variant="hero"
-              disabled={isSending}
-              notice={voiceNotice}
-            />
-          )}
-
-          {!hasChat && mode === 'text' && (
-            <TextComposer
-              onSend={appendUserMessage}
-              layout="centered"
-              disabled={isSending}
-            />
-          )}
-
-          {hasChat && mode === 'voice' && (
-            <VoiceInputPanel
-              listening={listening}
-              onPress={handleMicToggle}
-              variant="compact"
-              disabled={isSending}
-              notice={voiceNotice}
-            />
-          )}
-
-          {hasChat && mode === 'text' && (
-            <TextComposer
-              onSend={appendUserMessage}
-              layout="footer"
-              disabled={isSending}
-            />
-          )}
-        </ChatCardBody>
-      </ChatCard>
-    </ChatLayout>
+            {!hasChat ? (
+              <VoiceInputPanel
+                listening={listening}
+                onPress={handleMicToggle}
+                variant="hero"
+                disabled={isSending}
+                notice={voiceNotice}
+              />
+            ) : (
+              <VoiceInputPanel
+                listening={listening}
+                onPress={handleMicToggle}
+                variant="compact"
+                disabled={isSending}
+                notice={voiceNotice}
+              />
+            )}
+          </ChatCardBody>
+          <ServiceDisclaimer />
+        </ChatCard>
+      }
+      hospitalInfo={<HospitalInfoPanel hospitals={latestHospitals} />}
+    />
   )
 }

@@ -3,17 +3,19 @@ import { postChat } from '../api/chat'
 import type { ChatMessage } from '../types/chat'
 
 const SESSION_ID = 'test_01'
-const DEFAULT_LAT = 37.5012
-const DEFAULT_LNG = 127.0396
 
 function randomId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
 }
 
-export function useMedicalChat() {
+type GeoCoords = { lat: number; lng: number }
+
+export function useMedicalChat(coords: GeoCoords) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isSending, setIsSending] = useState(false)
   const sendingRef = useRef(false)
+  const coordsRef = useRef(coords)
+  coordsRef.current = coords
 
   const appendUserMessage = useCallback(async (content: string) => {
     const trimmed = content.trim()
@@ -31,19 +33,23 @@ export function useMedicalChat() {
     setMessages((prev) => [...prev, userMsg])
 
     try {
-      const answer = await postChat({
+      const { lat, lng } = coordsRef.current
+      const res = await postChat({
         text: trimmed,
         session_id: SESSION_ID,
-        lat: DEFAULT_LAT,
-        lng: DEFAULT_LNG,
+        lat,
+        lng,
       })
       setMessages((prev) => [
         ...prev,
         {
           id: randomId(),
           role: 'assistant',
-          content: answer,
+          content: res.answer,
           createdAt: Date.now(),
+          hospitals: res.hospitals.length ? res.hospitals : undefined,
+          emergency: res.emergency ?? null,
+          intent: res.intent,
         } satisfies ChatMessage,
       ])
     } catch (err) {

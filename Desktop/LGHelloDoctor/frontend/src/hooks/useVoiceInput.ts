@@ -97,7 +97,7 @@ export function useVoiceInput(
     const Ctor = getSpeechRecognitionCtor()
     if (!Ctor) {
       const msg =
-        '이 브라우저는 음성 인식을 지원하지 않습니다. Chrome 또는 Microsoft Edge에서 시도하거나 텍스트 입력을 이용해 주세요.'
+        '이 브라우저는 음성 인식을 지원하지 않습니다. Chrome 또는 Microsoft Edge에서 시도해 주세요.'
       setVoiceError(msg)
       onErrorRef.current?.(msg)
       return

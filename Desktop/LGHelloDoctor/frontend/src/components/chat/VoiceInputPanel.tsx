@@ -1,3 +1,4 @@
+import { ASSISTANT_NICKNAME } from '../../brand'
 import { IconMic } from './icons'
 import styles from './VoiceInputPanel.module.css'
 
@@ -41,10 +42,10 @@ export function VoiceInputPanel({
         </div>
         <p className={styles.compactHint}>
           {disabled
-            ? 'AI 응답을 기다리는 중입니다.'
+            ? `${ASSISTANT_NICKNAME} 응답을 기다리는 중입니다.`
             : listening
               ? '듣고 있어요. 말씀이 끝나면 잠시만 기다려 주세요.'
-              : '마이크를 눌러 증상을 말씀해 주세요.'}
+              : `${ASSISTANT_NICKNAME}에게 마이크를 눌러 증상을 말씀해 주세요.`}
         </p>
       </div>
     )
@@ -71,10 +72,10 @@ export function VoiceInputPanel({
       </button>
       <p className={styles.hint}>
         {disabled
-          ? 'AI 응답을 기다리는 중입니다.'
+          ? `${ASSISTANT_NICKNAME} 응답을 기다리는 중입니다.`
           : listening
             ? '듣고 있습니다. 증상을 천천히 말씀해 주세요.'
-            : '마이크 버튼을 눌러 증상을 말씀해주세요'}
+            : `마이크를 눌러 ${ASSISTANT_NICKNAME}에게 증상을 말씀해 주세요`}
       </p>
     </div>
   )

@@ -8,6 +8,27 @@
   justify-content: flex-end;
 }
 
+.assistantColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 100%;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.emergencyBanner {
+  margin: 0;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.625rem;
+  font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+  font-weight: 600;
+  line-height: 1.45;
+  color: #fff;
+  background: var(--chat-primary);
+  border: 1px solid var(--chat-primary);
+}
+
 .bubble {
   max-width: min(100%, 28rem);
   padding: clamp(0.75rem, 2.5vw, 1rem) clamp(1rem, 3vw, 1.25rem);

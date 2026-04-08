@@ -1,4 +1,5 @@
 import { type FormEvent, useState } from 'react'
+import { ASSISTANT_NICKNAME } from '../../brand'
 import { IconSend } from './icons'
 import styles from './TextComposer.module.css'
 
@@ -35,7 +36,8 @@ export function TextComposer({
   return (
     <form className={formClass} onSubmit={onSubmit}>
       <p className={styles.hint}>
-        증상을 적어 주시면 AI가 도와드립니다. 전송은 버튼을 눌러 주세요.
+        증상을 적어 주시면 {ASSISTANT_NICKNAME}가 도와드립니다. 전송은 버튼을 눌러
+        주세요.
       </p>
       <div className={styles.row}>
         <label htmlFor="symptom-text" className="visually-hidden">

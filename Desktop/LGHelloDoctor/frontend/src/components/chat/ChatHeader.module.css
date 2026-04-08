@@ -2,6 +2,15 @@
   text-align: center;
 }
 
+.eyebrow {
+  margin: 0 0 clamp(0.35rem, 1.2vw, 0.5rem);
+  font-size: clamp(0.75rem, 2.4vw, 0.875rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--chat-primary);
+}
+
 .iconBox {
   width: clamp(3rem, 10vw, 3.5rem);
   height: clamp(3rem, 10vw, 3.5rem);
