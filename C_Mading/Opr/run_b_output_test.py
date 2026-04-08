@@ -4,6 +4,7 @@ from Opr.schemas import CInputPayload, InputEntities
 from Opr.tool_router import run_tools
 from Opr.test_data_loader import load_json, validate_b_output_items
 from Opr.result_saver import save_json, save_json_with_timestamp
+import re
 
 
 DEPARTMENT_WORDS = [
@@ -65,6 +66,7 @@ def infer_department_from_symptom(query: str, symptom: str | None = None, body_p
 
 
 def normalize_intent(raw_intent, query: str, entities: dict, true_intent: str | None = None) -> list[str]:
+    query = _clean_multiturn_query(query) or query
     """
     B output은 intent가 흔들릴 수 있어서 query/true_intent/엔티티를 함께 보고 보정
     병원검색 오인식을 줄이기 위해 '진료과명 + 검색표현'을 강하게 hospital_search로 보정
@@ -168,37 +170,89 @@ def normalize_intent(raw_intent, query: str, entities: dict, true_intent: str | 
     # 5) 기본값
     return ["symptom_inquiry"]
 
+DEPT_KEYWORDS = [
+    "정형외과", "내과", "이비인후과", "피부과", "치과", "안과",
+    "산부인과", "정신건강의학과", "응급실", "심장내과",
+    "소화기내과", "호흡기내과", "신경과", "비뇨의학과",
+]
+
+
+def _clean_multiturn_query(text: str) -> str:
+    text = (text or "").strip()
+    if not text:
+        return ""
+
+    # [1턴], [2턴] 같은 라벨 제거
+    text = re.sub(r"\[\d+턴\]\s*", "", text)
+
+    # [AI] 라인 제거
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    user_lines = [line for line in lines if not line.startswith("[AI]")]
+    merged = " ".join(user_lines)
+
+    # 줄 분리가 안 된 [AI] 토막도 제거
+    merged = re.sub(r"\[AI\][^\[]*", " ", merged)
+    merged = re.sub(r"\s+", " ", merged).strip()
+    return merged
+
+
+def _extract_dept_hint(value: str | None) -> str | None:
+    value = (value or "").strip()
+    if not value:
+        return None
+
+    for dept in DEPT_KEYWORDS:
+        if dept in value:
+            return dept
+    return None
+
+
+def _clean_entity_text(value: str | None) -> str | None:
+    value = (value or "").strip()
+    if not value:
+        return None
+
+    value = _clean_multiturn_query(value)
+    value = value[:80].strip()
+
+    if value in {"", "None", "null"}:
+        return None
+    return value
 
 def normalize_entities(raw_entities: dict, query: str) -> dict:
     raw_entities = raw_entities or {}
 
-    symptom = normalize_null(raw_entities.get("symptom"))
-    body_part = normalize_null(raw_entities.get("body_part"))
-    location = normalize_null(raw_entities.get("location"))
+    cleaned_query = _clean_multiturn_query(query)
 
-    # location이 사실 문장형 잡음이면 제거
-    if isinstance(location, str) and not looks_like_location_text(location):
+    symptom = _clean_entity_text(raw_entities.get("symptom"))
+    body_part = _clean_entity_text(raw_entities.get("body_part"))
+    location = _clean_entity_text(raw_entities.get("location"))
+
+    department_hint = None
+
+    # body_part / location 자리에 진료과가 잘못 들어온 경우 보정
+    dept_from_body = _extract_dept_hint(body_part)
+    dept_from_loc = _extract_dept_hint(location)
+
+    department_hint = dept_from_body or dept_from_loc
+
+    if dept_from_body:
+        body_part = None
+    if dept_from_loc:
         location = None
 
-    # body_part에 진료과명이 들어온 경우는 실제 body_part로 쓰기 애매하니 제거
-    dept_hint_from_body = extract_department_hint(body_part) if isinstance(body_part, str) else None
-    if dept_hint_from_body:
-        body_part = None
+    # symptom에 멀티턴 조각이 그대로 들어간 경우 query 기준으로 보정
+    if symptom and ("[1턴]" in symptom or "[AI]" in symptom or "[2턴]" in symptom):
+        symptom = None
 
-    # query나 symptom에서 진료과 힌트 추출
-    dept_hint = extract_department_hint(query) or extract_department_hint(symptom or "")
-
-    # 약 관련 쿼리는 medication_1, medication_2를 추정할 수 없으면 일단 비워둠
-    medication_1 = normalize_null(raw_entities.get("medication_1"))
-    medication_2 = normalize_null(raw_entities.get("medication_2"))
+    if not symptom and cleaned_query:
+        symptom = cleaned_query[:80]
 
     return {
         "symptom": symptom,
         "body_part": body_part,
-        "location": location or "서울 강남구",
-        "medication_1": medication_1,
-        "medication_2": medication_2,
-        "department_hint": dept_hint,
+        "location": location,
+        "department_hint": department_hint,
     }
 
 
@@ -250,7 +304,7 @@ def summarize_result(item: dict, result: dict) -> dict:
 
 
 def run_b_output_test(
-    input_filepath: str = "b_output_1000.json",
+    input_filepath: str = "b_output_700.json",
     save_prefix: str = "b_output_test_result",
     limit: int | None = None,
     verbose: bool = True,
