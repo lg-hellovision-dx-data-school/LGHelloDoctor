@@ -2,15 +2,29 @@ import { useCallback, useMemo, useRef, useState } from 'react'
 import { postChat } from '../api/chat'
 import type { ChatMessage } from '../types/chat'
 
-const SESSION_ID = 'test_01'
+const SESSION_KEY = 'lghellodoctor_session_id'
 
 function randomId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
 }
 
+function getOrCreateSessionId(): string {
+  const fallback = `web-${randomId()}`
+  if (typeof window === 'undefined') return fallback
+  try {
+    const existing = window.sessionStorage.getItem(SESSION_KEY)?.trim()
+    if (existing) return existing
+    window.sessionStorage.setItem(SESSION_KEY, fallback)
+    return fallback
+  } catch {
+    return fallback
+  }
+}
+
 type GeoCoords = { lat: number; lng: number }
 
 export function useMedicalChat(coords: GeoCoords) {
+  const sessionIdRef = useRef(getOrCreateSessionId())
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isSending, setIsSending] = useState(false)
   const sendingRef = useRef(false)
@@ -36,7 +50,7 @@ export function useMedicalChat(coords: GeoCoords) {
       const { lat, lng } = coordsRef.current
       const res = await postChat({
         text: trimmed,
-        session_id: SESSION_ID,
+        session_id: sessionIdRef.current,
         lat,
         lng,
       })
@@ -50,6 +64,7 @@ export function useMedicalChat(coords: GeoCoords) {
           hospitals: res.hospitals.length ? res.hospitals : undefined,
           emergency: res.emergency ?? null,
           intent: res.intent,
+          ttsUrl: res.ttsUrl,
         } satisfies ChatMessage,
       ])
     } catch (err) {

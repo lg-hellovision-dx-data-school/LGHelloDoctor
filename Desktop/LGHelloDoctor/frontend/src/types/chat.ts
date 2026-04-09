@@ -24,6 +24,8 @@ export type ChatMessage = {
   hospitals?: Hospital[]
   emergency?: EmergencyInfo | null
   intent?: string
+  /** 백엔드 TTS 오디오 URL이 있으면 브라우저에서 재생 후 연속 대화 녹음을 이어갑니다. */
+  ttsUrl?: string
 }
 
 export type ChatApiResponse = {
@@ -31,6 +33,7 @@ export type ChatApiResponse = {
   intent?: string
   hospitals: Hospital[]
   emergency?: EmergencyInfo | null
+  ttsUrl?: string
 }
 
 export type InputMode = 'voice' | 'text'

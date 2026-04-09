@@ -31,6 +31,7 @@ export function useGeolocation(): GeoState {
     }
 
     let cancelled = false
+    let watchId: number | null = null
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -48,8 +49,30 @@ export function useGeolocation(): GeoState {
       },
     )
 
+    watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        if (cancelled) return
+        const { lat, lng } = readCoords(position)
+        setState((prev) => {
+          if (prev.lat === lat && prev.lng === lng && prev.fromDevice) return prev
+          return { lat, lng, fromDevice: true }
+        })
+      },
+      () => {
+        /* 실시간 감시 실패 시 마지막 좌표 유지 */
+      },
+      {
+        enableHighAccuracy: true,
+        maximumAge: 15_000,
+        timeout: 10_000,
+      },
+    )
+
     return () => {
       cancelled = true
+      if (watchId != null) {
+        navigator.geolocation.clearWatch(watchId)
+      }
     }
   }, [])
 

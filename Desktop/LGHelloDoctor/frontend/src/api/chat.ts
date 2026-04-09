@@ -2,18 +2,19 @@ import { SERVICE_NAME } from '../brand'
 import type { ChatApiResponse, EmergencyInfo, Hospital } from '../types/chat'
 
 /**
- * 채팅 API — 브라우저가 **항상** 이 주소로 직접 POST 합니다. (/api/chat 사용 안 함)
- * ngrok 주소가 바뀌면 아래 CHAT_API_URL 만 수정하면 됩니다.
+ * 기본 채팅 API URL.
+ * 가급적 .env 의 VITE_CHAT_API_URL 사용을 권장합니다.
  */
-export const CHAT_API_URL =
-  'https://johanne-crystallographic-miguelina.ngrok-free.dev/chat'
+export const CHAT_API_URL = 'http://localhost:8000/chat'
 
 export function getChatApiUrl(): string {
   const env = import.meta.env.VITE_CHAT_API_URL?.trim()
-  if (env && /^https?:\/\//i.test(env)) {
-    return env
+  const source = env && /^https?:\/\//i.test(env) ? env : CHAT_API_URL
+  // 사용자가 ngrok base URL만 넣어도 동작하도록 /chat을 보정합니다.
+  if (/\/chat\/?$/i.test(source)) {
+    return source
   }
-  return CHAT_API_URL
+  return `${source.replace(/\/+$/, '')}/chat`
 }
 
 export type ChatRequestBody = {
@@ -49,28 +50,54 @@ function messageForHttpStatus(status: number): string {
 function parseHospitalEntry(raw: unknown): Hospital | null {
   if (typeof raw !== 'object' || raw === null) return null
   const o = raw as Record<string, unknown>
-  const name = o.name
-  const address = o.address
-  const phone = o.phone
-  const distance = o.distance
-  const navi_url = o.navi_url
-  const walk_time = o.walk_time
-  if (
-    typeof name !== 'string' ||
-    typeof address !== 'string' ||
-    typeof phone !== 'string' ||
-    typeof navi_url !== 'string' ||
-    typeof walk_time !== 'number'
-  ) {
-    return null
-  }
-  const distNum =
-    typeof distance === 'number'
-      ? distance
-      : typeof distance === 'string'
-        ? Number(distance)
+
+  const name =
+    typeof o.name === 'string'
+      ? o.name
+      : typeof o.hospital_name === 'string'
+        ? o.hospital_name
+        : typeof o.place_name === 'string'
+          ? o.place_name
+          : ''
+  if (!name.trim()) return null
+
+  const address =
+    typeof o.address === 'string'
+      ? o.address
+      : typeof o.road_address === 'string'
+        ? o.road_address
+        : typeof o.address_name === 'string'
+          ? o.address_name
+          : '주소 정보 없음'
+
+  const phone =
+    typeof o.phone === 'string'
+      ? o.phone
+      : typeof o.tel === 'string'
+        ? o.tel
+        : typeof o.telephone === 'string'
+          ? o.telephone
+          : '전화번호 정보 없음'
+
+  const distanceRaw = o.distance
+  let distNum =
+    typeof distanceRaw === 'number'
+      ? distanceRaw
+      : typeof distanceRaw === 'string'
+        ? Number(distanceRaw.replace(/[^\d.]/g, ''))
         : NaN
-  if (!Number.isFinite(distNum)) return null
+  if (!Number.isFinite(distNum)) distNum = 0
+
+  const walkRaw = o.walk_time
+  let walk_time =
+    typeof walkRaw === 'number'
+      ? walkRaw
+      : typeof walkRaw === 'string'
+        ? Number(walkRaw.replace(/[^\d.]/g, ''))
+        : NaN
+  if (!Number.isFinite(walk_time)) {
+    walk_time = Math.max(1, Math.round(distNum / 70))
+  }
 
   let drive_time: number | null = null
   if (o.drive_time === null || o.drive_time === undefined) {
@@ -82,6 +109,13 @@ function parseHospitalEntry(raw: unknown): Hospital | null {
     drive_time = Number.isFinite(d) ? d : null
   }
 
+  const navi_url =
+    typeof o.navi_url === 'string' && o.navi_url.trim()
+      ? o.navi_url
+      : typeof o.place_url === 'string' && o.place_url.trim()
+        ? o.place_url
+        : `https://map.kakao.com/link/search/${encodeURIComponent(name)}`
+
   return {
     name,
     address,
@@ -91,6 +125,21 @@ function parseHospitalEntry(raw: unknown): Hospital | null {
     drive_time,
     walk_time,
   }
+}
+
+/**
+ * 모델/백엔드가 멀티턴 디버그용으로 붙이는 표식 제거 ([1턴], [AI] 등).
+ * 근본 해결은 백엔드에서 깨끗한 `answer`만 내리는 것이 좋고, 프론트는 표시·TTS용으로 보조 정제합니다.
+ */
+export function sanitizeChatAnswer(text: string): string {
+  return text
+    .replace(/\[\s*\d+\s*턴\s*\]/gi, '')
+    .replace(/\[AI\]/gi, '')
+    .replace(/\[USER\]/gi, '')
+    .replace(/\[사용자\]/g, '')
+    .replace(/\[어시스턴트\]/gi, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
 }
 
 function parseEmergency(raw: unknown): EmergencyInfo | null {
@@ -109,29 +158,56 @@ function parseChatResponse(data: unknown): ChatApiResponse {
   if (typeof answer !== 'string' || !answer.trim()) {
     throw new Error('응답에 답변 내용이 없습니다. 잠시 후 다시 시도해 주세요.')
   }
+  const cleanedAnswer = sanitizeChatAnswer(answer)
+  if (!cleanedAnswer) {
+    throw new Error('응답에 답변 내용이 없습니다. 잠시 후 다시 시도해 주세요.')
+  }
 
   let hospitals: Hospital[] = []
   const rawH = (data as { hospitals?: unknown }).hospitals
-  if (Array.isArray(rawH)) {
-    hospitals = rawH
+  const hospitalList =
+    Array.isArray(rawH)
+      ? rawH
+      : rawH &&
+          typeof rawH === 'object' &&
+          Array.isArray((rawH as { nearby?: unknown }).nearby)
+        ? (rawH as { nearby: unknown[] }).nearby
+        : []
+  if (hospitalList.length) {
+    hospitals = hospitalList
       .map(parseHospitalEntry)
       .filter((h): h is Hospital => h !== null)
   }
 
   const emergencyRaw = (data as { emergency?: unknown }).emergency
+  const legacyIsEmergency = (data as { is_emergency?: unknown }).is_emergency
   const emergency =
     emergencyRaw === undefined || emergencyRaw === null
-      ? null
+      ? typeof legacyIsEmergency === 'boolean'
+        ? { is_emergency: legacyIsEmergency, severity: legacyIsEmergency ? 'HIGH' : 'LOW' }
+        : null
       : parseEmergency(emergencyRaw)
 
   const intentRaw = (data as { intent?: unknown }).intent
   const intent = typeof intentRaw === 'string' ? intentRaw : undefined
 
+  const d = data as {
+    tts_url?: unknown
+    tts_audio_url?: unknown
+    audio_url?: unknown
+  }
+  const ttsRaw = d.tts_url ?? d.tts_audio_url ?? d.audio_url
+  const ttsUrl =
+    typeof ttsRaw === 'string' && /^https?:\/\//i.test(ttsRaw.trim())
+      ? ttsRaw.trim()
+      : undefined
+
   return {
-    answer: answer.trim(),
+    answer: cleanedAnswer,
     intent,
     hospitals,
     emergency: emergency ?? undefined,
+    ttsUrl,
   }
 }
 

@@ -1,7 +1,7 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useGeolocation } from '../../hooks/useGeolocation'
 import { useMedicalChat } from '../../hooks/useMedicalChat'
-import { useVoiceInput } from '../../hooks/useVoiceInput'
+import { useWakeWord } from '../../hooks/useWakeWord'
 import { ChatCard, ChatCardBody } from './ChatCard'
 import { ChatHeader } from './ChatHeader'
 import { ChatLayout } from './ChatLayout'
@@ -16,30 +16,76 @@ export function MedicalChatScreen() {
 
   const onVoiceResult = useCallback(
     (text: string) => {
+      if (isSending) return
       appendUserMessage(text)
     },
-    [appendUserMessage],
+    [appendUserMessage, isSending],
   )
 
   const {
     listening,
-    start,
-    stop,
-    voiceError,
-    speechSupported,
-  } = useVoiceInput(onVoiceResult)
+    notice: voiceNotice,
+    isContinuousMode,
+    beginFollowUpRecording,
+  } = useWakeWord(onVoiceResult, { isSending })
 
-  const voiceNotice =
-    voiceError ??
-    (!speechSupported
-      ? '음성 입력은 Chrome·Microsoft Edge(데스크톱)에서 가장 잘 동작합니다. 마이크 권한을 허용해 주세요.'
-      : null)
+  const beginFollowUpRef = useRef(beginFollowUpRecording)
+  beginFollowUpRef.current = beginFollowUpRecording
+  const isContinuousRef = useRef(isContinuousMode)
+  isContinuousRef.current = isContinuousMode
+  const isSendingRef = useRef(isSending)
+  isSendingRef.current = isSending
+  const lastTtsAssistantIdRef = useRef<string | null>(null)
 
-  const handleMicToggle = () => {
-    if (isSending) return
-    if (listening) stop()
-    else start()
-  }
+  useEffect(() => {
+    if (!isContinuousMode) {
+      window.speechSynthesis.cancel()
+      lastTtsAssistantIdRef.current = null
+    }
+  }, [isContinuousMode])
+
+  useEffect(() => {
+    const last = messages[messages.length - 1]
+    if (!last || last.role !== 'assistant') return
+    if (!isContinuousMode) return
+    if (lastTtsAssistantIdRef.current === last.id) return
+    lastTtsAssistantIdRef.current = last.id
+
+    const ttsUrl = last.ttsUrl?.trim()
+    const playThenListen = () => {
+      if (isContinuousRef.current && !isSendingRef.current) {
+        beginFollowUpRef.current()
+      }
+    }
+
+    if (ttsUrl) {
+      window.speechSynthesis.cancel()
+      const audio = new Audio(ttsUrl)
+      audio.onended = playThenListen
+      audio.onerror = playThenListen
+      void audio.play().catch(playThenListen)
+      return () => {
+        audio.pause()
+        audio.removeAttribute('src')
+      }
+    }
+
+    window.speechSynthesis.cancel()
+    const text = last.content.trim()
+    if (!text) {
+      window.queueMicrotask(playThenListen)
+      return
+    }
+
+    const u = new SpeechSynthesisUtterance(text)
+    u.lang = 'ko-KR'
+    u.onend = playThenListen
+    u.onerror = playThenListen
+    window.speechSynthesis.speak(u)
+    return () => {
+      window.speechSynthesis.cancel()
+    }
+  }, [messages, isContinuousMode])
 
   const hasChat = messages.length > 0
 
@@ -64,18 +110,18 @@ export function MedicalChatScreen() {
             {!hasChat ? (
               <VoiceInputPanel
                 listening={listening}
-                onPress={handleMicToggle}
                 variant="hero"
                 disabled={isSending}
                 notice={voiceNotice}
+                passive
               />
             ) : (
               <VoiceInputPanel
                 listening={listening}
-                onPress={handleMicToggle}
                 variant="compact"
                 disabled={isSending}
                 notice={voiceNotice}
+                passive
               />
             )}
           </ChatCardBody>
