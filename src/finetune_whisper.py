@@ -16,7 +16,7 @@ LORA_ALPHA    = 64   # rank 2배 유지
 LORA_DROPOUT  = 0.05
 TRAIN_STEPS   = 1125  # 3000샘플 batch8 기준 3 epoch
 BATCH_SIZE    = 8    # 1 → 8: A100(40GB) 최적화
-LEARNING_RATE = 1e-4
+LEARNING_RATE = 5e-5  # 1e-4 → 5e-5: 발산 방지
 
 
 def load_processor_and_model():
