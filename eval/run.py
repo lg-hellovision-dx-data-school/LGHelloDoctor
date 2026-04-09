@@ -89,7 +89,7 @@ for i in range(1, len(route_results)):
 # ══════════════════════════════════════════════════════════════════════════════
 # 3. b_output_1000.json 기반 RAG 고도화 단계별 정확도
 # ══════════════════════════════════════════════════════════════════════════════
-with open('data/b_output_1000.json', encoding='utf-8') as f:
+with open('data/b_output_700.json', encoding='utf-8') as f:
     B_DATA = json.load(f)
 
 def _build_expected_kws(sample):
@@ -129,7 +129,7 @@ rag_b_meta = [
 ]
 
 print('\n' + '='*72)
-print('  RAG 고도화 단계별 정확도 — b_output_1000.json 기반')
+print('  RAG 고도화 단계별 정확도 — b_output_700.json 기반')
 print('='*72)
 print('  ※ V1은 전체 문서 스캔 특성상 100개 샘플로 측정, V2~V6는 200개 샘플 기준')
 print('-'*72)
@@ -149,3 +149,28 @@ for i in range(1, len(rag_b_results)):
     d = rag_b_results[i][1] - rag_b_results[i-1][1]
     if d != 0:
         print(f'  {rag_b_results[i-1][0]} → {rag_b_results[i][0]}:  {d:+.1f}%p')
+
+        # ══════════════════════════════════════════════════════════════════════════════
+# 4. 운영 관점 간이 sanity check
+# ══════════════════════════════════════════════════════════════════════════════
+SANITY_SAMPLES = [
+    "가슴이 답답해요",
+    "무릎이 왜 이러지",
+    "귀에서 삐 소리가 나요",
+    "속이 쓰리고 신물이 올라와요",
+    "잇몸에서 피가 나요",
+]
+
+print('\n' + '='*72)
+print('  운영 관점 Sanity Check (딴소리 여부 확인용)')
+print('='*72)
+
+for q in SANITY_SAMPLES:
+    print(f'\n[QUERY] {q}')
+    for label, fn in rag_versions:
+        try:
+            docs = fn(q)
+            preview = docs[0][:120] if docs else '(no result)'
+            print(f'  - {label}: {preview}')
+        except Exception as e:
+            print(f'  - {label}: ERROR -> {e}')

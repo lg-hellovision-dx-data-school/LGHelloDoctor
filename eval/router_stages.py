@@ -63,7 +63,7 @@ def _dept(body_part='', symptom='', query=''):
     for kw, name in SYMPTOM_DEPT_MAP.items():
         if kw in (body_part or '') or kw in (symptom or '') or kw in query:
             return name
-    return '내과'
+    return None
 
 
 # ── Router V1: intent만 사용 ───────────────────────────────────────────────────
@@ -95,14 +95,23 @@ def router_v3(s):
 def router_v4(s):
     if s.get('severity') == 'HIGH' or s['intent'] == 'emergency':
         return {'ri': 'emergency', 'dept': None}
-    t1 = s.get('turn1_text') or ''; t2 = s.get('turn2_text') or ''
+
+    t1 = s.get('turn1_text') or ''
+    t2 = s.get('turn2_text') or ''
     q  = (t1 + ' ' + t2).strip() if t2 else (s.get('query') or t1)
+
     if _emerg(q, EMERGENCY_SCORES_V2) == 'HIGH':
         return {'ri': 'emergency', 'dept': None}
+
     dept = None
     if s['intent'] in ('symptom_inquiry', 'hospital_search'):
-        e    = s.get('entities', {})
-        dept = s.get('true_dept') or _dept(e.get('body_part', ''), e.get('symptom', ''), q)
+        e = s.get('entities', {}) or {}
+        dept = _dept(
+            body_part=e.get('body_part', ''),
+            symptom=e.get('symptom', ''),
+            query=q,
+        )
+
     return {'ri': s['intent'], 'dept': dept}
 
 
