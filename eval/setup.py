@@ -14,7 +14,7 @@ load_dotenv()
 import chromadb
 from sentence_transformers import SentenceTransformer
 
-DB_PATH       = os.path.join(ROOT, 'RAG', 'db')
+DB_PATH       = os.path.join(ROOT, 'eval', 'RAG', 'db')
 chroma_client = chromadb.PersistentClient(path=DB_PATH)
 CHROMA_COLLECTION_NAME = 'medical_knowledge_v2'
 collection = chroma_client.get_collection(CHROMA_COLLECTION_NAME)

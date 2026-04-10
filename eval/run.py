@@ -1,6 +1,26 @@
 """평가 메인 실행기 — RAG V1~V6 / Router V1~V4"""
-import json, random
+import json, random, re, os
+from groq import Groq
+from dotenv import load_dotenv
+load_dotenv()
 from eval.setup import collection, embed_model
+
+_groq_client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+
+def simplify_for_elderly(text: str) -> str:
+    try:
+        res = _groq_client.chat.completions.create(
+            model='llama-3.1-8b-instant',
+            messages=[
+                {'role': 'system', 'content': '당신은 의료 정보를 어르신이 이해하기 쉽게 짧고 친절하게 바꿔주는 전문가입니다. 1~2문장으로 핵심만 쉬운 말로 설명하세요.'},
+                {'role': 'user', 'content': f'다음 의료 정보를 쉽게 설명해주세요:\n{text}'}
+            ],
+            temperature=0.3,
+            max_tokens=150,
+        )
+        return res.choices[0].message.content.strip()
+    except Exception as e:
+        return text
 from eval.rag_stages import (
     rag_v1_keyword_only, rag_v2_vector, rag_v3_rewrite,
     rag_v4_hybrid, rag_v5_rerank, rag_v6_graphrag,
@@ -159,6 +179,8 @@ SANITY_SAMPLES = [
     "귀에서 삐 소리가 나요",
     "속이 쓰리고 신물이 올라와요",
     "잇몸에서 피가 나요",
+    "머리가 아파",
+    "이가 시려",
 ]
 
 print('\n' + '='*72)
@@ -170,7 +192,13 @@ for q in SANITY_SAMPLES:
     for label, fn in rag_versions:
         try:
             docs = fn(q)
-            preview = docs[0][:120] if docs else '(no result)'
+            if docs:
+                text = docs[0]
+                matches = list(re.finditer(r'[다요죠]\.', text[:300]))
+                raw = text[:matches[-1].end()].strip() if matches else text[:120]
+                preview = simplify_for_elderly(raw)
+            else:
+                preview = '(no result)'
             print(f'  - {label}: {preview}')
         except Exception as e:
             print(f'  - {label}: ERROR -> {e}')
