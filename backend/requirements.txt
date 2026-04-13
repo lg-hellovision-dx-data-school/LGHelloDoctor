@@ -1,0 +1,30 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+python-dotenv==1.0.1
+python-multipart==0.0.9
+
+# LLM
+groq==0.11.0
+langchain-groq==0.2.0
+httpx<0.28.0
+
+# STT & Audio (CPU only)
+torch==2.3.1+cpu
+torchaudio==2.3.1+cpu
+transformers==4.44.2
+librosa==0.10.2
+soundfile==0.12.1
+numpy==1.26.4
+
+# RAG
+chromadb==1.5.5
+sentence-transformers==3.1.1
+
+# TTS
+gTTS==2.5.3
+
+# Utils
+requests==2.32.3
+pydantic==2.9.2
