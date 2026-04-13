@@ -1,0 +1,49 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+  background: var(--chat-card);
+  border-radius: clamp(1rem, 3vw, 1.5rem);
+  box-shadow: 0 0.5rem 2rem rgba(165, 0, 52, 0.07);
+  padding: clamp(1.25rem, 4vw, 1.75rem);
+  border: 1px solid var(--chat-border-soft);
+}
+
+.title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.1rem, 3vw, 1.25rem);
+  font-weight: 700;
+  color: var(--chat-text);
+  flex-shrink: 0;
+}
+
+.scroll {
+  flex: 1;
+  min-height: min(12rem, 40svh);
+  max-height: min(70svh, 36rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 0.2rem;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.placeholder {
+  margin: 0;
+  padding: clamp(1.5rem, 5vw, 2rem) clamp(0.75rem, 3vw, 1rem);
+  text-align: center;
+  font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+  line-height: 1.5;
+  color: var(--chat-muted);
+  border-radius: 0.75rem;
+  border: 1px dashed var(--chat-border);
+  background: rgba(255, 255, 255, 0.7);
+}
