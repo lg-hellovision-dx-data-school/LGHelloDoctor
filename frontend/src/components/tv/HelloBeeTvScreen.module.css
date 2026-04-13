@@ -1,0 +1,553 @@
+/* 시니어 TV: 16:9 프레임 안에 영상+UI, 천천히(약 1.3s) 전환, 고대비 */
+.root {
+  box-sizing: border-box;
+  min-height: 100svh;
+  padding: 1rem 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  background: #1a202c;
+  color: #fff;
+  line-height: 1.35;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.pageChrome {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+}
+
+.backToChat {
+  font-size: clamp(18px, 1.1rem + 0.4vw, 22px);
+  font-weight: 700;
+  color: #fef08a;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.backToChat:hover {
+  color: #fff;
+}
+
+.tvStage {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 0;
+  padding: 0.25rem 0;
+}
+
+.tvBezel {
+  box-sizing: border-box;
+  width: min(92vw, 1280px, calc((100svh - 120px) * 16 / 9));
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
+  padding: clamp(8px, 1vw, 16px);
+  background: linear-gradient(145deg, #252f3f 0%, #0f1419 55%);
+  border-radius: clamp(10px, 1.2vw, 18px);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.tvScreen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: clamp(6px, 0.8vw, 12px);
+  overflow: hidden;
+  background: #000;
+  /* block 축까지 size 로 두면 일부 브라우저에서 레이아웃 순환 이슈가 날 수 있어 inline-size 만 사용 */
+  container-type: inline-size;
+  container-name: tv;
+}
+
+.bgVideo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bgFallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(ellipse at 30% 20%, #2d3748 0%, #1a202c 55%);
+}
+
+.layerUi {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+@keyframes micPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.88;
+  }
+}
+
+/* 비상 */
+.emergencyLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(127, 29, 29, 0.92);
+  animation: emergencyPulse 1.1s ease-in-out infinite;
+}
+
+@keyframes emergencyPulse {
+  0%,
+  100% {
+    background: rgba(127, 29, 29, 0.88);
+  }
+  50% {
+    background: rgba(185, 28, 28, 0.95);
+  }
+}
+
+.emergencyBox {
+  text-align: center;
+  padding: 2rem;
+  max-width: 90cqw;
+}
+
+.emergencyTitle {
+  font-size: clamp(36px, 9cqw, 88px);
+  font-weight: 800;
+  color: #fef08a;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+}
+
+.emergencySub {
+  font-size: clamp(22px, 4.5cqw, 48px);
+  color: #fff;
+}
+
+/* TV 화면 전체 폭 안내 패널 (16:9 영역 가로 100%) — 스크롤 없이 높이 안에 맞춤 */
+.drawer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  box-sizing: border-box;
+  background: rgba(15, 20, 30, 0.99);
+  border-top: 4px solid #fef08a;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 1.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.drawerHidden {
+  transform: translateX(105%);
+}
+
+.drawerInner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  padding: clamp(0.45rem, 1.6cqw, 0.85rem) clamp(0.65rem, 2.5cqw, 1.25rem)
+    clamp(0.5rem, 1.8cqw, 0.9rem);
+  gap: clamp(0.3rem, 1.2cqw, 0.55rem);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* 오른쪽 상단: 말풍선 + 캐릭터(맨 오른쪽) — 서랍 닫힘 시 */
+.idleBubbleWrap {
+  position: absolute;
+  right: clamp(6px, 1.8cqw, 16px);
+  left: auto;
+  top: clamp(8px, 2.5cqw, 20px);
+  bottom: auto;
+  z-index: 2;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  gap: clamp(4px, 1.2cqw, 10px);
+  max-width: min(92%, 58cqw);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.idleFace {
+  flex-shrink: 0;
+  width: clamp(2.75rem, 12cqw, 4.25rem);
+  height: clamp(2.75rem, 12cqw, 4.25rem);
+  border-radius: 50%;
+  background: linear-gradient(145deg, #4a5568, #2d3748);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+  border: 2px solid rgba(254, 240, 138, 0.35);
+}
+
+.idleFaceEmoji {
+  font-size: clamp(1.5rem, 6.5cqw, 2.75rem);
+  line-height: 1;
+}
+
+.speechBubble {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  background: rgba(15, 23, 42, 0.94);
+  border: 2px solid rgba(254, 240, 138, 0.55);
+  border-radius: clamp(12px, 1.8cqw, 18px);
+  padding: clamp(8px, 2.2cqw, 14px) clamp(12px, 2.8cqw, 18px) clamp(8px, 2.2cqw, 14px)
+    clamp(10px, 2.4cqw, 16px);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* 말풍선 꼬리 — 오른쪽 얼굴 쪽으로 */
+.speechBubble::before {
+  content: '';
+  position: absolute;
+  right: -10px;
+  left: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border: 9px solid transparent;
+  border-left-color: rgba(15, 23, 42, 0.94);
+  filter: drop-shadow(1px 0 0 rgba(254, 240, 138, 0.45));
+}
+
+.speechBubbleText {
+  margin: 0;
+  text-align: left;
+  line-height: 1.45;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  hyphens: none;
+  font-size: clamp(14px, 2.8cqw, 26px);
+  font-weight: 800;
+  color: #f1f5f9;
+  letter-spacing: -0.02em;
+}
+
+.idleHintAccent {
+  color: #fef08a;
+  font-weight: 800;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
+/* 캐릭터 + 서랍 말풍선 */
+.charRow {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(6px, 1.5cqw, 10px);
+  flex-shrink: 0;
+}
+
+.drawerBubbleColumn {
+  flex: 1;
+  min-width: 0;
+  align-self: flex-start;
+  overflow: hidden;
+}
+
+.drawerSpeechBubble {
+  position: relative;
+  background: rgba(10, 14, 24, 0.98);
+  border: 2px solid rgba(254, 240, 138, 0.55);
+  border-radius: clamp(10px, 1.5cqw, 14px);
+  padding: clamp(8px, 2cqw, 12px) clamp(10px, 2.2cqw, 14px) clamp(8px, 2cqw, 12px)
+    clamp(12px, 2.5cqw, 16px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.42);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 1cqw, 8px);
+}
+
+.drawerSpeechBubble::before {
+  content: '';
+  position: absolute;
+  left: -9px;
+  top: clamp(0.85rem, 3.5cqw, 1.5rem);
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+  border-right-color: rgba(15, 23, 42, 0.94);
+  filter: drop-shadow(-1px 0 0 rgba(254, 240, 138, 0.4));
+}
+
+.drawerMic {
+  font-size: clamp(1.25rem, 4.8cqw, 1.85rem);
+  line-height: 1;
+  animation: micPulse 1.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.drawerBubbleText {
+  margin: 0;
+  font-size: clamp(12px, 2.4cqw, 22px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.35;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  max-height: clamp(4.5rem, 18cqw, 7.5rem);
+  overflow: hidden;
+  display: -webkit-box;
+  line-clamp: 5;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+
+.character {
+  position: relative;
+  width: clamp(3.25rem, 14cqw, 5.5rem);
+  height: clamp(3.25rem, 14cqw, 5.5rem);
+  border-radius: 50%;
+  background: linear-gradient(145deg, #4a5568, #2d3748);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2rem, 8cqw, 3.5rem);
+  flex-shrink: 0;
+  transition: transform 1.3s ease;
+}
+
+.characterTalking {
+  animation: charBreathe 1.4s ease-in-out infinite;
+}
+
+.characterCelebrate {
+  animation: charNod 1.8s ease;
+}
+
+@keyframes charBreathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes charNod {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(4px) rotate(-4deg);
+  }
+  50% {
+    transform: translateY(0) rotate(4deg);
+  }
+  75% {
+    transform: translateY(4px) rotate(-2deg);
+  }
+}
+
+.sparkles {
+  position: absolute;
+  inset: -8px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.characterTalking .sparkles {
+  opacity: 1;
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+.sparkles::before,
+.sparkles::after {
+  content: '✦';
+  position: absolute;
+  color: #fef08a;
+  font-size: 1.25rem;
+}
+
+.sparkles::before {
+  top: 0;
+  left: 10%;
+  animation: twinkle 1.2s ease-in-out infinite;
+}
+
+.sparkles::after {
+  bottom: 10%;
+  right: 0;
+  animation: twinkle 1.4s ease-in-out 0.3s infinite;
+}
+
+@keyframes sparkle {
+  from {
+    opacity: 0.3;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* 본문: 병원 카드 최대 3개 가로 나열 (스크롤 없음) */
+.mainPanel {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: clamp(8px, 1cqw, 12px);
+  background: rgba(8, 12, 22, 0.95);
+  padding: clamp(0.28rem, 1.1cqw, 0.5rem);
+  border: 1px solid rgba(254, 240, 138, 0.2);
+}
+
+.hospitalPanel {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.18rem, 0.75cqw, 0.32rem);
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.hospitalIntro {
+  margin: 0;
+  font-size: clamp(15px, 3.1cqw, 24px);
+  font-weight: 800;
+  color: #fef08a;
+  line-height: 1.3;
+  flex-shrink: 0;
+}
+
+.hospitalVoiceHint {
+  margin: 0;
+  font-size: clamp(14px, 2.65cqw, 20px);
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.4;
+  flex-shrink: 0;
+  opacity: 0.98;
+}
+
+.hospitalVoiceHintAccent {
+  color: #fef08a;
+  font-weight: 800;
+}
+
+.hospitalCardsRow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: clamp(4px, 1.1cqw, 9px);
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.hospitalMiniCard {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.12rem, 0.55cqw, 0.28rem);
+  padding: clamp(0.28rem, 1.1cqw, 0.48rem);
+  border: 1.5px solid rgba(254, 240, 138, 0.42);
+  border-radius: clamp(6px, 1cqw, 10px);
+  background: rgba(15, 22, 36, 0.92);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.hospitalMiniName {
+  margin: 0;
+  font-size: clamp(16px, 3.45cqw, 25px);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+  flex-shrink: 0;
+  word-break: keep-all;
+}
+
+.hospitalMiniRank {
+  color: #fef08a;
+}
+
+.hospitalMiniLine {
+  margin: 0;
+  font-size: clamp(14px, 2.85cqw, 20px);
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.35;
+  flex-shrink: 0;
+  word-break: keep-all;
+}
+
+.hospitalMiniLabel {
+  color: #fef08a;
+  font-weight: 800;
+  margin-right: 0.2em;
+}
+
+.hospitalMiniPhone {
+  margin: 0;
+  font-size: clamp(15px, 3.05cqw, 22px);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.35;
+  flex-shrink: 0;
+  word-break: keep-all;
+}
+
+.hospitalMiniHint {
+  margin: 0.1rem 0 0;
+  font-size: clamp(13px, 2.55cqw, 18px);
+  font-weight: 700;
+  color: #e2e8f0;
+  line-height: 1.45;
+  flex-shrink: 0;
+  word-break: keep-all;
+}
+
+.accentStrong {
+  color: #fef08a;
+}
+

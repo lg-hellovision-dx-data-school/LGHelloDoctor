@@ -1,0 +1,147 @@
+.notice {
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  font-size: clamp(0.9rem, 2.8vw, 1.05rem);
+  line-height: 1.45;
+  color: #4a2832;
+  background: #fff8fa;
+  border: 1px solid rgba(165, 0, 52, 0.18);
+  text-align: center;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2.5vw, 1rem);
+  flex: 1;
+  min-height: clamp(12rem, 38vw, 16rem);
+}
+
+.hint {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(0.95rem, 3vw, 1.1rem);
+  color: var(--chat-muted);
+  line-height: 1.45;
+}
+
+.micOuter {
+  width: clamp(8.5rem, 42vw, 11rem);
+  height: clamp(8.5rem, 42vw, 11rem);
+  border-radius: 50%;
+  background: var(--chat-accent-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  color: var(--chat-primary);
+  transition:
+    transform 0.15s,
+    box-shadow 0.2s;
+}
+
+.micOuter:hover {
+  box-shadow: 0 0.35rem 1.25rem var(--chat-primary-20);
+}
+
+.micOuter:active {
+  transform: scale(0.98);
+}
+
+.micOuter:focus-visible {
+  outline: 3px solid var(--chat-primary);
+  outline-offset: 4px;
+}
+
+.micOuter:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  animation: none;
+  box-shadow: none;
+}
+
+.micOuter svg {
+  width: clamp(3.5rem, 16vw, 4.5rem);
+  height: clamp(3.5rem, 16vw, 4.5rem);
+}
+
+.listening {
+  animation: pulse 1.2s ease-in-out infinite;
+  box-shadow: 0 0 0 0 var(--chat-primary-35);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--chat-primary-35);
+  }
+  70% {
+    box-shadow: 0 0 0 1rem rgba(165, 0, 52, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(165, 0, 52, 0);
+  }
+}
+
+/* Compact variant (채팅 입력창 하단) */
+.compactWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.compactRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.compactMic {
+  width: clamp(3.75rem, 14vw, 4.5rem);
+  height: clamp(3.75rem, 14vw, 4.5rem);
+  border-radius: 50%;
+  background: var(--chat-accent-bg);
+  border: none;
+  cursor: pointer;
+  color: var(--chat-primary);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+
+.compactMic:active {
+  transform: scale(0.96);
+}
+
+.compactMic:focus-visible {
+  outline: 3px solid var(--chat-primary);
+  outline-offset: 3px;
+}
+
+.compactMic:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  animation: none;
+}
+
+.compactMic.listening {
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.compactMic svg {
+  width: clamp(1.75rem, 6vw, 2.25rem);
+  height: clamp(1.75rem, 6vw, 2.25rem);
+}
+
+.compactHint {
+  margin: 0;
+  font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+  color: var(--chat-muted);
+  text-align: center;
+}
