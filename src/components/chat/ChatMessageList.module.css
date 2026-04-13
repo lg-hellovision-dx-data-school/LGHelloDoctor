@@ -1,0 +1,17 @@
+.scroll {
+  flex: 1;
+  min-height: clamp(10rem, 28svh, 18rem);
+  max-height: min(48svh, 26rem);
+  overflow-y: auto;
+  padding-right: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 2vw, 1rem);
+  -webkit-overflow-scrolling: touch;
+}
+
+.scroll:focus-visible {
+  outline: 2px solid var(--chat-primary);
+  outline-offset: 4px;
+  border-radius: 0.5rem;
+}
