@@ -44,6 +44,8 @@ def main():
     test_files = [
         "tests/test_backend.py",
         "tests/test_rag.py",
+        "tests/test_frontend.py",
+        "tests/test_ai_model.py",
     ]
 
     results = []
