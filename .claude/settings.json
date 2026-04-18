@@ -1,0 +1,57 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[하네스] Bash 실행 전 검사 중...' && if echo \"$CLAUDE_TOOL_INPUT\" | grep -qE '(rm -rf|drop table|DELETE FROM|force-push)'; then echo '[차단] 위험 명령어 감지됨' && exit 1; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[하네스] 파일 쓰기 전 — 경로 확인 중...'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[하네스] 파일 편집 완료 — backend/main.py 수정 시 pytest 실행 권장'"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[하네스] 파일 생성 완료'"
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(python -m pytest*)",
+      "Bash(docker compose*)",
+      "Bash(git status)",
+      "Bash(git log*)",
+      "Bash(git diff*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git push*)"
+    ],
+    "deny": []
+  }
+}

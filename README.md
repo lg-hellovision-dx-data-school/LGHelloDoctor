@@ -1,257 +1,214 @@
-# LGHelloDoctor — A팀: STT · 음성 파이프라인
+# LG HelloDoctor
 
-> LG HelloVision AI 스피커 기반 노인 대상 의료 음성 AI 에이전트  
-> **A팀 담당 범위**: 음성 입력 → VAD → Whisper STT → 텍스트 전처리 → B팀으로 전달
-
----
-
-## 팀 구성 및 역할
-
-| 팀 | 담당 |
-|----|------|
-| **A팀 (이 레포)** | STT · 음성 파이프라인 (음성 입력 ~ 텍스트 전처리) |
-| B팀 | 의료 LLM · 파인튜닝 (Ollama, LoRA, 의도 분류) |
-| C팀 | RAG · 도구 연동 (ChromaDB, 병원 검색, 응급 처리) |
-| D팀 | API 서버 · 응답 포맷터 · TTS (FastAPI, PostgreSQL) |
+> 시니어(어르신) 대상 음성 의료 AI 서비스
+> 음성으로 증상을 말하면 AI가 의도를 파악하고 병원 정보·의료 정보를 안내합니다.
 
 ---
 
-## A팀 파이프라인 흐름
+## 기술 스택
 
-```
-대기 상태 → Wake word 감지 ("헬로비")
-        ↓
-① 음성 입력 — 마이크 녹음 or 파일 로드
-        ↓
-② VAD 필터 — 침묵 구간 제거 (silero-vad, threshold=0.4)
-        ↓
-③ Whisper STT — 음성 → 텍스트 (Groq whisper-large-v3)
-        ↓
-④ 텍스트 전처리 — 간투어 제거 + 의료 용어 오탈자 보정(50개) + 정규화
-        ↓
-   B팀 의도 분류기로 전달
-```
-
----
-
-## 완료 현황
-
-| 항목 | 파일 | 상태 |
-|------|------|------|
-| 음성 입력 (마이크 / 파일 로드) | `src/audio_input.py` | ✅ |
-| VAD 필터 (침묵 제거) | `src/vad_filter.py` | ✅ |
-| Whisper STT (Groq API + 로컬 자동 전환) | `src/stt_module.py` | ✅ |
-| 텍스트 전처리 모듈 | `src/preprocessor.py` | ✅ |
-| 의료 용어 오탈자 보정 사전 (50개) | `src/preprocessor.py` | ✅ |
-| 파이프라인 통합 진입점 | `src/pipeline.py` | ✅ |
-| Wake word 감지 ("헬로비") | `src/wake_word.py` | ✅ 구조 완성 |
-| STT 정확도 평가 지표 (WER / CER) | `src/evaluate_stt.py` | ✅ |
-| AI Hub 데이터 가공 프레임워크 | `src/data_prep.py` | ✅ 구조 완성 |
-| 자유대화 음성(노인남녀) 데이터 가공 실행 | `data/processed/` | ✅ 완료 (훈련 80,243개 / 검증 11,202개) |
-| Whisper LoRA 파인튜닝 프레임워크 | `src/finetune_whisper.py` | ✅ 구조 완성 |
-| 단위 테스트 (20개 통과) | `tests/test_pipeline.py` | ✅ |
-
-### 남은 작업
-
-| 항목 | 조건 |
+| 영역 | 기술 |
 |------|------|
-| ~~AI Hub 데이터 다운로드 및 가공 실행~~ | ✅ 완료 |
-| Whisper 노인 한국어 파인튜닝 실행 | GPU 환경 + 가공 데이터 준비 후 `finetune_whisper.py` 실행 |
-| Wake word 실기 테스트 | 마이크 연결 환경에서 `wake_word.py` 동작 확인 |
-| 평가용 JSONL 레이블 작성 | 샘플 파일(case1~4.mp3) 정답 텍스트 작성 → WER/CER 실측 |
-| B팀과 출력 스키마 확정 | confidence 임계값 등 인터페이스 협의 |
+| **Infra** | ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white) ![Docker Compose](https://img.shields.io/badge/Docker_Compose-2496ED?style=flat&logo=docker&logoColor=white) |
+| **Backend** | ![Python](https://img.shields.io/badge/Python_3.11-3776AB?style=flat&logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white) ![PyTorch](https://img.shields.io/badge/PyTorch_CPU-EE4C2C?style=flat&logo=pytorch&logoColor=white) |
+| **AI 모델** | ![Groq](https://img.shields.io/badge/Groq_LLM-F55036?style=flat&logo=groq&logoColor=white) ![Whisper](https://img.shields.io/badge/Whisper_STT-412991?style=flat&logo=openai&logoColor=white) ![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black) |
+| **Frontend** | ![React](https://img.shields.io/badge/React_19-61DAFB?style=flat&logo=react&logoColor=black) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white) ![nginx](https://img.shields.io/badge/nginx-009639?style=flat&logo=nginx&logoColor=white) |
+| **Database** | ![ChromaDB](https://img.shields.io/badge/ChromaDB_1.5.5-FF6B35?style=flat&logo=databricks&logoColor=white) |
+| **External API** | ![Kakao](https://img.shields.io/badge/Kakao_Map_API-FFCD00?style=flat&logo=kakao&logoColor=black) |
+| **UI/Design** | ![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat&logo=figma&logoColor=white) ![html.to.design](https://img.shields.io/badge/html.to.design-9B59B6?style=flat&logo=figma&logoColor=white) ![Claude MCP](https://img.shields.io/badge/Claude_MCP-CC785C?style=flat&logo=anthropic&logoColor=white) |
+| **협업** | ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) |
 
 ---
 
-## 폴더 구조
+## 시스템 아키텍처
 
 ```
-LGHelloDoctor/
-├── src/
-│   ├── audio_input.py        # 마이크 녹음 or 파일 로드
-│   ├── vad_filter.py         # 침묵 제거 (silero-vad)
-│   ├── stt_module.py         # Whisper STT (Groq API / 로컬 파인튜닝 모델 자동 전환)
-│   ├── preprocessor.py       # 간투어 제거 + 의료 용어 오탈자 보정(50개) + 정규화
-│   ├── pipeline.py           # 전체 파이프라인 진입점
-│   ├── wake_word.py          # "헬로비" Wake word 감지 모듈
-│   ├── evaluate_stt.py       # WER / CER 정확도 평가
-│   ├── data_prep.py          # AI Hub 데이터셋 가공 프레임워크
-│   └── finetune_whisper.py   # Whisper LoRA 파인튜닝 프레임워크
-├── tests/
-│   ├── test_pipeline.py      # 단위 테스트 (20개)
-│   └── samples/
-│       ├── case1.mp3         # 시나리오 A — 증상 문의
-│       ├── case2.mp3         # 시나리오 B — 응급 상황
-│       ├── case3.mp3         # 시나리오 C — 약 정보 문의
-│       └── case4.mp3         # 기타 발화
-├── models/
-│   └── whisper-ko-elderly/   # 파인튜닝 완료 시 여기 배치 (자동 전환)
-├── data/
-│   ├── raw/                  # AI Hub 원본 데이터 (로컬에만 보관)
-│   └── processed/            # data_prep.py 실행 후 생성
-├── .env
-└── requirements.txt
+사용자 음성
+    ↓
+[A팀] STT — Whisper + Silero VAD
+         오디오 → 텍스트 변환 / 노인 음성 오인식 보정
+    ↓
+[B팀] 의도 분류 & 다중턴 — Groq LLM (llama-3.3-70b-versatile)
+         증상문의 / 병원검색 / 약정보 / 응급 분류
+    ↓
+[C팀] RAG + 병원 검색 + 응급 판단 — ChromaDB + Kakao Map API
+         의료 지식 검색 / 주변 병원 3곳 안내 / 응급 점수 계산
+    ↓
+[D팀] 답변 생성 — Groq LLM
+         시니어 맞춤 한국어 답변 / 금지어 필터
+    ↓
+프론트엔드 — React 19 + Vite + TypeScript
 ```
 
 ---
 
-## 환경 설정
+## 빠른 시작
 
-`.env` 파일 생성:
+### 1. 환경 변수 설정
 
-```
+```bash
+# 프로젝트 루트에 .env 파일 생성
+KAKAO_API_KEY=your_kakao_api_key
 GROQ_API_KEY=your_groq_api_key
 ```
 
-패키지 설치:
+### 2. Docker로 실행
 
 ```bash
-pip install -r requirements.txt
+# 최초 실행 (이미지 빌드 포함)
+docker compose up --build
+
+# 이후 실행
+docker compose up -d
 ```
+
+> 첫 실행 시 Whisper, Silero VAD, ko-sroberta-multitask 모델이 자동 다운로드됩니다 (5~15분 소요).
+
+### 3. 접속
+
+| 서비스 | 주소 |
+|--------|------|
+| 프론트엔드 | http://localhost:80 |
+| 백엔드 API | http://localhost:8000 |
+| API 문서 | http://localhost:8000/docs |
 
 ---
 
-## 실행 방법
+## API 엔드포인트
 
-### 1. 파일로 파이프라인 테스트
+### `POST /chat` — 채팅 (핵심 엔드포인트)
 
-```bash
-cd src
-python -X utf8 pipeline.py --file ../tests/samples/case1.mp3
-```
-
-### 2. 마이크로 실시간 녹음 (7초)
-
-```bash
-cd src
-python -X utf8 pipeline.py --record --duration 7
-```
-
-### 3. Wake word 모드 (마이크 필요)
-
-```bash
-cd src
-python -X utf8 pipeline.py --wake_word
-```
-
-### 4. 단위 테스트 (네트워크 불필요)
-
-```bash
-pytest tests/test_pipeline.py -v -k "not TestSTT and not TestPipeline"
-```
-
-### 5. STT 정확도 평가
-
-```bash
-# tests/eval_data.jsonl 형식: {"reference": "정답", "hypothesis": "STT결과"}
-python src/evaluate_stt.py --input tests/eval_data.jsonl
-```
-
----
-
-## B팀으로 전달하는 출력 형식
-
-```python
+```json
+// 요청
 {
-    "text":       "무릎 통증. 진료 병원 문의",          # 전처리된 텍스트
-    "raw_text":   "무릎이 너무 아파요. 어디 가야 하나요?",  # STT 원본
-    "confidence": 0.94,
-    "language":   "ko"
+  "text": "무릎이 너무 아파요",
+  "session_id": "user-123",
+  "lat": 37.5012,
+  "lng": 127.0396
+}
+
+// 응답
+{
+  "answer": "어르신, 무릎이 많이 불편하시겠어요. 가까운 정형외과에 가보시는 게 좋겠어요.",
+  "intent": "symptom_inquiry",
+  "hospitals": [...],
+  "is_emergency": false,
+  "ready_for_c": true,
+  "session_id": "user-123"
 }
 ```
 
----
-
-## 파인튜닝 모델 자동 전환
-
-`models/whisper-ko-elderly/` 폴더가 존재하면 자동으로 로컬 모델로 전환됩니다.  
-없으면 Groq Whisper API를 사용합니다.
-
-```
-models/whisper-ko-elderly/ 있음 → 로컬 파인튜닝 모델 사용
-models/whisper-ko-elderly/ 없음 → Groq whisper-large-v3 API 사용  ← 현재
-```
-
-파인튜닝 실행 (GPU + 데이터 준비 후):
+### `POST /api/stt` — 음성 → 텍스트
 
 ```bash
-python src/data_prep.py --raw_dir ./data/raw --output_dir ./data/processed
-python src/finetune_whisper.py --data_dir ./data/processed --output_dir ./models/whisper-ko-elderly
-```
-
-AI Hub 원본 폴더를 바로 쓰는 경우 (현재 워크스페이스 구조 기준):
-
-```bash
-python src/data_prep.py --raw_dir "./자유대화 음성(노인남녀)" --output_dir ./data/processed
-```
-
-대용량 데이터 사전 점검(스모크 테스트):
-
-```bash
-python src/data_prep.py --raw_dir "./자유대화 음성(노인남녀)" --output_dir ./data/processed_smoke --train_limit 200 --val_limit 50
+curl -X POST http://localhost:8000/api/stt \
+  -F "audio=@recording.wav"
 ```
 
 ---
 
-## 트러블슈팅
-
-**torchaudio 2.9+ 오류 (`torchcodec` 없음)**
+## 프로젝트 구조
 
 ```
-RuntimeError: torchaudio version requires torchcodec for audio I/O
-```
-
-→ `vad_filter.py`에서 `read_audio` 대신 `librosa`로 오디오 로드하도록 수정 완료
-
-**silero-vad 신뢰 확인 오류**
-
-```
-EOFError: EOF when reading a line
-```
-
-→ `torch.hub.load(trust_repo=True)` 추가로 해결 완료
-
-**Windows 한글 인코딩 오류**
-
-```bash
-python -X utf8 your_script.py
+LGHelloDoctor/
+├── backend/
+│   ├── main.py              # FastAPI 서버 (A→B→C→D 통합 파이프라인)
+│   ├── requirements.txt
+│   └── Dockerfile
+├── frontend/
+│   ├── src/
+│   │   ├── api/             # chat.ts, stt.ts
+│   │   ├── components/      # chat/, tv/
+│   │   └── hooks/           # useMedicalChat, useVoiceInput, useWakeWord
+│   ├── Dockerfile
+│   └── nginx.conf
+├── RAG/db/                  # ChromaDB 벡터 DB 데이터
+├── docs/                    # 상세 문서
+├── tests/                   # TDD 테스트 스위트
+├── .github/                 # AI Native Engineering 지침·프롬프트·에이전트
+├── .claude/                 # Claude Code 하네스 설정
+├── docker-compose.yml
+└── .env                     # API 키 (git 제외)
 ```
 
 ---
 
-## 전체 서비스 시나리오
+## 문서
 
-### 시나리오 A — 증상 문의 + 병원 검색
+| 문서 | 내용 |
+|------|------|
+| [개발 환경](docs/dev-environment.md) | 요구사항, Docker 설정, 의존성 상세, 트러블슈팅 |
+| [아키텍처 다이어그램](docs/diagrams.md) | 클래스 다이어그램 5개 + 시퀀스 다이어그램 3개 |
+| [프로덕트 정의](docs/PRODUCT.md) | 서비스 목표, 사용자, 핵심 기능 |
+| [컨텍스트 패킷](docs/context-packet.md) | AI 파이프라인 흐름 및 알려진 이슈 |
+| [테스트 리포트](docs/test-report.md) | TDD 결과 요약 |
 
-> "무릎이 너무 아파요. 어디 가야 하나요?"
+---
 
-| 단계 | 담당 | 처리 내용 |
-|------|------|-----------|
-| ① 음성 입력 | **A팀** | Wake word("헬로비") 감지 후 녹음 |
-| ② VAD | **A팀** | 침묵 구간 제거 |
-| ③ STT | **A팀** | "무릎이 너무 아파요. 어디 가야 하나요?" |
-| ④ 전처리 | **A팀** | 간투어 제거, 오탈자 보정 |
-| ⑤ 의도 분류 | B팀 | `symptom_inquiry` + `hospital_search` |
-| ⑥ 도구 실행 | C팀 | RAG 검색 + 카카오 병원 검색 병렬 실행 |
-| ⑦ LLM 추론 | B팀 | Ollama llama3 + LoRA |
-| ⑧ 포맷터 + TTS | D팀 | 3문장 이하, 존댓말, 속도 0.85x |
+## AI Native Engineering 6단계 구조
 
-### 시나리오 B — 응급 상황
+이 프로젝트는 AI Native Engineering 방법론을 적용하여 개발되었습니다.
 
-> "가슴이 너무 아프고 숨이 안 쉬어져요"
+```
+AI Native Engineering
+├── 프롬프트 엔지니어링  — LLM에 넣는 프롬프트 자체를 잘 짜는 것
+├── 컨텍스트 엔지니어링 — AI가 올바르게 동작하도록 맥락(지침·few-shot·도메인 지식)을 구성하는 것
+└── 하네스 엔지니어링   — AI 작업 환경을 자동화·안전장치로 감싸는 것 (훅, 커스텀 명령어)
+```
 
-의도 분류에서 `emergency` 감지 즉시 RAG·LLM 건너뛰고 119 안내 출력 (~0.5초)
+| 단계 | 역할 | 엔지니어링 분류 | 위치 |
+|------|------|----------------|------|
+| 1. 지침 (Instructions) | AI 모델별 동작 규칙 정의 | 컨텍스트 엔지니어링 | `.github/instructions/` |
+| 2. 프롬프트 (Prompts) | 작업별 프롬프트 템플릿 | 프롬프트 엔지니어링 | `.github/prompts/` |
+| 3. 에이전트 (Agents) | 자동화 에이전트 설정 | 프롬프트 엔지니어링 | `.github/agents/` |
+| 4. 컨텍스트 (Context) | Few-shot 예시 및 도메인 지식 | 컨텍스트 엔지니어링 | `CLAUDE.md`, `docs/` |
+| 5. TDD | 품질 기준 코드로 관리 | 하네스 엔지니어링 | `tests/` |
+| 6. 통합 검증 | 배포 전 전체 파이프라인 검증 | 하네스 엔지니어링 | `src/todo/manager.py` |
 
-### 시나리오 C — 약 정보 문의
+> `.claude/settings.json` (훅·커스텀 슬래시 명령어)도 하네스 엔지니어링의 일부입니다.
 
-> "혈압약이랑 감기약 같이 먹어도 되나요?"
+---
 
-`medication_info` 감지 → 병원 검색 없이 RAG만 단독 실행
+## 프론트엔드 디자인 워크플로우
 
-| 구분 | 시나리오 A | 시나리오 B | 시나리오 C |
-|------|-----------|-----------|-----------|
-| 감지 의도 | symptom + hospital | emergency | medication_info |
-| RAG 실행 | ✅ | ❌ | ✅ |
-| 병원 검색 | ✅ | ❌ | ✅ (약국) |
-| LLM 추론 | ✅ | ❌ | ✅ |
-| 응답 시간 | ~2–3초 | ~0.5초 | ~2초 |
+Claude Code(MCP) + Figma MCP + html.to.design 플러그인을 활용한 디자인-개발 통합 워크플로우를 적용했습니다.
+
+```
+1. React + TypeScript로 컴포넌트 구현
+        ↓
+2. Claude Code에서 Figma MCP 연결
+        ↓
+3. html.to.design 플러그인으로 구현된 HTML/CSS를 Figma로 자동 변환
+        ↓
+4. Figma에서 UI 디자인 문서화 완성
+```
+
+| 도구 | 역할 |
+|------|------|
+| Claude Code (MCP) | Figma와 코드 환경을 연결하는 브릿지 |
+| Figma MCP | Claude가 Figma 파일을 읽고 조작 |
+| html.to.design | 구현된 HTML/CSS → Figma 컴포넌트 자동 변환 |
+
+---
+
+## 테스트 실행
+
+```bash
+# 전체 테스트
+python tests/test_manager.py
+
+# 개별 테스트
+python -m pytest tests/test_ai_model.py -v   # AI 모델 (STT, 금지어, 응답 품질)
+python -m pytest tests/test_backend.py -v    # 백엔드 API
+python -m pytest tests/test_rag.py -v        # RAG 파이프라인
+python -m pytest tests/test_frontend.py -v  # 프론트엔드 계약
+```
+
+---
+
+## 주의사항
+
+- `chromadb==1.5.5` 버전 고정 — 임의 변경 시 DB 스키마 오류 발생
+- `temperature=0` 고정 — 의도 분류 일관성 유지
+- `FORBIDDEN_WORDS` 항목 삭제 금지 — 의료법 준수
+- `.env` 파일 절대 커밋 금지

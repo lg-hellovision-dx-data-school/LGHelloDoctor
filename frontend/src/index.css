@@ -1,0 +1,46 @@
+/*
+ * 타이포·리셋만 담당합니다.
+ * LG Red 색 변수는 public/lg-hello-theme.css + App 루트 인라인 + ChatLayout 에 정의됩니다.
+ */
+:root {
+  font-family:
+    'Noto Sans KR',
+    'Apple SD Gothic Neo',
+    system-ui,
+    sans-serif;
+  font-size: clamp(17px, 2.8vw, 20px);
+  line-height: 1.45;
+  color: var(--chat-text);
+  background: var(--chat-page-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

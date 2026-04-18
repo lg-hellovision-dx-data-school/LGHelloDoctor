@@ -1,0 +1,43 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      # ChromaDB 데이터 (로컬 RAG/db → 컨테이너 /app/RAG/db)
+      - ./RAG/db:/app/RAG/db
+      # HuggingFace / torch 모델 캐시 재사용
+      - model-cache:/root/.cache
+    env_file:
+      - .env
+    environment:
+      - DB_PATH=/app/RAG/db
+      # 커스텀 Whisper 모델 경로 (Google Drive에서 받아 ./models/whisper-ko-elderly 에 놓으면 활성화)
+      # - WHISPER_MODEL_PATH=/app/models/whisper-ko-elderly
+    # GPU 사용 시 아래 주석 해제
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # 프론트가 호출할 백엔드 URL (외부 접근 가능한 주소로 변경)
+        VITE_CHAT_API_URL: http://localhost:8000/chat
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  model-cache:
