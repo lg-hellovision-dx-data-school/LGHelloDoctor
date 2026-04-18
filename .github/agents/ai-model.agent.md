@@ -14,7 +14,6 @@ LG HelloDoctor의 AI 모델(Groq LLM, Whisper STT, Silero VAD) 최적화와
 - `backend/main.py` 내 AI 관련 함수
   - A팀: `stt_pipeline()`, `remove_silence()`, `preprocess_text()`
   - B팀: `classify_intent()`, `extract_entities()`, `generate_answer()`
-  - D팀: `format_response()`, `generate_tts()`
 - `MEDICAL_CORRECTIONS` — STT 보정 사전
 
 ## 프롬프트 개선 절차
@@ -55,7 +54,6 @@ prompt = f"문장: '{text}'\n예시: '머리가 아파요' → symptom_inquiry\n
 - Groq 429 에러 → API 한도 초과, 잠시 대기
 - STT 결과 부정확 → `MEDICAL_CORRECTIONS` 확장
 - 답변 어조 부자연스러움 → 시스템 프롬프트 수정
-- TTS 생성 실패 → gTTS 네트워크 연결 확인
 
 ## 금지사항
 - LLM 모델명 임의 변경 금지 (`llama-3.3-70b-versatile` 유지)

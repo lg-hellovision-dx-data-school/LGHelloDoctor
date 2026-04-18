@@ -14,7 +14,6 @@ from numpy import dot
 from numpy.linalg import norm
 from transformers import WhisperForConditionalGeneration, WhisperProcessor
 from langchain_groq import ChatGroq
-from gtts import gTTS
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -397,7 +396,7 @@ def tool_router(output_from_B: dict, lat: float = 37.5012, lng: float = 127.0396
     return result
 
 
-# ====== D팀: 응답 생성 & TTS ======
+# ====== D팀: 응답 생성 ======
 
 def generate_answer(query: str, context: str, confidence: float = 0.85, entities: dict = None) -> dict:
     body_part = entities.get('body_part') if entities else "해당"
@@ -445,17 +444,6 @@ def format_response(raw_answer: str, is_emergency: bool = False) -> str:
             combined.append(s)
     final_text = ' '.join(combined[:6]).strip()
     return final_text if final_text else answer
-
-
-def generate_tts(text: str) -> Optional[str]:
-    try:
-        tts = gTTS(text=text, lang='ko')
-        tmp = tempfile.NamedTemporaryFile(suffix=".mp3", delete=False)
-        tts.save(tmp.name)
-        return tmp.name
-    except Exception as e:
-        print(f"[Error] TTS: {e}")
-        return None
 
 
 # ====== 통합 파이프라인 ======
@@ -510,7 +498,7 @@ def full_pipeline(
     rag_context = c_result.get('rag_context') or ""
     combined_context = f"{rag_context}\n{hospital_info_text}".strip()
 
-    # D: 응답 생성 & TTS
+    # D: 응답 생성
     if c_result['emergency'] and c_result['emergency']['severity'] == 'HIGH':
         final_answer = format_response('', is_emergency=True)
     else:
@@ -527,11 +515,9 @@ def full_pipeline(
         final_answer = format_response(raw_answer)
 
     print(f'[D] 최종 답변: {final_answer}')
-    audio_path = generate_tts(final_answer)
 
     return {
         'answer': final_answer,
-        'audio_path': audio_path,
         'intent': b_result['intent'],
         'ready_for_c': True,
         'hospitals': c_result.get('hospitals'),

@@ -15,7 +15,7 @@
     ↓
 [C팀] RAG + 병원 검색 + 응급 판단 (ChromaDB + Kakao API)
     ↓
-[D팀] 답변 생성 + TTS (Groq LLM + gTTS)
+[D팀] 답변 생성 (Groq LLM)
     ↓
 프론트엔드 (React + Vite)
 ```

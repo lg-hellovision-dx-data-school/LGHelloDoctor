@@ -56,7 +56,6 @@ FastAPI 기반 의료 AI 서버. 노트북(`pipeline_integrated_최종.ipynb`)�
 ### D팀 — 답변 생성
 - `generate_answer(query, context, entities)`: Groq LLM으로 시니어 맞춤 답변
 - `format_response(raw_answer)`: 금지어 제거, 영어 단어 제거, 문장 수 제한(6문장)
-- `generate_tts(text)`: gTTS로 한국어 음성 파일 생성 (임시 mp3)
 
 ## 핵심 상수
 ```python
@@ -77,7 +76,6 @@ FORBIDDEN_WORDS     # 의료법상 금지 표현
 ## 주의사항
 - `conversation_state`는 메모리 내 전역 dict — 서버 재시작 시 초기화됨
 - Whisper는 CPU 모드로 동작 (CUDA 없는 환경)
-- TTS 파일은 임시 경로에 생성되며 요청 후 자동 삭제 안 됨 (운영 시 정리 로직 필요)
 - 답변에 영어 단어 혼입 방지: `re.sub(r'\b[a-zA-Z]+\b', '', answer)`
 
 ## 의존성 핵심

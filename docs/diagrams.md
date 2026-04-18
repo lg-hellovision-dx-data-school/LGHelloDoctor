@@ -44,7 +44,6 @@ classDiagram
 
     class FullPipeline {
         +full_pipeline(raw_text, session_id, lat, lng) dict
-        +audio_path : Optional~str~
     }
 
     ChatRequest --> FullPipeline : 입력 전달
@@ -176,19 +175,12 @@ classDiagram
         +invoke(messages) Response
     }
 
-    class TTSGenerator {
-        +lang : ko
-        +generate_tts(text) Optional~str~
-    }
-
     class FormattedResponse {
         +str answer
-        +Optional~str~ audio_path
         +bool is_emergency
     }
 
     AnswerGenerator --> GroqLLM : 답변 생성
-    AnswerGenerator --> TTSGenerator : TTS 변환
     AnswerGenerator --> FormattedResponse : 반환
 ```
 
@@ -232,9 +224,6 @@ sequenceDiagram
             FastAPI->>D_Answer: format_response(raw_answer)
             D_Answer-->>FastAPI: final_answer
         end
-
-        FastAPI->>D_Answer: generate_tts(final_answer)
-        D_Answer-->>FastAPI: audio_path (mp3)
 
         FastAPI-->>어르신: ChatResponse {answer, intent, hospitals, is_emergency}
     end

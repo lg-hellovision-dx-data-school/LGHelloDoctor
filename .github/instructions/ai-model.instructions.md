@@ -134,4 +134,3 @@ answer = re.sub(r'\b[a-zA-Z]+\b', '', answer)
 - `temperature` 0.5 이상 설정 금지 (분류 일관성 저하)
 - LLM 모델명 임의 변경 금지
 - `FORBIDDEN_WORDS` 항목 임의 삭제 금지 (의료법)
-- TTS(`gTTS`) 생성 실패 시 `None` 반환 — 프론트는 `ttsUrl` 없으면 텍스트만 표시

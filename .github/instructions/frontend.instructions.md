@@ -65,7 +65,6 @@ type EmergencyInfo = { is_emergency: boolean; severity: 'HIGH' | 'MEDIUM' | 'LOW
 type ChatApiResponse = {
   answer: string; intent?: string;
   hospitals: Hospital[]; emergency?: EmergencyInfo;
-  ttsUrl?: string; ready_for_c?: boolean;
 }
 ```
 
@@ -87,7 +86,6 @@ type ChatApiResponse = {
 ## 응답 처리 규칙 (chat.ts)
 - `sanitizeChatAnswer()`: `[1턴]`, `[AI]` 등 디버그 표식 제거
 - 병원 데이터: `hospitals` 배열 또는 `{ nearby: [] }` 형태 모두 처리
-- `tts_url` / `tts_audio_url` / `audio_url` 필드 중 첫 번째 유효값 사용
 - HTTP 에러 코드별 한국어 메시지 반환
 
 ## 개발 명령어

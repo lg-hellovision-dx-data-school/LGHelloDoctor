@@ -45,7 +45,6 @@ TV 또는 모바일 기기에서 "헬로비"를 호출하면 AI가 음성으로 
 | 벡터DB | ChromaDB 1.5.5 |
 | 임베딩 | ko-sroberta-multitask |
 | 병원검색 | Kakao Map API |
-| TTS | gTTS |
 | 배포 | Docker Compose |
 
 ## 제약사항

@@ -33,7 +33,6 @@ def test_영어단어_혼입_없음():
 - `preprocess_text()`: 호출어·간투어·의료용어 보정 정확도
 - `MEDICAL_CORRECTIONS`: 오인식 패턴 50개 이상 보정 여부
 - `format_response()`: 금지어·영어 단어 제거
-- `generate_tts()`: 파일 생성 여부 (네트워크 필요)
 - STT 보정 사전 커버리지: 주요 진료과명 10개 이상
 
 ## 품질 지표

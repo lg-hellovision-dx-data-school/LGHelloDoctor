@@ -20,7 +20,6 @@
 |-----|------|------|
 | Groq API | 운영 중 | LLM 추론 |
 | Kakao Map API | 운영 중 | 병원 검색 |
-| gTTS | 운영 중 | 텍스트→음성 |
 
 ## 파이프라인 데이터 흐름
 
@@ -41,10 +40,8 @@
     - search_hospital(): Kakao 병원 검색
     - emergency_check(): 응급 판단
     ↓
-[D팀] generate_answer() → format_response() → generate_tts()
     - Groq LLM으로 시니어 맞춤 답변 생성
     - 금지어·영어 단어 제거
-    - gTTS로 음성 파일 생성
     ↓
 ChatResponse 반환
     { answer, intent, hospitals, is_emergency, ready_for_c, session_id }
@@ -65,7 +62,6 @@ ChatResponse 반환
 | 이슈 | 상태 | 해결법 |
 |------|------|--------|
 | LLM 영어 단어 혼입 | 부분 해결 | 시스템 프롬프트 + 후처리 정규식 |
-| TTS 파일 미삭제 | 미해결 | 임시 파일 주기적 정리 필요 |
 | 세션 메모리 | 미해결 | 서버 재시작 시 대화 이력 초기화 |
 
 ## 환경 변수 현황
