@@ -149,14 +149,23 @@ LGHelloDoctor/
 
 이 프로젝트는 AI Native Engineering 방법론을 적용하여 개발되었습니다.
 
-| 단계 | 역할 | 위치 |
-|------|------|------|
-| 1. 지침 (Instructions) | AI 모델별 동작 규칙 정의 | `.github/instructions/` |
-| 2. 프롬프트 (Prompts) | 작업별 프롬프트 템플릿 | `.github/prompts/` |
-| 3. 에이전트 (Agents) | 자동화 에이전트 설정 | `.github/agents/` |
-| 4. 컨텍스트 (Context) | Few-shot 예시 및 도메인 지식 | `CLAUDE.md`, `docs/` |
-| 5. TDD | 품질 기준 코드로 관리 | `tests/` |
-| 6. 통합 검증 | 배포 전 전체 파이프라인 검증 | `src/todo/manager.py` |
+```
+AI Native Engineering
+├── 프롬프트 엔지니어링  — LLM에 넣는 프롬프트 자체를 잘 짜는 것
+├── 컨텍스트 엔지니어링 — AI가 올바르게 동작하도록 맥락(지침·few-shot·도메인 지식)을 구성하는 것
+└── 하네스 엔지니어링   — AI 작업 환경을 자동화·안전장치로 감싸는 것 (훅, 커스텀 명령어)
+```
+
+| 단계 | 역할 | 엔지니어링 분류 | 위치 |
+|------|------|----------------|------|
+| 1. 지침 (Instructions) | AI 모델별 동작 규칙 정의 | 컨텍스트 엔지니어링 | `.github/instructions/` |
+| 2. 프롬프트 (Prompts) | 작업별 프롬프트 템플릿 | 프롬프트 엔지니어링 | `.github/prompts/` |
+| 3. 에이전트 (Agents) | 자동화 에이전트 설정 | 프롬프트 엔지니어링 | `.github/agents/` |
+| 4. 컨텍스트 (Context) | Few-shot 예시 및 도메인 지식 | 컨텍스트 엔지니어링 | `CLAUDE.md`, `docs/` |
+| 5. TDD | 품질 기준 코드로 관리 | 하네스 엔지니어링 | `tests/` |
+| 6. 통합 검증 | 배포 전 전체 파이프라인 검증 | 하네스 엔지니어링 | `src/todo/manager.py` |
+
+> `.claude/settings.json` (훅·커스텀 슬래시 명령어)도 하네스 엔지니어링의 일부입니다.
 
 ---
 
