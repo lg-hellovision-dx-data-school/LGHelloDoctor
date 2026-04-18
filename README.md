@@ -169,6 +169,28 @@ AI Native Engineering
 
 ---
 
+## 프론트엔드 디자인 워크플로우
+
+Claude Code(MCP) + Figma MCP + html.to.design 플러그인을 활용한 디자인-개발 통합 워크플로우를 적용했습니다.
+
+```
+1. React + TypeScript로 컴포넌트 구현
+        ↓
+2. Claude Code에서 Figma MCP 연결
+        ↓
+3. html.to.design 플러그인으로 구현된 HTML/CSS를 Figma로 자동 변환
+        ↓
+4. Figma에서 UI 디자인 문서화 완성
+```
+
+| 도구 | 역할 |
+|------|------|
+| Claude Code (MCP) | Figma와 코드 환경을 연결하는 브릿지 |
+| Figma MCP | Claude가 Figma 파일을 읽고 조작 |
+| html.to.design | 구현된 HTML/CSS → Figma 컴포넌트 자동 변환 |
+
+---
+
 ## 테스트 실행
 
 ```bash
