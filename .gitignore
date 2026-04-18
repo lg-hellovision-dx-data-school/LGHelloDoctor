@@ -16,11 +16,15 @@ venv/
 .venv/
 *.egg-info/
 
-# 모델 파일
+# 모델 파일 (바이너리 제외, Modelfile은 추적)
 *.gguf
 *.safetensors
 *.bin
-models/
+models/*
+!models/Modelfile
+
+# zip 파일
+*.zip
 
 # 평가 캐시
 eval/__pycache__/

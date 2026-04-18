@@ -31,13 +31,18 @@ DB_PATH           = os.environ.get('DB_PATH', '/app/RAG/db')
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"[Init] device: {DEVICE}")
 
-# ====== LLM (Groq) ======
+# ====== LLM (Groq) — 엔티티 추출 · 답변 생성 ======
 llm = ChatGroq(
     temperature=0,
     model_name="llama-3.3-70b-versatile",
     groq_api_key=GROQ_API_KEY,
 )
 print("[Init] Groq LLM 연결 완료")
+
+# ====== 파인튜닝 LLM (Ollama) — 의도 분류 전용 ======
+OLLAMA_URL = os.environ.get('OLLAMA_URL', 'http://localhost:11434')
+INTENT_MODEL = "hellodoctor-intent"
+print(f"[Init] 파인튜닝 의도 분류 모델: {INTENT_MODEL} ({OLLAMA_URL})")
 
 # ====== STT (Whisper) ======
 print(f"[Init] Whisper 모델 로드 중: {WHISPER_MODEL_PATH}")
@@ -400,6 +405,34 @@ def tool_router(output_from_B: dict, lat: float = 37.5012, lng: float = 127.0396
 
 def generate_answer(query: str, context: str, confidence: float = 0.85, entities: dict = None) -> dict:
     body_part = entities.get('body_part') if entities else "해당"
+    context_snippet = context[:400] if context else "정보 없음"
+    fine_tuned_prompt = (
+        f"### 지시:\n"
+        f"어르신이 '{body_part}' 부위 불편을 호소하고 있습니다. 아래 참고 정보를 바탕으로 "
+        f"따뜻하게 공감하며 3~4문장으로 답변하세요. 한국어로만 답변하세요.\n\n"
+        f"참고 정보: {context_snippet}\n"
+        f"어르신 질문: {query}\n\n"
+        f"### 응답:\n"
+    )
+    try:
+        resp = requests.post(
+            f"{OLLAMA_URL}/api/generate",
+            json={
+                "model": INTENT_MODEL,
+                "prompt": fine_tuned_prompt,
+                "stream": False,
+                "options": {"temperature": 0.3, "num_predict": 150},
+            },
+            timeout=60,
+        )
+        answer = resp.json().get("response", "").strip()
+        korean_chars = len(re.findall(r'[\uAC00-\uD7A3]', answer))
+        if answer and len(answer) > 10 and korean_chars / max(len(answer), 1) > 0.4:
+            print(f"[D팀] 파인튜닝 모델 답변 생성 완료")
+            return {'answer': answer}
+        raise ValueError(f"파인튜닝 모델 응답 품질 미달 (한국어 비율: {korean_chars}/{len(answer)})")
+    except Exception as e:
+        print(f"[Warn] generate_answer 파인튜닝 모델 실패, Groq 폴백: {e}")
     system_prompt = "당신은 어르신을 지극정성으로 모시는 다정한 의료 AI '헬로비'입니다. 반드시 한국어로만 답변하세요. 영어 단어, 영어 접속사(that, which, for, and 등)를 절대 사용하지 마세요."
     user_msg = f"""현재 어르신은 '{body_part}' 부위가 불편하다고 하셨습니다.
 아래 [참고 정보]를 바탕으로 어르신의 질문에 답변해 주세요.
