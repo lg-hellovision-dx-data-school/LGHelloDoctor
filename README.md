@@ -1,282 +1,183 @@
-# 의료 특화 음성 AI 에이전트 — 시나리오
+# LG HelloDoctor
 
-> **대상 사용자**: 노인 (고령층)  
-> **입력 방식**: 음성 (AI 스피커)  
-> **플랫폼**: LG HelloVision AI 스피커
-
----
-
-## 시나리오 A — 증상 문의 + 병원 검색
-
-> "무릎이 너무 아파요. 어디 가야 하나요?"
+> 시니어(어르신) 대상 음성 의료 AI 서비스
+> 음성으로 증상을 말하면 AI가 의도를 파악하고 병원 정보·의료 정보를 안내합니다.
 
 ---
 
-### Step 1 · 음성 입력
+## 기술 스택
 
-- AI 스피커 내장 원거리 마이크(far-field)로 음성 수신
-- 사용자가 멀리서 말해도 감지 가능
-- 항상 대기 상태로 Wake word 감지 후 녹음 시작
-
-```
-[입력 방식]
-대기 상태 → Wake word 감지 ("헬로비") → 녹음 시작
-
-[입력 음성]
-"무릎이 너무 아파요. 어디 가야 하나요?"
-```
+| 영역 | 기술 |
+|------|------|
+| **Infra** | ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white) ![Docker Compose](https://img.shields.io/badge/Docker_Compose-2496ED?style=flat&logo=docker&logoColor=white) |
+| **Backend** | ![Python](https://img.shields.io/badge/Python_3.11-3776AB?style=flat&logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white) ![PyTorch](https://img.shields.io/badge/PyTorch_CPU-EE4C2C?style=flat&logo=pytorch&logoColor=white) |
+| **AI 모델** | ![Groq](https://img.shields.io/badge/Groq_LLM-F55036?style=flat&logo=groq&logoColor=white) ![Whisper](https://img.shields.io/badge/Whisper_STT-412991?style=flat&logo=openai&logoColor=white) ![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black) |
+| **Frontend** | ![React](https://img.shields.io/badge/React_19-61DAFB?style=flat&logo=react&logoColor=black) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white) ![nginx](https://img.shields.io/badge/nginx-009639?style=flat&logo=nginx&logoColor=white) |
+| **Database** | ![ChromaDB](https://img.shields.io/badge/ChromaDB_1.5.5-FF6B35?style=flat&logo=databricks&logoColor=white) |
+| **External API** | ![Kakao](https://img.shields.io/badge/Kakao_Map_API-FFCD00?style=flat&logo=kakao&logoColor=black) ![gTTS](https://img.shields.io/badge/gTTS-4285F4?style=flat&logo=google&logoColor=white) |
+| **UI/Design** | ![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat&logo=figma&logoColor=white) ![html.to.design](https://img.shields.io/badge/html.to.design-9B59B6?style=flat&logo=figma&logoColor=white) ![Claude MCP](https://img.shields.io/badge/Claude_MCP-CC785C?style=flat&logo=anthropic&logoColor=white) |
+| **협업** | ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) |
 
 ---
 
-### Step 2 · Wake word 감지 + Whisper STT
-
-- Wake word 감지 후 자동으로 녹음 시작
-- `whisper-large-v3` 모델로 음성 → 텍스트 변환
-- 노인 한국어 음성 데이터(AI Hub)로 파인튜닝
-- VAD 필터로 침묵 구간 자동 제거
+## 시스템 아키텍처
 
 ```
-[Wake word]
-감지어: "헬로비"
-대기 전력: 저전력 모드
-
-[STT 결과]
-텍스트: "무릎이 너무 아파요. 어디 가야 하나요?"
-신뢰도: 0.94
-언어:   ko
+사용자 음성
+    ↓
+[A팀] STT — Whisper + Silero VAD
+         오디오 → 텍스트 변환 / 노인 음성 오인식 보정
+    ↓
+[B팀] 의도 분류 & 다중턴 — Groq LLM (llama-3.3-70b-versatile)
+         증상문의 / 병원검색 / 약정보 / 응급 분류
+    ↓
+[C팀] RAG + 병원 검색 + 응급 판단 — ChromaDB + Kakao Map API
+         의료 지식 검색 / 주변 병원 3곳 안내 / 응급 점수 계산
+    ↓
+[D팀] 답변 생성 + TTS — Groq LLM + gTTS
+         시니어 맞춤 한국어 답변 / 금지어 필터 / 음성 출력
+    ↓
+프론트엔드 — React 19 + Vite + TypeScript
 ```
 
 ---
 
-### Step 3 · 텍스트 전처리
+## 빠른 시작
 
-- 간투어(어~, 음~) 및 반복 어절 제거
-- 의료 용어 오탈자 자동 보정
-- 문장 정규화
+### 1. 환경 변수 설정
 
+```bash
+# 프로젝트 루트에 .env 파일 생성
+KAKAO_API_KEY=your_kakao_api_key
+GROQ_API_KEY=your_groq_api_key
 ```
-[전처리 전] "무릎이 너무 아파요 어디 가야 하나요"
-[전처리 후] "무릎 통증. 진료 병원 문의"
+
+### 2. Docker로 실행
+
+```bash
+# 최초 실행 (이미지 빌드 포함)
+docker compose up --build
+
+# 이후 실행
+docker compose up -d
 ```
+
+> 첫 실행 시 Whisper, Silero VAD, ko-sroberta-multitask 모델이 자동 다운로드됩니다 (5~15분 소요).
+
+### 3. 접속
+
+| 서비스 | 주소 |
+|--------|------|
+| 프론트엔드 | http://localhost:80 |
+| 백엔드 API | http://localhost:8000 |
+| API 문서 | http://localhost:8000/docs |
 
 ---
 
-### Step 4 · 의도 분류 (Intent Classifier)
+## API 엔드포인트
 
-- `hospital-llm` 모델이 의도와 개체(Entity)를 동시에 추출
-- 복수 의도 감지 시 두 도구 병렬 실행
+### `POST /chat` — 채팅 (핵심 엔드포인트)
 
 ```json
+// 요청
 {
-  "intent": ["symptom_inquiry", "hospital_search"],
-  "confidence": 0.91,
-  "entities": {
-    "symptom": "무릎 통증",
-    "body_part": "무릎",
-    "location": null,
-    "emergency": false
-  }
-}
-```
-
-| 의도 | 감지 여부 | 비고 |
-|------|-----------|------|
-| `symptom_inquiry` | ✅ | 무릎 통증 |
-| `hospital_search` | ✅ | 근처 정형외과 |
-| `emergency` | ❌ | 응급 아님 |
-| `medication_info` | ❌ | 약 정보 미요청 |
-
----
-
-### Step 5 · 도구 실행 (Tool Router)
-
-두 도구를 병렬로 호출합니다.
-
-#### 5-1. 의료 지식 RAG
-
-- ChromaDB에서 "무릎 통증" 관련 문서 검색
-- Query Rewrite → Hybrid Search → Rerank 파이프라인
-
-```
-[RAG 검색 결과]
-"무릎 통증은 정형외과 또는 관절 전문 클리닉에서 진료 가능.
-관절염, 인대 손상, 반월연골판 손상 등 원인이 다양하며
-X-ray 또는 MRI 검사를 통해 진단합니다."
-
-출처: 증상별 진료과 매핑 v2.1
-```
-
-#### 5-2. 병원 실시간 검색 (Kakao Local API)
-
-```json
-{
-  "keyword": "정형외과",
+  "text": "무릎이 너무 아파요",
+  "session_id": "user-123",
   "lat": 37.5012,
-  "lng": 127.0396,
-  "category": "hospital"
+  "lng": 127.0396
 }
-```
 
-```
-[검색 결과]
-1. 서울정형외과     | 0.3km | 031-123-4567 | 운영 중
-2. 연세관절클리닉   | 0.8km | 031-234-5678 | 운영 중
-```
-
----
-
-### Step 6 · Ollama 의료 특화 모델 추론
-
-- 로컬 `hospital-llm:latest` (llama3.2 + LoRA 파인튜닝)
-- RAG 컨텍스트 + 병원 검색 결과를 합쳐 답변 생성
-- 신뢰도 0.7 미만 시 Groq (llama-3.3-70b) fallback
-
-```
-[시스템 프롬프트]
-"당신은 노인 환자를 위한 의료 안내 AI입니다.
-쉬운 말로 3문장 이내로 답하세요."
-
-[생성 답변 (raw)]
-"무릎이 아프시면 정형외과에 가시면 됩니다.
-가까운 서울정형외과 전화번호는 031-123-4567입니다.
-걷기 많이 힘드시면 119에 전화하세요."
-```
-
----
-
-### Step 7 · 응답 포맷터 (노인 모드)
-
-프롬프트가 아닌 코드 레벨에서 강제 적용합니다.
-
-| 규칙 | 설정값 |
-|------|--------|
-| 최대 문장 수 | 3문장 |
-| 문장당 최대 글자 | 30자 |
-| 구조 | 결론 → 이유 → 행동 |
-| 금지 단어 | 예후, 처방전, 투약, 병변 |
-| 어조 | 존댓말 강제 |
-| 시각 요소 | 제거 (화면 없음) |
-
-```
-[포맷 적용 후]
-
-정형외과에 가세요.
-무릎 통증 전문입니다.
-전화번호는 공삼일, 일이삼, 사오육칠입니다.
-```
-
----
-
-### Step 8 · TTS 음성 출력
-
-- AI 스피커 스피커로 음성 출력 (화면 없음, 음성만)
-- 속도 0.85x, 볼륨 high, 문장 사이 0.5초 pause 삽입
-- 숫자는 한글 발음으로 변환
-- 링크·지도 등 시각 요소 없이 전화번호를 말로만 안내
-
-```
-[TTS 발화 순서]
-
-"정형외과에 가세요."
-(0.5초 pause)
-"무릎 통증 전문입니다."
-(0.5초 pause)
-"전화번호는 공삼일, 일이삼, 사오육칠입니다."
-```
-
----
-
-## 시나리오 B — 응급 상황
-
-> "가슴이 너무 아프고 숨이 안 쉬어져요"
-
----
-
-### 분기 처리
-
-Step 4 의도 분류에서 `emergency` 감지 즉시 **RAG · LLM 건너뜀**.
-
-```json
+// 응답
 {
-  "intent": "emergency",
-  "confidence": 0.97,
-  "entities": {
-    "symptom": "흉통, 호흡곤란",
-    "severity": "high"
-  }
+  "answer": "어르신, 무릎이 많이 불편하시겠어요. 가까운 정형외과에 가보시는 게 좋겠어요.",
+  "intent": "symptom_inquiry",
+  "hospitals": [...],
+  "is_emergency": false,
+  "ready_for_c": true,
+  "session_id": "user-123"
 }
 ```
 
-```
-[응급 핸들러 즉시 실행]
+### `POST /api/stt` — 음성 → 텍스트
 
-심각도: HIGH
-행동:   119 즉시 연결 안내
-LLM:    건너뜀 (지연 최소화)
-```
-
-```
-[TTS 출력]
-
-"119에 바로 전화하세요."
-(0.3초 pause)
-"지금 바로 전화하세요."
+```bash
+curl -X POST http://localhost:8000/api/stt \
+  -F "audio=@recording.wav"
 ```
 
 ---
 
-## 시나리오 C — 약 정보 문의
-
-> "혈압약이랑 감기약 같이 먹어도 되나요?"
-
----
-
-### 분기 처리
-
-`medication_info` 의도 감지 → 병원 검색 없이 **RAG만 단독 실행**.
-
-```json
-{
-  "intent": "medication_info",
-  "confidence": 0.88,
-  "entities": {
-    "medication_1": "혈압약",
-    "medication_2": "감기약",
-    "query_type": "drug_interaction"
-  }
-}
-```
+## 프로젝트 구조
 
 ```
-[RAG 검색]
-소스: 의약품 복용 안내 DB
-
-결과: "혈압약 종류에 따라 감기약(NSAIDs 계열)과
-병용 시 혈압 상승 위험이 있습니다.
-복용 전 담당 의사 또는 약사에게 확인하세요."
-```
-
-```
-[TTS 출력]
-
-"같이 드시면 안 될 수 있어요."
-(0.5초 pause)
-"약사 선생님께 꼭 물어보세요."
-(0.5초 pause)
-"가까운 약국 전화번호는 공삼일, 삼사오, 육칠팔구입니다."
+LGHelloDoctor/
+├── backend/
+│   ├── main.py              # FastAPI 서버 (A→B→C→D 통합 파이프라인)
+│   ├── requirements.txt
+│   └── Dockerfile
+├── frontend/
+│   ├── src/
+│   │   ├── api/             # chat.ts, stt.ts
+│   │   ├── components/      # chat/, tv/
+│   │   └── hooks/           # useMedicalChat, useVoiceInput, useWakeWord
+│   ├── Dockerfile
+│   └── nginx.conf
+├── RAG/db/                  # ChromaDB 벡터 DB 데이터
+├── docs/                    # 상세 문서
+├── tests/                   # TDD 테스트 스위트
+├── .github/                 # AI Native Engineering 지침·프롬프트·에이전트
+├── .claude/                 # Claude Code 하네스 설정
+├── docker-compose.yml
+└── .env                     # API 키 (git 제외)
 ```
 
 ---
 
-## 전체 시나리오 비교
+## 문서
 
-| 구분 | 시나리오 A | 시나리오 B | 시나리오 C |
-|------|-----------|-----------|-----------|
-| 발화 예시 | 무릎이 아파요 | 가슴이 아프고 숨이 안 쉬어져 | 약 같이 먹어도 되나요 |
-| 감지 의도 | symptom + hospital | emergency | medication_info |
-| RAG 실행 | ✅ | ❌ (스킵) | ✅ |
-| 병원 검색 | ✅ | ❌ (스킵) | ✅ (약국) |
-| LLM 추론 | ✅ | ❌ (스킵) | ✅ |
-| TTS 출력 | ✅ | ✅ (즉시) | ✅ |
-| 시각 출력 | ❌ (음성만) | ❌ (음성만) | ❌ (음성만) |
-| 응답 시간 | ~2–3초 | ~0.5초 | ~2초 |
+| 문서 | 내용 |
+|------|------|
+| [개발 환경](docs/dev-environment.md) | 요구사항, Docker 설정, 의존성 상세, 트러블슈팅 |
+| [아키텍처 다이어그램](docs/diagrams.md) | 클래스 다이어그램 5개 + 시퀀스 다이어그램 3개 |
+| [프로덕트 정의](docs/PRODUCT.md) | 서비스 목표, 사용자, 핵심 기능 |
+| [컨텍스트 패킷](docs/context-packet.md) | AI 파이프라인 흐름 및 알려진 이슈 |
+| [테스트 리포트](docs/test-report.md) | TDD 결과 요약 |
+
+---
+
+## AI Native Engineering 6단계 구조
+
+이 프로젝트는 AI Native Engineering 방법론을 적용하여 개발되었습니다.
+
+| 단계 | 역할 | 위치 |
+|------|------|------|
+| 1. 지침 (Instructions) | AI 모델별 동작 규칙 정의 | `.github/instructions/` |
+| 2. 프롬프트 (Prompts) | 작업별 프롬프트 템플릿 | `.github/prompts/` |
+| 3. 에이전트 (Agents) | 자동화 에이전트 설정 | `.github/agents/` |
+| 4. 컨텍스트 (Context) | Few-shot 예시 및 도메인 지식 | `CLAUDE.md`, `docs/` |
+| 5. TDD | 품질 기준 코드로 관리 | `tests/` |
+| 6. 통합 검증 | 배포 전 전체 파이프라인 검증 | `src/todo/manager.py` |
+
+---
+
+## 테스트 실행
+
+```bash
+# 전체 테스트
+python tests/test_manager.py
+
+# 개별 테스트
+python -m pytest tests/test_ai_model.py -v   # AI 모델 (STT, 금지어, 응답 품질)
+python -m pytest tests/test_backend.py -v    # 백엔드 API
+python -m pytest tests/test_rag.py -v        # RAG 파이프라인
+python -m pytest tests/test_frontend.py -v  # 프론트엔드 계약
+```
+
+---
+
+## 주의사항
+
+- `chromadb==1.5.5` 버전 고정 — 임의 변경 시 DB 스키마 오류 발생
+- `temperature=0` 고정 — 의도 분류 일관성 유지
+- `FORBIDDEN_WORDS` 항목 삭제 금지 — 의료법 준수
+- `.env` 파일 절대 커밋 금지
