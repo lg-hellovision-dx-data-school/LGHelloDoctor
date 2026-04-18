@@ -42,7 +42,13 @@ classDiagram
         +str status
     }
 
-    ChatRequest --> ChatResponse : POST /chat
+    class FullPipeline {
+        +full_pipeline(raw_text, session_id, lat, lng) dict
+        +audio_path : Optional~str~
+    }
+
+    ChatRequest --> FullPipeline : 입력 전달
+    FullPipeline --> ChatResponse : POST /chat 응답 조립
     ChatRequest --> STTResponse : POST /api/stt
 ```
 
@@ -209,21 +215,28 @@ sequenceDiagram
     B_Intent-->>FastAPI: {answer, intent, ready_for_c}
 
     alt ready_for_c == False (다중턴 추가 질문)
+        FastAPI->>D_Answer: format_response(b_result.answer)
+        D_Answer-->>FastAPI: final_answer
         FastAPI-->>어르신: 추가 질문 (예: "걷기가 많이 힘드신가요?")
     else ready_for_c == True
         FastAPI->>C_RAG: tool_router(output_from_B, lat, lng)
         C_RAG-->>FastAPI: {rag_context, hospitals, emergency}
 
-        FastAPI->>D_Answer: generate_answer(text, context, entities)
-        D_Answer-->>FastAPI: raw_answer
-
-        FastAPI->>D_Answer: format_response(raw_answer)
-        D_Answer-->>FastAPI: final_answer
+        alt emergency.severity == HIGH
+            FastAPI->>D_Answer: format_response("", is_emergency=True)
+            Note over D_Answer: generate_answer 생략<br/>즉시 119 안내 문구 반환
+            D_Answer-->>FastAPI: "지금 바로 119에 전화해 주세요."
+        else 일반 응답
+            FastAPI->>D_Answer: generate_answer(text, context, entities)
+            D_Answer-->>FastAPI: raw_answer
+            FastAPI->>D_Answer: format_response(raw_answer)
+            D_Answer-->>FastAPI: final_answer
+        end
 
         FastAPI->>D_Answer: generate_tts(final_answer)
         D_Answer-->>FastAPI: audio_path (mp3)
 
-        FastAPI-->>어르신: ChatResponse {answer, intent, hospitals, ttsUrl}
+        FastAPI-->>어르신: ChatResponse {answer, intent, hospitals, is_emergency}
     end
 ```
 
@@ -271,20 +284,23 @@ sequenceDiagram
     B_Intent->>B_Intent: classify_intent(text)
 
     alt EMERGENCY_KEYWORDS 즉시 감지<br/>("숨이 안 쉬어", "의식이 없" 등)
-        B_Intent-->>어르신: 즉시 119 안내<br/>(confidence=1.0, ready_for_c=True)
+        Note over B_Intent: confidence=1.0, ready_for_c=True<br/>answer 필드에 119 안내 문구 포함
+        B_Intent->>C_Emergency: tool_router → emergency_check(query)
+        C_Emergency-->>D_Answer: severity=HIGH
+        D_Answer-->>어르신: format_response(is_emergency=True)<br/>"지금 바로 119에 전화해 주세요."
     else 일반 의도 처리
         B_Intent->>C_Emergency: tool_router → emergency_check(query)
         Note over C_Emergency: EMERGENCY_SCORES 키워드별 점수 합산<br/>2개 이상 매칭 시 1.2배 가중
 
         alt score ≥ 70 (HIGH)
             C_Emergency-->>D_Answer: severity=HIGH
-            D_Answer-->>어르신: "지금 바로 119에 전화해 주세요."
+            D_Answer-->>어르신: format_response(is_emergency=True)<br/>"지금 바로 119에 전화해 주세요."
         else score ≥ 40 (MEDIUM)
             C_Emergency-->>D_Answer: severity=MEDIUM
-            D_Answer-->>어르신: 응급실 방문 권고 + 주변 병원 안내
+            D_Answer-->>어르신: generate_answer + 응급실 방문 권고 + 병원 안내
         else score < 40 (LOW)
             C_Emergency-->>D_Answer: is_emergency=False
-            D_Answer-->>어르신: 일반 증상 안내 + 주변 병원 정보
+            D_Answer-->>어르신: generate_answer + 일반 증상 안내 + 병원 정보
         end
     end
 ```
