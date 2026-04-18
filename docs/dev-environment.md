@@ -6,7 +6,7 @@
 |------|------|
 | **Infra** | ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white) ![Docker Compose](https://img.shields.io/badge/Docker_Compose-2496ED?style=flat&logo=docker&logoColor=white) |
 | **Backend** | ![Python](https://img.shields.io/badge/Python_3.11-3776AB?style=flat&logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white) ![PyTorch](https://img.shields.io/badge/PyTorch_CPU-EE4C2C?style=flat&logo=pytorch&logoColor=white) |
-| **AI 모델** | ![Groq](https://img.shields.io/badge/Groq_LLM-F55036?style=flat&logo=groq&logoColor=white) ![Whisper](https://img.shields.io/badge/Whisper_STT-412991?style=flat&logo=openai&logoColor=white) ![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black) |
+| **AI 모델** | ![Whisper](https://img.shields.io/badge/Whisper_STT-412991?style=flat&logo=openai&logoColor=white) ![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black) ![Ollama](https://img.shields.io/badge/Ollama-000000?style=flat&logo=ollama&logoColor=white) ![Unsloth](https://img.shields.io/badge/Unsloth_LoRA-8A2BE2?style=flat&logoColor=white) |
 | **Frontend** | ![React](https://img.shields.io/badge/React_19-61DAFB?style=flat&logo=react&logoColor=black) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white) ![nginx](https://img.shields.io/badge/nginx-009639?style=flat&logo=nginx&logoColor=white) |
 | **Database** | ![ChromaDB](https://img.shields.io/badge/ChromaDB_1.5.5-FF6B35?style=flat&logo=databricks&logoColor=white) |
 | **External API** | ![Kakao](https://img.shields.io/badge/Kakao_Map_API-FFCD00?style=flat&logo=kakao&logoColor=black) |
@@ -43,7 +43,6 @@
 ### API 키
 | 키 | 발급처 | 용도 |
 |----|--------|------|
-| `GROQ_API_KEY` | [console.groq.com](https://console.groq.com) | LLM 추론 (무료 플랜 가능) |
 | `KAKAO_API_KEY` | [developers.kakao.com](https://developers.kakao.com) | 병원 위치 검색 |
 
 ### 시스템 패키지 (백엔드 Dockerfile에서 자동 설치)
@@ -62,11 +61,11 @@ git           # Silero VAD torch.hub 다운로드 시 필요
 ```bash
 # .env
 KAKAO_API_KEY=your_kakao_api_key_here
-GROQ_API_KEY=your_groq_api_key_here
 
 # 선택 사항
 WHISPER_MODEL_PATH=openai/whisper-small   # 기본값, 커스텀 모델 경로로 변경 가능
 DB_PATH=/app/RAG/db                       # 기본값
+OLLAMA_URL=http://localhost:11434         # 기본값
 ```
 
 > `.env`는 `.gitignore`에 포함 — API 키를 절대 커밋하지 않는다.
@@ -178,9 +177,7 @@ python -m pytest tests/test_frontend.py -v
 | `uvicorn[standard]` | 0.30.6 | ASGI 서버 |
 | `python-dotenv` | 1.0.1 | `.env` 파일 로드 |
 | `python-multipart` | 0.0.9 | 파일 업로드 처리 |
-| `groq` | 0.11.0 | Groq API 클라이언트 |
-| `langchain-groq` | 0.2.0 | LangChain ↔ Groq 연동 |
-| `httpx` | <0.28.0 | groq와 버전 충돌 방지 (고정) |
+| `httpx` | <0.28.0 | 버전 충돌 방지 (고정) |
 | `torch` | 2.3.1+cpu | 딥러닝 프레임워크 (CPU 전용) |
 | `torchaudio` | 2.3.1+cpu | 오디오 처리 |
 | `transformers` | 4.44.2 | Whisper STT 모델 |
@@ -245,7 +242,6 @@ React 빌드 결과물 (/dist)
 
 | 증상 | 원인 | 해결 |
 |------|------|------|
-| `TypeError: proxies` | groq + httpx 버전 충돌 | `httpx<0.28.0` 고정 |
 | `no such column: collections.topic` | chromadb 버전 불일치 | `chromadb==1.5.5` 고정 |
 | CUDA 초기화 오류 | GPU 없는 환경 | `python:3.11-slim` 기반 이미지 사용, CPU 전용 torch |
 | CORS 오류 | 프론트 API URL 불일치 | `frontend/.env` 또는 `docker-compose.yml`의 `VITE_CHAT_API_URL` 확인 |

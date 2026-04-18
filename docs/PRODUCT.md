@@ -39,7 +39,7 @@ TV 또는 모바일 기기에서 "헬로비"를 호출하면 AI가 음성으로 
 |------|------|
 | 프론트엔드 | React 19, TypeScript, Vite, nginx |
 | 백엔드 | FastAPI, Python 3.11 |
-| LLM | Groq API (llama-3.3-70b-versatile) |
+| LLM | 파인튜닝 LLaMA 3.2-3B — Unsloth LoRA → GGUF (Ollama) |
 | STT | OpenAI Whisper |
 | VAD | Silero VAD |
 | 벡터DB | ChromaDB 1.5.5 |

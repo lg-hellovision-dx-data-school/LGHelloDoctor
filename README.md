@@ -11,7 +11,7 @@
 |------|------|
 | **Infra** | ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white) ![Docker Compose](https://img.shields.io/badge/Docker_Compose-2496ED?style=flat&logo=docker&logoColor=white) |
 | **Backend** | ![Python](https://img.shields.io/badge/Python_3.11-3776AB?style=flat&logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white) ![PyTorch](https://img.shields.io/badge/PyTorch_CPU-EE4C2C?style=flat&logo=pytorch&logoColor=white) |
-| **AI 모델** | ![Groq](https://img.shields.io/badge/Groq_LLM-F55036?style=flat&logo=groq&logoColor=white) ![Whisper](https://img.shields.io/badge/Whisper_STT-412991?style=flat&logo=openai&logoColor=white) ![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black) |
+| **AI 모델** | ![Whisper](https://img.shields.io/badge/Whisper_STT-412991?style=flat&logo=openai&logoColor=white) ![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black) ![Ollama](https://img.shields.io/badge/Ollama-000000?style=flat&logo=ollama&logoColor=white) ![Unsloth](https://img.shields.io/badge/Unsloth_LoRA-8A2BE2?style=flat&logoColor=white) |
 | **Frontend** | ![React](https://img.shields.io/badge/React_19-61DAFB?style=flat&logo=react&logoColor=black) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white) ![nginx](https://img.shields.io/badge/nginx-009639?style=flat&logo=nginx&logoColor=white) |
 | **Database** | ![ChromaDB](https://img.shields.io/badge/ChromaDB_1.5.5-FF6B35?style=flat&logo=databricks&logoColor=white) |
 | **External API** | ![Kakao](https://img.shields.io/badge/Kakao_Map_API-FFCD00?style=flat&logo=kakao&logoColor=black) |
@@ -23,21 +23,28 @@
 ## 시스템 아키텍처
 
 ```
-사용자 음성
+사용자 음성 입력 ("헬로비 호출")
     ↓
-[A팀] STT — Whisper + Silero VAD
-         오디오 → 텍스트 변환 / 노인 음성 오인식 보정
+① STT — Whisper + Silero VAD
+         음성 → 텍스트 / 노인 음성 오인식 보정
     ↓
-[B팀] 의도 분류 & 다중턴 — Groq LLM (llama-3.3-70b-versatile)
-         증상문의 / 병원검색 / 약정보 / 응급 분류
+② 응급 키워드 감지
+         침침·식은땀·한쪽 마비·말이 어눌 등
+         감지됨 ──────────────────────────→ 응급 안내 메시지 출력
+         미감지
     ↓
-[C팀] RAG + 병원 검색 + 응급 판단 — ChromaDB + Kakao Map API
-         의료 지식 검색 / 주변 병원 3곳 안내 / 응급 점수 계산
-    ↓
-[D팀] 답변 생성 — Groq LLM
-         시니어 맞춤 한국어 답변 / 금지어 필터
-    ↓
-프론트엔드 — React 19 + Vite + TypeScript
+③ LLM 의도 분류 — LLaMA 3.2-3B (파인튜닝 / Ollama)
+         병원 검색 / 약 정보 / 증상 질문
+
+    약정보·증상                        병원 검색
+    ↓                                  ↓
+④-A RAG — 건강보험심사평가원        ④-B 다중 대화 — 진료과 결정
+    ↓                                  ↓
+    LLM 응답 생성                   카카오 Local API — 위치 기반 탐색
+    (파인튜닝 LLaMA 3.2-3B / Ollama)
+    Unsloth LoRA → GGUF(Q4_K_M)
+    ↓                                  ↓
+⑤ 텍스트 응답 출력 (화면 출력)
 ```
 
 ---
@@ -49,10 +56,20 @@
 ```bash
 # 프로젝트 루트에 .env 파일 생성
 KAKAO_API_KEY=your_kakao_api_key
-GROQ_API_KEY=your_groq_api_key
 ```
 
-### 2. Docker로 실행
+### 2. 파인튜닝 모델 등록 (최초 1회)
+
+```bash
+# GGUF 파일을 models/ 에 준비한 후
+cd models
+ollama create hellodoctor-intent -f Modelfile
+```
+
+> GGUF 파일(`llama-3.2-3b-instruct.Q4_K_M.gguf`)은 용량 문제로 git에서 제외됩니다.
+> [Google Drive 링크](https://drive.google.com/drive/folders/LG_HelloDoctor/LLM/gguf/)에서 다운로드 후 `models/` 폴더에 배치하세요.
+
+### 3. Docker로 실행
 
 ```bash
 # 최초 실행 (이미지 빌드 포함)
@@ -78,20 +95,30 @@ docker compose up -d
 
 ### `POST /chat` — 채팅 (핵심 엔드포인트)
 
+증상 질문은 **다중턴**으로 동작합니다. `session_id`로 대화 상태를 유지합니다.
+
 ```json
-// 요청
+// [1턴] 요청 — 증상 입력
+{ "text": "무릎이 너무 아파요", "session_id": "user-123", "lat": 37.5012, "lng": 127.0396 }
+
+// [1턴] 응답 — 추가 질문 (ready_for_c: false)
 {
-  "text": "무릎이 너무 아파요",
-  "session_id": "user-123",
-  "lat": 37.5012,
-  "lng": 127.0396
+  "answer": "무릎이 많이 아프시군요. 혹시 걷기가 많이 힘드신가요?",
+  "intent": "symptom_inquiry",
+  "hospitals": null,
+  "is_emergency": false,
+  "ready_for_c": false,
+  "session_id": "user-123"
 }
 
-// 응답
+// [2턴] 요청 — 추가 답변 (같은 session_id)
+{ "text": "네, 걷기가 너무 힘들어요", "session_id": "user-123", "lat": 37.5012, "lng": 127.0396 }
+
+// [2턴] 응답 — 최종 답변 + 병원 안내 (ready_for_c: true)
 {
-  "answer": "어르신, 무릎이 많이 불편하시겠어요. 가까운 정형외과에 가보시는 게 좋겠어요.",
+  "answer": "어르신, 무릎이 많이 불편하시겠어요. 가까운 정형외과에 가보시는 게 좋겠습니다.",
   "intent": "symptom_inquiry",
-  "hospitals": [...],
+  "hospitals": [{ "name": "○○정형외과", "distance": 350, "phone": "02-000-0000" }],
   "is_emergency": false,
   "ready_for_c": true,
   "session_id": "user-123"
@@ -122,6 +149,10 @@ LGHelloDoctor/
 │   │   └── hooks/           # useMedicalChat, useVoiceInput, useWakeWord
 │   ├── Dockerfile
 │   └── nginx.conf
+├── finetune/
+│   └── llama_finetune.ipynb # Unsloth LoRA 파인튜닝 노트북 (git 제외)
+├── models/
+│   └── Modelfile            # Ollama 모델 정의 (GGUF 파일은 git 제외)
 ├── RAG/db/                  # ChromaDB 벡터 DB 데이터
 ├── docs/                    # 상세 문서
 ├── tests/                   # TDD 테스트 스위트
@@ -212,3 +243,4 @@ python -m pytest tests/test_frontend.py -v  # 프론트엔드 계약
 - `temperature=0` 고정 — 의도 분류 일관성 유지
 - `FORBIDDEN_WORDS` 항목 삭제 금지 — 의료법 준수
 - `.env` 파일 절대 커밋 금지
+- `llama-3.2-3b-instruct.Q4_K_M.gguf` — git 제외 대상, `models/` 폴더에 직접 배치 필요

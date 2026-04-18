@@ -11,11 +11,11 @@
     ↓
 [A팀] STT (Whisper + Silero VAD)
     ↓
-[B팀] 의도 분류 & 다중턴 (Groq LLM)
+[B팀] 의도 분류 & 다중턴 (파인튜닝 LLaMA 3.2-3B / Ollama)
     ↓
 [C팀] RAG + 병원 검색 + 응급 판단 (ChromaDB + Kakao API)
     ↓
-[D팀] 답변 생성 (Groq LLM)
+[D팀] 답변 생성 (파인튜닝 LLaMA 3.2-3B / Ollama)
     ↓
 프론트엔드 (React + Vite)
 ```
@@ -38,16 +38,16 @@ LGHelloDoctor/
 │   └── nginx.conf
 ├── RAG/db/                  # ChromaDB PersistentClient 데이터
 ├── docker-compose.yml
-└── .env                     # API 키 (KAKAO_API_KEY, GROQ_API_KEY)
+└── .env                     # API 키 (KAKAO_API_KEY)
 ```
 
 ## 환경 변수 (.env)
 | 변수 | 용도 | 필수 |
 |------|------|------|
 | `KAKAO_API_KEY` | 병원 위치 검색 (Kakao Map API) | ✅ |
-| `GROQ_API_KEY` | LLM 추론 (llama-3.3-70b-versatile) | ✅ |
 | `WHISPER_MODEL_PATH` | Whisper 모델 경로 (기본: openai/whisper-small) | 선택 |
 | `DB_PATH` | ChromaDB 경로 (기본: /app/RAG/db) | 선택 |
+| `OLLAMA_URL` | Ollama 서버 주소 (기본: http://localhost:11434) | 선택 |
 
 ## Docker 실행
 ```bash

@@ -15,7 +15,7 @@ BASE_URL=http://your-server:8000 python src/todo/manager.py
 
 | 항목 | 설명 |
 |------|------|
-| 환경 변수 설정 | KAKAO_API_KEY, GROQ_API_KEY 존재 여부 |
+| 환경 변수 설정 | KAKAO_API_KEY 존재 여부, Ollama 서버 응답 여부 |
 | ChromaDB 문서 수 | 의료 지식 문서 100개 이상 유지 여부 |
 | 백엔드 서버 응답 | GET / → 200 OK |
 | 채팅 API 응답 형식 | POST /chat 필수 필드 포함 여부 |

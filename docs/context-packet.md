@@ -18,7 +18,7 @@
 ### 외부 API
 | API | 상태 | 용도 |
 |-----|------|------|
-| Groq API | 운영 중 | LLM 추론 |
+| Ollama | 운영 중 | 파인튜닝 LLaMA 3.2-3B 서빙 |
 | Kakao Map API | 운영 중 | 병원 검색 |
 
 ## 파이프라인 데이터 흐름
@@ -40,7 +40,7 @@
     - search_hospital(): Kakao 병원 검색
     - emergency_check(): 응급 판단
     ↓
-    - Groq LLM으로 시니어 맞춤 답변 생성
+    - 파인튜닝 LLaMA 3.2-3B (Ollama)로 시니어 맞춤 답변 생성
     - 금지어·영어 단어 제거
     ↓
 ChatResponse 반환
@@ -51,10 +51,10 @@ ChatResponse 반환
 
 | 결정 | 이유 |
 |------|------|
-| unsloth 파인튜닝 모델 제외 | 최종 파이프라인에서 실제 미사용 확인 |
+| unsloth 파인튜닝 LLaMA 3.2-3B 적용 | Ollama (hellodoctor-intent) 로 D팀 답변 생성에 통합 |
 | Whisper small 사용 | 커스텀 모델이 Google Drive에만 존재, 볼륨 마운트로 교체 가능 |
 | ChromaDB 1.5.5 고정 | 로컬 DB 생성 버전과 일치 필요 |
-| httpx<0.28.0 고정 | groq 라이브러리 proxies 파라미터 호환성 |
+| httpx<0.28.0 고정 | 라이브러리 proxies 파라미터 호환성 |
 | CPU 전용 빌드 | 현재 환경에 GPU 없음 |
 
 ## 알려진 이슈
@@ -67,7 +67,7 @@ ChatResponse 반환
 ## 환경 변수 현황
 ```
 KAKAO_API_KEY=설정됨
-GROQ_API_KEY=설정됨
 WHISPER_MODEL_PATH=openai/whisper-small (기본값)
 DB_PATH=/app/RAG/db (Docker 기본값)
+OLLAMA_URL=http://localhost:11434 (기본값)
 ```

@@ -2,7 +2,7 @@
 .env
 
 # 노트북 (토큰 포함 가능)
-B_llm_comparison.ipynb
+finetune/*.ipynb
 
 # RAG 바이너리 데이터
 RAG/

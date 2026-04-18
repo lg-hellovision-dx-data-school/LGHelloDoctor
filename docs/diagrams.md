@@ -86,10 +86,11 @@ classDiagram
 
 ```mermaid
 classDiagram
-    class GroqLLM {
-        +model_name : llama-3.3-70b-versatile
+    class FineTunedLLM {
+        +model_name : llama-3.2-3b-instruct.Q4_K_M
+        +ollama_url : http://localhost:11434
         +temperature : 0
-        +invoke(prompt) Response
+        +generate(prompt) Response
     }
 
     class IntentClassifier {
@@ -111,7 +112,7 @@ classDiagram
         +dict output_for_c
     }
 
-    IntentClassifier --> GroqLLM : LLM 호출
+    IntentClassifier --> FineTunedLLM : LLM 호출
     ConversationManager --> IntentClassifier : 의도 분류 요청
     ConversationManager --> IntentResult : 반환
 ```
@@ -169,10 +170,11 @@ classDiagram
         +format_response(raw_answer, is_emergency) str
     }
 
-    class GroqLLM {
+    class FineTunedLLM {
+        +model_name : llama-3.2-3b-instruct.Q4_K_M
         +system_prompt : 한국어 전용
         +max_sentences : 3~4
-        +invoke(messages) Response
+        +generate(prompt) Response
     }
 
     class FormattedResponse {
@@ -180,7 +182,7 @@ classDiagram
         +bool is_emergency
     }
 
-    AnswerGenerator --> GroqLLM : 답변 생성
+    AnswerGenerator --> FineTunedLLM : 답변 생성
     AnswerGenerator --> FormattedResponse : 반환
 ```
 
