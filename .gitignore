@@ -12,16 +12,29 @@ RAG.zip
 __pycache__/
 *.pyc
 *.pyo
+.pytest_cache/
 venv/
 .venv/
 *.egg-info/
 
-# 모델 파일
+# 모델 파일 (용량 큼)
 *.gguf
 *.safetensors
 *.bin
 models/
 
+# 데이터
+data/raw/
+data/processed/
+data/processed_smoke/
+
+# AI Hub 음성 데이터 (대용량)
+자유대화 음성(노인남녀)/
+
 # 평가 캐시
 eval/__pycache__/
 eval/*.zip
+
+# IDE
+.vscode/
+.idea/
