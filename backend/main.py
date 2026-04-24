@@ -19,6 +19,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 from dotenv import load_dotenv
+from langsmith import traceable
 
 load_dotenv()
 
@@ -193,6 +194,7 @@ def stt_pipeline(audio_path: str = None, raw_text: str = None, confidence: float
 
 # ====== B팀: 의도 분류 & 다중턴 ======
 
+@traceable(name="B팀-의도분류-LLaMA3.2")
 def classify_intent(text: str) -> dict:
     clean_text = text.strip().replace(" ", "")
     if any(kw.replace(" ", "") in clean_text for kw in EMERGENCY_KEYWORDS):
@@ -427,6 +429,7 @@ def tool_router(output_from_B: dict, lat: float = 37.5012, lng: float = 127.0396
 
 # ====== D팀: 응답 생성 ======
 
+@traceable(name="D팀-답변생성-LLaMA3.2")
 def generate_answer(query: str, context: str, confidence: float = 0.85, entities: dict = None) -> dict:
     body_part = entities.get('body_part') if entities else "해당"
     context_snippet = context[:400] if context else "정보 없음"
@@ -537,6 +540,7 @@ def full_pipeline(
         }
 
     # C: 도구 활용
+    
     output_from_B = b_result['output_for_c']
     c_result = tool_router(output_from_B, lat, lng)
 
