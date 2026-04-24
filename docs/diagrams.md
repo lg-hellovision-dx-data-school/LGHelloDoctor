@@ -18,51 +18,65 @@
 ## 0. 시스템 아키텍처
 
 ```mermaid
-architecture-beta
-    group onprem[On-Premise Server]
-    group dc(logos:docker-icon)[Docker Compose] in onprem
-    group vols(logos:docker-icon)[Docker Volumes] in onprem
-    group cloud[External Cloud Services]
+graph LR
+    classDef user     fill:#E8F4FD,stroke:#2196F3,color:#000
+    classDef docker   fill:#0db7ed,stroke:#0db7ed,color:#fff
+    classDef aimodel  fill:#7B2FBE,stroke:#7B2FBE,color:#fff
+    classDef volume   fill:#F0F4C3,stroke:#AFB42B,color:#000
+    classDef external fill:#FFF3E0,stroke:#FF8F00,color:#000
+    classDef deploy   fill:#E8F5E9,stroke:#388E3C,color:#000
 
-    service tv(server)[TV User]
-    service mobile(server)[Mobile User]
-    service dev(server)[Developer]
-    service github(logos:github-icon)[GitHub Repository]
+    TV(["📺 TV\n어르신"]):::user
+    Mobile(["📱 모바일\n어르신"]):::user
+    Dev(["💻 개발자"]):::deploy
+    GitHub(["🐙 GitHub\nRepository"]):::deploy
 
-    service fe(logos:nginx)[nginx frontend port 80] in dc
-    service be(logos:fastapi)[FastAPI backend port 8000] in dc
-    service whisper(server)[Whisper STT] in dc
-    service silero(server)[Silero VAD] in dc
-    service embed(logos:hugging-face-icon)[ko-sroberta Embedding] in dc
+    subgraph OnPrem["🖥️  On-Premise Server"]
+        subgraph DC["🐳 Docker Compose"]
+            FE["🐳 nginx:alpine\nfrontend\nport 80\nReact 19 + TypeScript"]:::docker
+            BE["🐳 python:3.11-slim\nFastAPI backend\nport 8000"]:::docker
 
-    service ollama(server)[Ollama LLaMA 3.2-3B port 11434] in onprem
+            subgraph Models["Built-in AI Models"]
+                Whisper["Whisper STT\nopenai/whisper-small"]:::aimodel
+                Silero["Silero VAD\nthreshold 0.4"]:::aimodel
+                Sroberta["ko-sroberta-multitask\nEmbedding"]:::aimodel
+            end
+        end
 
-    service chromadb(database)[ChromaDB 418 chunks] in vols
-    service modelcache(database)[Model Cache HuggingFace] in vols
+        Ollama["🦙 Ollama\nport 11434\nLLaMA 3.2-3B GGUF Q4_K_M"]:::aimodel
 
-    service hf(logos:hugging-face-icon)[HuggingFace Hub] in cloud
-    service groq(server)[Groq API Fallback] in cloud
-    service kakao(server)[Kakao Map API] in cloud
+        subgraph Vols["📦 Docker Volumes"]
+            ChromaDB[("RAG/db\nChromaDB 1.5.5\n418 chunks")]:::volume
+            ModelVol[("model-cache\nHuggingFace cache")]:::volume
+        end
+    end
 
-    dev:R --> L:github
-    github:R --> L:fe
+    subgraph Cloud["☁️  External Cloud"]
+        HF(["🤗 HuggingFace Hub\nModel Download"]):::external
+        Groq(["⚡ Groq Cloud API\nllama-3.3-70b\nFallback"]):::external
+        Kakao(["🗺️ Kakao Map API\nHospital Search"]):::external
+    end
 
-    tv:R --> L:fe
-    mobile:R --> L:fe
-    fe:R --> L:be
+    Dev       -->|"git push"| GitHub
+    GitHub    -->|"docker compose\nup --build"| FE
 
-    be:R --> L:whisper
-    be:R --> L:silero
-    be:R --> L:embed
+    TV        -->|"HTTP Request"| FE
+    Mobile    -->|"HTTP Request"| FE
+    FE        -->|"POST /chat\nPOST /api/stt"| BE
+    BE        -->|"ChatResponse JSON"| FE
+    FE        -->|"Render UI"| TV
+    FE        -->|"Render UI"| Mobile
 
-    be:B --> T:ollama
+    BE        --> Whisper
+    BE        --> Silero
+    BE        --> Sroberta
+    Sroberta  <-->|"Vector Search"| ChromaDB
+    Models    <-.->|"Model Cache"| ModelVol
 
-    embed:B --> T:chromadb
-    be:B --> T:modelcache
-
-    be:T --> B:groq
-    be:T --> B:kakao
-    modelcache:R --> L:hf
+    BE        -->|"Intent / Answer\nPOST /api/generate"| Ollama
+    BE        -.->|"Fallback HTTPS"| Groq
+    BE        -->|"Hospital Search\nHTTPS"| Kakao
+    ModelVol  <-.->|"First-time Download"| HF
 ```
 
 ---
