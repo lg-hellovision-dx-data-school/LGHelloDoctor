@@ -197,6 +197,30 @@ def classify_intent(text: str) -> dict:
     clean_text = text.strip().replace(" ", "")
     if any(kw.replace(" ", "") in clean_text for kw in EMERGENCY_KEYWORDS):
         return {'intent': 'emergency', 'confidence': 1.0}
+
+    intent_prompt = (
+        f"### 지시:\n"
+        f"다음 문장의 의도를 아래 4가지 중 하나로만 답하세요.\n"
+        f"symptom_inquiry / hospital_search / medication_info / emergency\n\n"
+        f"문장: '{text}'\n\n"
+        f"### 응답:\n"
+    )
+    try:
+        resp = requests.post(
+            f"{OLLAMA_URL}/api/generate",
+            json={"model": INTENT_MODEL, "prompt": intent_prompt, "stream": False,
+                  "options": {"temperature": 0, "num_predict": 30}},
+            timeout=30,
+        )
+        ans = resp.json().get("response", "").lower().strip()
+        for target in ['emergency', 'medication_info', 'hospital_search', 'symptom_inquiry']:
+            if target in ans:
+                print(f"[B팀] 파인튜닝 모델 의도 분류: {target}")
+                return {'intent': target, 'confidence': 0.90}
+        raise ValueError(f"파인튜닝 모델 유효 레이블 없음: {ans}")
+    except Exception as e:
+        print(f"[B팀] 파인튜닝 모델 실패, Groq 폴백: {e}")
+
     try:
         prompt = (
             f"문장: '{text}'\n"
@@ -209,7 +233,7 @@ def classify_intent(text: str) -> dict:
                 return {'intent': target, 'confidence': 0.95}
         return {'intent': 'symptom_inquiry', 'confidence': 0.70}
     except Exception as e:
-        print(f"[Error] classify_intent: {e}")
+        print(f"[Error] classify_intent Groq: {e}")
         return {'intent': 'symptom_inquiry', 'confidence': 0.50}
 
 
