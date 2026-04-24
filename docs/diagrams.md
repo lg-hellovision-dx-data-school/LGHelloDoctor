@@ -18,79 +18,68 @@
 ## 0. 시스템 아키텍처
 
 ```mermaid
-graph LR
-    %% ── 사용자 ──────────────────────────────────────
-    TV(["📺 TV\n어르신"])
-    Mobile(["📱 모바일\n어르신"])
+architecture-beta
+    group onprem[온프레미스 서버]
+    group dc(logos:docker-icon)[Docker Compose] in onprem
+    group volumes(logos:docker-icon)[Docker 볼륨] in onprem
+    group cloud[외부 클라우드]
 
-    %% ── 개발 배포 파이프라인 ──────────────────────────
-    Dev(["💻 개발자"])
-    GitHub[/"🐙 GitHub\nSource Code Repository"/]
-    Dev -->|"git push"| GitHub
-    GitHub -->|"docker compose\nup --build"| OnPrem
+    %% 사용자
+    service tv(server)[TV 어르신]
+    service mobile(server)[모바일 어르신]
 
-    %% ── 온프레미스 서버 ───────────────────────────────
-    subgraph OnPrem["🖥️ 온프레미스 서버 (로컬)"]
-        direction TB
+    %% 개발 배포
+    service dev(server)[개발자]
+    service github(logos:github-icon)[GitHub]
 
-        subgraph DC["Docker Compose"]
-            direction LR
+    %% Docker 컨테이너
+    service frontend(logos:nginx)[frontend :80] in dc
+    service backend(logos:fastapi)[backend :8000] in dc
 
-            subgraph FE_C["🐳 frontend 컨테이너"]
-                nginx["nginx:alpine\n포트 :80\nReact 19 + TypeScript\nSPA 서빙"]
-            end
+    %% 내장 AI 모델 (backend 안)
+    service whisper(server)[Whisper STT] in dc
+    service silero(server)[Silero VAD] in dc
+    service sroberta(logos:hugging-face-icon)[ko-sroberta] in dc
 
-            subgraph BE_C["🐳 backend 컨테이너"]
-                fastapi["FastAPI\npython:3.11-slim\n포트 :8000"]
+    %% Ollama (온프레미스, 별도 프로세스)
+    service ollama(server)[Ollama :11434 LLaMA 3.2-3B] in onprem
 
-                subgraph IN_MODEL["내장 AI 모델"]
-                    whisper["Whisper STT\nopenai/whisper-small"]
-                    silero["Silero VAD\nthreshold=0.4"]
-                    sroberta["ko-sroberta-multitask\n임베딩"]
-                end
-            end
-        end
+    %% 볼륨
+    service chromavol(database)[RAG/db ChromaDB 418청크] in volumes
+    service modelcache(database)[model-cache HuggingFace 캐시] in volumes
 
-        Ollama["🦙 Ollama 서버\n포트 :11434\n파인튜닝 LLaMA 3.2-3B\nGGUF Q4_K_M"]
+    %% 외부 클라우드
+    service hf(logos:hugging-face-icon)[HuggingFace Hub] in cloud
+    service groq(server)[Groq API llama-3.3-70b] in cloud
+    service kakao(server)[Kakao Map API] in cloud
 
-        subgraph VOL["📦 Docker 볼륨"]
-            ChromaVol[("RAG/db/\nChromaDB 1.5.5\n418개 청크")]
-            ModelVol[("model-cache/\nWhisper · ko-sroberta\nHuggingFace 캐시")]
-        end
-    end
+    %% 배포 파이프라인
+    dev:R --> L:github
+    github:R --> L:dc
 
-    %% ── 외부 클라우드 서비스 ──────────────────────────
-    subgraph Cloud["☁️ 외부 클라우드"]
-        HuggingFace[/"🤗 HuggingFace Hub\n모델 최초 다운로드"/]
-        Groq[/"⚡ Groq Cloud API\nllama-3.3-70b-versatile\n폴백"/]
-        Kakao[/"🗺️ Kakao Map API\n반경 3km 병원 검색"/]
-    end
+    %% 사용자 ↔ 프론트엔드
+    tv:R --> L:frontend
+    mobile:R --> L:frontend
 
-    %% ── 사용자 ↔ 프론트엔드 ───────────────────────────
-    TV -->|"HTTP 요청"| nginx
-    Mobile -->|"HTTP 요청"| nginx
-    nginx -->|"화면 렌더링"| TV
-    nginx -->|"화면 렌더링"| Mobile
+    %% 프론트엔드 ↔ 백엔드
+    frontend:R --> L:backend
 
-    %% ── 프론트엔드 ↔ 백엔드 ──────────────────────────
-    nginx -->|"POST /chat\nPOST /api/stt"| fastapi
-    fastapi -->|"ChatResponse JSON\nanswer · intent · hospitals\nis_emergency"| nginx
+    %% 백엔드 ↔ 내장 모델
+    backend:R --> L:whisper
+    backend:R --> L:silero
+    backend:R --> L:sroberta
 
-    %% ── 백엔드 ↔ 내장 모델 ───────────────────────────
-    fastapi -->|"오디오 처리"| whisper
-    fastapi -->|"무음 제거"| silero
-    fastapi -->|"쿼리 임베딩"| sroberta
-    sroberta <-->|"벡터 검색"| ChromaVol
-    IN_MODEL <-.->|"모델 캐시 재사용"| ModelVol
+    %% 백엔드 ↔ Ollama
+    backend:B --> T:ollama
 
-    %% ── 백엔드 ↔ Ollama ──────────────────────────────
-    fastapi -->|"의도 분류 요청\nPOST /api/generate"| Ollama
-    fastapi -->|"답변 생성 요청\nPOST /api/generate"| Ollama
+    %% 백엔드 ↔ 볼륨
+    sroberta:B --> T:chromavol
+    backend:B --> T:modelcache
 
-    %% ── 백엔드 ↔ 외부 서비스 ─────────────────────────
-    fastapi -.->|"Groq 폴백\nHTTPS"| Groq
-    fastapi -->|"병원 위치 검색\nHTTPS"| Kakao
-    ModelVol <-.->|"최초 1회 다운로드"| HuggingFace
+    %% 백엔드 ↔ 외부
+    backend:T --> B:groq
+    backend:T --> B:kakao
+    modelcache:B --> T:hf
 ```
 
 ---
