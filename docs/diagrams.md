@@ -19,67 +19,50 @@
 
 ```mermaid
 architecture-beta
-    group onprem[온프레미스 서버]
+    group onprem[On-Premise Server]
     group dc(logos:docker-icon)[Docker Compose] in onprem
-    group volumes(logos:docker-icon)[Docker 볼륨] in onprem
-    group cloud[외부 클라우드]
+    group vols(logos:docker-icon)[Docker Volumes] in onprem
+    group cloud[External Cloud Services]
 
-    %% 사용자
-    service tv(server)[TV 어르신]
-    service mobile(server)[모바일 어르신]
+    service tv(server)[TV User]
+    service mobile(server)[Mobile User]
+    service dev(server)[Developer]
+    service github(logos:github-icon)[GitHub Repository]
 
-    %% 개발 배포
-    service dev(server)[개발자]
-    service github(logos:github-icon)[GitHub]
-
-    %% Docker 컨테이너
-    service frontend(logos:nginx)[frontend :80] in dc
-    service backend(logos:fastapi)[backend :8000] in dc
-
-    %% 내장 AI 모델 (backend 안)
+    service fe(logos:nginx)[nginx frontend port 80] in dc
+    service be(logos:fastapi)[FastAPI backend port 8000] in dc
     service whisper(server)[Whisper STT] in dc
     service silero(server)[Silero VAD] in dc
-    service sroberta(logos:hugging-face-icon)[ko-sroberta] in dc
+    service embed(logos:hugging-face-icon)[ko-sroberta Embedding] in dc
 
-    %% Ollama (온프레미스, 별도 프로세스)
-    service ollama(server)[Ollama :11434 LLaMA 3.2-3B] in onprem
+    service ollama(server)[Ollama LLaMA 3.2-3B port 11434] in onprem
 
-    %% 볼륨
-    service chromavol(database)[RAG/db ChromaDB 418청크] in volumes
-    service modelcache(database)[model-cache HuggingFace 캐시] in volumes
+    service chromadb(database)[ChromaDB 418 chunks] in vols
+    service modelcache(database)[Model Cache HuggingFace] in vols
 
-    %% 외부 클라우드
     service hf(logos:hugging-face-icon)[HuggingFace Hub] in cloud
-    service groq(server)[Groq API llama-3.3-70b] in cloud
+    service groq(server)[Groq API Fallback] in cloud
     service kakao(server)[Kakao Map API] in cloud
 
-    %% 배포 파이프라인
     dev:R --> L:github
-    github:R --> L:dc
+    github:R --> L:fe
 
-    %% 사용자 ↔ 프론트엔드
-    tv:R --> L:frontend
-    mobile:R --> L:frontend
+    tv:R --> L:fe
+    mobile:R --> L:fe
+    fe:R --> L:be
 
-    %% 프론트엔드 ↔ 백엔드
-    frontend:R --> L:backend
+    be:R --> L:whisper
+    be:R --> L:silero
+    be:R --> L:embed
 
-    %% 백엔드 ↔ 내장 모델
-    backend:R --> L:whisper
-    backend:R --> L:silero
-    backend:R --> L:sroberta
+    be:B --> T:ollama
 
-    %% 백엔드 ↔ Ollama
-    backend:B --> T:ollama
+    embed:B --> T:chromadb
+    be:B --> T:modelcache
 
-    %% 백엔드 ↔ 볼륨
-    sroberta:B --> T:chromavol
-    backend:B --> T:modelcache
-
-    %% 백엔드 ↔ 외부
-    backend:T --> B:groq
-    backend:T --> B:kakao
-    modelcache:B --> T:hf
+    be:T --> B:groq
+    be:T --> B:kakao
+    modelcache:R --> L:hf
 ```
 
 ---
