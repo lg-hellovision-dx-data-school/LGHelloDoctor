@@ -1,6 +1,7 @@
 # LG HelloDoctor — 아키텍처 다이어그램
 
 ## 목차
+0. [시스템 아키텍처](#0-시스템-아키텍처)
 1. [클래스 다이어그램](#클래스-다이어그램)
    - [FastAPI 스키마](#1-fastapi-스키마)
    - [A팀 STT 모듈](#2-a팀-stt-모듈)
@@ -11,6 +12,84 @@
    - [전체 채팅 파이프라인](#1-전체-채팅-파이프라인-a→b→c→d)
    - [STT 처리 흐름](#2-stt-처리-흐름)
    - [응급 감지 분기 흐름](#3-응급-감지-분기-흐름)
+
+---
+
+## 0. 시스템 아키텍처
+
+```mermaid
+graph TD
+    User(["👴 사용자\nTV / 모바일 브라우저"])
+
+    subgraph DC["🐳 Docker Compose"]
+        direction TB
+
+        subgraph FE["frontend 컨테이너 &nbsp;|&nbsp; nginx:alpine &nbsp;|&nbsp; :80"]
+            React["React 19 + TypeScript\nVite 빌드 → /dist\nnginx SPA 서빙"]
+        end
+
+        subgraph BE["backend 컨테이너 &nbsp;|&nbsp; python:3.11-slim &nbsp;|&nbsp; :8000"]
+            FastAPI["FastAPI\nfull_pipeline()"]
+
+            subgraph A_STT["[A팀] STT"]
+                Whisper["Whisper STT\nopenai/whisper-small"]
+                VAD["Silero VAD\nthreshold=0.4"]
+            end
+
+            subgraph B_Intent["[B팀] 의도 분류 & 다중턴"]
+                Classify["classify_intent()"]
+                MultiTurn["chat_with_followup()\nstep 1→2"]
+            end
+
+            subgraph C_RAG["[C팀] RAG + 병원검색 + 응급판단"]
+                RAG["full_rag_pipeline()\nquery_rewrite()"]
+                Embed["ko-sroberta-multitask\n임베딩 모델"]
+                Hospital["search_hospital()\nemergency_check()"]
+            end
+
+            subgraph D_Answer["[D팀] 답변 생성"]
+                GenAnswer["generate_answer()\nformat_response()"]
+            end
+        end
+
+        subgraph VOL["📦 Docker 볼륨"]
+            ChromaVol[("RAG/db/\nChromaDB 1.5.5\n418개 청크")]
+            ModelCache[("model-cache\nHuggingFace 모델 캐시\nWhisper · ko-sroberta")]
+        end
+    end
+
+    subgraph EXT["☁️ 외부 서비스"]
+        Ollama["🦙 Ollama\n:11434\n파인튜닝 LLaMA 3.2-3B\nGGUF Q4_K_M"]
+        Groq["⚡ Groq API\nllama-3.3-70b-versatile\n폴백용"]
+        Kakao["🗺️ Kakao Map API\n반경 3km 병원 검색"]
+    end
+
+    %% 사용자 ↔ 프론트엔드
+    User -->|"HTTP 요청"| React
+    React -->|"화면 렌더링"| User
+
+    %% 프론트엔드 ↔ 백엔드
+    React -->|"POST /chat\nPOST /api/stt"| FastAPI
+    FastAPI -->|"ChatResponse\nJSON"| React
+
+    %% 백엔드 내부 파이프라인
+    FastAPI --> A_STT
+    A_STT --> B_Intent
+    B_Intent --> C_RAG
+    C_RAG --> D_Answer
+    D_Answer --> FastAPI
+
+    %% 볼륨 연결
+    C_RAG <-->|"벡터 검색 / 저장"| ChromaVol
+    A_STT <-.->|"모델 로드"| ModelCache
+
+    %% 외부 서비스 연결
+    B_Intent -->|"의도 분류\nHTTP :11434"| Ollama
+    D_Answer -->|"답변 생성\nHTTP :11434"| Ollama
+    B_Intent -.->|"Groq 폴백"| Groq
+    D_Answer -.->|"Groq 폴백"| Groq
+    C_RAG -->|"병원 위치 검색\nHTTPS"| Kakao
+```
 
 ---
 
