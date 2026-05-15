@@ -14,8 +14,17 @@ services:
       - .env
     environment:
       - DB_PATH=/app/RAG/db
-      # 커스텀 Whisper 모델 경로 (Google Drive에서 받아 ./models/whisper-ko-elderly 에 놓으면 활성화)
+      # Whisper 모델 (기본: SungBeom/whisper-small-ko — 한국어 fine-tuned)
+      # - 다른 모델 사용 시 아래 주석 해제 후 모델 ID 또는 로컬 경로 입력
+      # - WHISPER_MODEL_PATH=openai/whisper-small
       # - WHISPER_MODEL_PATH=/app/models/whisper-ko-elderly
+      # Ollama 파인튜닝 모델명 (intent_finetune / answer_finetune 노트북에서 GGUF 등록한 이름)
+      - INTENT_MODEL=hellodoctor-intent
+      - ANSWER_MODEL=hellodoctor-answer
+      - OLLAMA_URL=http://host.docker.internal:11434
+    # Linux 호스트에서 host.docker.internal 인식 안 되면 아래 한 줄 추가:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     # GPU 사용 시 아래 주석 해제
     # deploy:
     #   resources:

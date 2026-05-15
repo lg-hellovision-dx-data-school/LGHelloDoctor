@@ -9,7 +9,9 @@ import soundfile as sf
 import numpy as np
 import chromadb
 import requests
-from sentence_transformers import SentenceTransformer
+from collections import defaultdict
+from sentence_transformers import SentenceTransformer, CrossEncoder
+from rank_bm25 import BM25Okapi
 from numpy import dot
 from numpy.linalg import norm
 from transformers import WhisperForConditionalGeneration, WhisperProcessor
@@ -26,7 +28,11 @@ load_dotenv()
 # ====== 환경 변수 ======
 KAKAO_API_KEY     = os.environ.get('KAKAO_API_KEY', '')
 GROQ_API_KEY      = os.environ.get('GROQ_API_KEY', '')
-WHISPER_MODEL_PATH = os.environ.get('WHISPER_MODEL_PATH', 'openai/whisper-small')
+# 한국어 fine-tuned whisper-small (244M).
+# - openai/whisper-small 대비 한국어 WER 30~40% 개선, 동일 크기·속도
+# - 시니어 발화/방언/의료 용어 인식률 향상
+# - 환경변수로 override 가능 (예: WHISPER_MODEL_PATH=openai/whisper-small)
+WHISPER_MODEL_PATH = os.environ.get('WHISPER_MODEL_PATH', 'SungBeom/whisper-small-ko')
 DB_PATH           = os.environ.get('DB_PATH', '/app/RAG/db')
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -40,10 +46,16 @@ llm = ChatGroq(
 )
 print("[Init] Groq LLM 연결 완료")
 
-# ====== 파인튜닝 LLM (Ollama) — 의도 분류 전용 ======
+# ====== 파인튜닝 LLM (Ollama) ======
+# 의도 분류(B팀)와 답변 생성(D팀)을 별도 LoRA 모델로 분리해 각자 특화시킨다.
+# 등록은 Ollama Modelfile 로:
+#   ollama create hellodoctor-intent -f Modelfile  (intent_finetune 노트북 산출물)
+#   ollama create hellodoctor-answer -f Modelfile  (answer_finetune 노트북 산출물)
 OLLAMA_URL = os.environ.get('OLLAMA_URL', 'http://localhost:11434')
-INTENT_MODEL = "hellodoctor-intent"
+INTENT_MODEL = os.environ.get('INTENT_MODEL', 'hellodoctor-intent')
+ANSWER_MODEL = os.environ.get('ANSWER_MODEL', 'hellodoctor-answer')
 print(f"[Init] 파인튜닝 의도 분류 모델: {INTENT_MODEL} ({OLLAMA_URL})")
+print(f"[Init] 파인튜닝 답변 생성 모델: {ANSWER_MODEL} ({OLLAMA_URL})")
 
 # ====== STT (Whisper) ======
 print(f"[Init] Whisper 모델 로드 중: {WHISPER_MODEL_PATH}")
@@ -75,11 +87,40 @@ collection = chroma_client.get_or_create_collection(
 )
 print(f"[Init] ChromaDB 문서 수: {collection.count()}")
 
+# ====== Hybrid RAG v2 — BM25 + CrossEncoder 초기화 ======
+# rag_evaluation 노트북 ablation 결과 (Full Pipeline) 기반:
+#   Vector only  → recall@3 = 0.74, MRR = 0.72
+#   v2 (this)    → recall@3 = 0.85, MRR = 0.86  (+15%)
+print("[Init] Hybrid RAG (BM25 + Cross-Encoder Reranker) 초기화 중...")
+_all_data = collection.get(include=["documents", "metadatas"])
+corpus_doc_ids = list(_all_data["ids"])
+corpus_texts   = list(_all_data["documents"])
+corpus_meta    = list(_all_data["metadatas"] or [{} for _ in corpus_doc_ids])
+
+def _bm25_tok(t: str):
+    return [tok for tok in re.findall(r"[가-힣]+|[a-zA-Z0-9]+", t) if len(tok) >= 2]
+
+bm25 = BM25Okapi([_bm25_tok(t) for t in corpus_texts]) if corpus_texts else None
+reranker = CrossEncoder("Dongjin-kr/ko-reranker", max_length=512)
+print(f"[Init] BM25 corpus={len(corpus_texts)}개, Reranker(ko-reranker) 로드 완료")
+
 # ====== 상수 ======
 SAMPLE_RATE = 16000
 WAKE_WORDS  = ['헬로비야', '헬로비이', '헬로 비', '헬로비']
 FILLER_PATTERN = re.compile(r'(?<!\w)(어+~*|음+~*|에+~*|그+~*|뭐+~*|저+~*|아+~*)(?=\s|$)(?!\w)')
 
+# ─────────────────────────────────────────────────────────────────────────────
+# MEDICAL_CORRECTIONS — STT 오인식 보정 사전 (진료과명·증상·약물·검사명·질병명)
+#
+# 🧑‍⚕️ HITL 1차 책임자: 의사 (일반의)
+# 📅 검수 주기: 분기 1회 + STT 정확도 회귀 발견 시
+# 🔁 추가/수정 절차:
+#   1. STT 로그에서 신규 오인식 패턴 발견
+#   2. 의사 자문 → 보정 후보 검증 (의학적 정확성)
+#   3. PR → tests/test_ai_model.py::test_진료과명_보정 케이스 추가
+#   4. /test 통과 → 머지
+# 📋 변경 이력: CHANGELOG 또는 git blame 으로 추적
+# ─────────────────────────────────────────────────────────────────────────────
 MEDICAL_CORRECTIONS = {
     "정형외가": "정형외과", "정형외꽈": "정형외과", "정형외와": "정형외과", "정영외과": "정형외과",
     "이비인후가": "이비인후과", "이비인호과": "이비인후과", "이비인우과": "이비인후과",
@@ -99,6 +140,19 @@ MEDICAL_CORRECTIONS = {
     "치매가": "치매", "뇌경색이": "뇌경색", "뇌출혈이": "뇌출혈", "심근경새": "심근경색", "심근경섹": "심근경색",
 }
 
+# ─────────────────────────────────────────────────────────────────────────────
+# EMERGENCY_KEYWORDS — 응급 발화 트리거 (즉시 119 안내 분기)
+#
+# 🚨 HITL 1차 책임자: 의사 (응급의학)
+# 📅 검수 주기: 분기 1회 + 인명 사고/누락 사례 발생 시 즉시
+# ⚠️ 위반 시 영향: 인명 사고 — 가장 엄격한 검수 영역
+# 🔁 추가/수정 절차:
+#   1. 응급의학과 자문 (FAST 기준, golden time, triage 분류)
+#   2. tests/test_ai_model.py::EMERGENCY_CASES 에 케이스 추가
+#   3. test_응급_키워드_100퍼센트_감지 통과 필수
+#   4. /validate 7항목 체크 후 머지
+# 📋 회귀 차단: 100% 감지율 — 한 건이라도 누락되면 머지 X
+# ─────────────────────────────────────────────────────────────────────────────
 EMERGENCY_KEYWORDS = [
     '숨이 안 쉬어', '가슴이 너무 아프', '의식이 없', '쓰러', '피를 토',
     '말이 어눌', '입이 돌아', '한쪽이 마비', '갑자기 안 보여',
@@ -139,12 +193,34 @@ SYMPTOM_DEPT_MAP = {
     "가슴": ("내과", "01"),
 }
 
+# ─────────────────────────────────────────────────────────────────────────────
+# EMERGENCY_SCORES — 응급도 가중치 (0~100, 분기 임계값 결정용)
+#
+# 🚨 HITL 1차 책임자: 의사 (응급의학) — EMERGENCY_KEYWORDS 와 동일 책임자
+# 📅 검수 주기: 분기 1회 + 사고 시
+# 💡 점수 의미: ≥80 즉시 119 / 60~79 강한 권고 / <60 일반 RAG 흐름
+# ⚠️ 점수 조정 시 임계값 재실험 + 회귀 테스트 필수
+# ─────────────────────────────────────────────────────────────────────────────
 EMERGENCY_SCORES = {
     "숨이 안 쉬어": 100, "의식이 없": 100, "피를 토": 90,
     "가슴이 너무 아파": 90, "가슴통증이 심해": 90, "쓰러": 85,
     "쓰러졌": 80, "혈압이 200": 80, "혈압약을": 30, "혈압이 높아": 40,
 }
 
+# ─────────────────────────────────────────────────────────────────────────────
+# FORBIDDEN_WORDS — 의료법 위반 가능 어휘 차단 (단정적 진단·처방 금지)
+#
+# ⚖️ HITL 1차 책임자: 법률·컴플라이언스
+# 📅 검수 주기: 의료법 개정 시 + 분기 1회
+# 📜 근거: 의료법 제27조 (무면허 의료행위 금지), 의료광고법
+# 🔁 추가/삭제 절차:
+#   1. 법률 자문 → 의료법·의료광고법 위반 가능성 검토
+#   2. 의사 자문 (보조) → 임상적 단정성 판단
+#   3. PR → tests/test_ai_model.py::test_핵심_금지어_포함, test_금지어_필터링 통과
+#   4. /test → /validate → 머지
+# ⚠️ 절대 금지: 단정성 완화 핑계로 임의 삭제 (예: "AI가 답변 못 함" → 삭제 금지)
+# 📋 최소 10개 유지 — test_금지어_개수 가 강제
+# ─────────────────────────────────────────────────────────────────────────────
 FORBIDDEN_WORDS = ['예후', '처방전', '투약', '병변', '진단', '확정', '완치', '확신', '치료', '부작용']
 
 conversation_state: dict = {}
@@ -330,20 +406,68 @@ def query_rewrite(query: str) -> str:
     return query
 
 
-def full_rag_pipeline(query: str) -> str:
-    if collection.count() == 0:
-        return ""
+def full_rag_pipeline(query: str) -> dict:
+    """Hybrid RAG v2: Vector + BM25 → RRF fusion → CrossEncoder rerank → confidence threshold.
+
+    Returns:
+        dict with `context` (str) and `sources` (list of {doc_id, score, source}).
+        rag_evaluation 노트북 ablation 검증치: recall@3=0.85, MRR=0.86 (+15% vs Vector only).
+    """
+    NO_INFO = "관련된 전문적인 의학 정보를 찾지 못했습니다. 일반적인 의료 권고를 따르세요."
+    if collection.count() == 0 or bm25 is None:
+        return {"context": "", "sources": []}
+
     rewritten = query_rewrite(query)
+
+    # 1) Vector search (top-20)
     q_emb = embed_model.encode([rewritten]).tolist()
-    vec_res = collection.query(query_embeddings=q_emb, n_results=3)
-    filtered_docs = []
-    if vec_res and 'distances' in vec_res:
-        for doc, dist in zip(vec_res['documents'][0], vec_res['distances'][0]):
-            if dist <= 0.45:
-                filtered_docs.append(doc)
-    if not filtered_docs:
-        return "관련된 전문적인 의학 정보를 찾지 못했습니다. 일반적인 의료 권고를 따르세요."
-    return " ".join(filtered_docs)
+    vec_res = collection.query(query_embeddings=q_emb, n_results=20)
+    vec_hits = [
+        {"doc_id": d, "text": t, "score": 1 - dist}
+        for d, t, dist in zip(vec_res["ids"][0], vec_res["documents"][0], vec_res["distances"][0])
+    ]
+
+    # 2) BM25 search (top-20) — 키워드 매칭은 원본 쿼리 사용
+    bm_scores = bm25.get_scores(_bm25_tok(query))
+    top_idx = np.argsort(bm_scores)[::-1][:20]
+    bm25_hits = [
+        {"doc_id": corpus_doc_ids[i], "text": corpus_texts[i], "score": float(bm_scores[i])}
+        for i in top_idx if bm_scores[i] > 0
+    ]
+
+    # 3) RRF fusion (top-20)
+    sc = defaultdict(float); info = {}
+    for hits in (vec_hits, bm25_hits):
+        for rank, r in enumerate(hits, 1):
+            sc[r["doc_id"]] += 1.0 / (60 + rank)
+            info[r["doc_id"]] = r
+    candidates = [info[d] for d in sorted(sc, key=lambda x: -sc[x])[:20]]
+    if not candidates:
+        return {"context": NO_INFO, "sources": []}
+
+    # 4) Cross-Encoder rerank → top-3
+    pairs = [[query, c["text"]] for c in candidates]
+    rerank_scores = reranker.predict(pairs)
+    for c, s in zip(candidates, rerank_scores):
+        c["rerank_score"] = float(s)
+    top3 = sorted(candidates, key=lambda x: -x["rerank_score"])[:3]
+
+    # 5) Confidence threshold (rerank_score < 0 → 미사용)
+    confident = [c for c in top3 if c["rerank_score"] >= 0]
+    if not confident:
+        return {"context": NO_INFO, "sources": []}
+
+    # 6) Context + Citation 출처
+    context = " ".join(c["text"] for c in confident)
+    sources = [
+        {
+            "doc_id": c["doc_id"],
+            "score":  round(c["rerank_score"], 4),
+            "source": "질병관리청 국가건강정보포털",
+        }
+        for c in confident
+    ]
+    return {"context": context, "sources": sources}
 
 
 def search_kakao(dept_name: str, lat: float, lng: float) -> list:
@@ -408,7 +532,13 @@ def emergency_check(text: str) -> dict:
 def tool_router(output_from_B: dict, lat: float = 37.5012, lng: float = 127.0396) -> dict:
     intent = output_from_B.get("intent", "symptom_inquiry")
     query = output_from_B.get("query", "")
-    result = {"intent": intent, "rag_context": None, "hospitals": None, "emergency": None}
+    result = {
+        "intent": intent,
+        "rag_context": None,
+        "rag_sources": [],   # v2: citation 출처 리스트 ({doc_id, score, source})
+        "hospitals": None,
+        "emergency": None,
+    }
 
     emerg = emergency_check(query)
     if emerg["is_emergency"]:
@@ -417,10 +547,14 @@ def tool_router(output_from_B: dict, lat: float = 37.5012, lng: float = 127.0396
             return result
 
     if intent == "symptom_inquiry":
-        result["rag_context"] = full_rag_pipeline(query)
+        rag = full_rag_pipeline(query)
+        result["rag_context"] = rag["context"]
+        result["rag_sources"] = rag["sources"]
         result["hospitals"] = search_hospital(query, lat, lng)
     elif intent == "medication_info":
-        result["rag_context"] = full_rag_pipeline(query)
+        rag = full_rag_pipeline(query)
+        result["rag_context"] = rag["context"]
+        result["rag_sources"] = rag["sources"]
     elif intent == "hospital_search":
         result["hospitals"] = search_hospital(query, lat, lng)
 
@@ -445,7 +579,7 @@ def generate_answer(query: str, context: str, confidence: float = 0.85, entities
         resp = requests.post(
             f"{OLLAMA_URL}/api/generate",
             json={
-                "model": INTENT_MODEL,
+                "model": ANSWER_MODEL,
                 "prompt": fine_tuned_prompt,
                 "stream": False,
                 "options": {"temperature": 0.3, "num_predict": 150},
@@ -583,6 +717,7 @@ def full_pipeline(
         'ready_for_c': True,
         'hospitals': c_result.get('hospitals'),
         'emergency': c_result.get('emergency'),
+        'rag_sources': c_result.get('rag_sources') or [],
     }
 
 
@@ -612,6 +747,7 @@ class ChatResponse(BaseModel):
     is_emergency: bool = False
     ready_for_c: bool
     session_id: str
+    rag_sources: list = []   # v2: citation 출처 [{doc_id, score, source}]
 
 
 @app.get('/')

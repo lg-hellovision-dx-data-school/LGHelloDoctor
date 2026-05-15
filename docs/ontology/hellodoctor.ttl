@@ -1,0 +1,586 @@
+@prefix :       <http://lghellodoctor.ai/ontology#> .
+@prefix hd:     <http://lghellodoctor.ai/ontology#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc:     <http://purl.org/dc/elements/1.1/> .
+@prefix snomed: <http://snomed.info/id/> .
+@prefix kcd:    <http://kcd8.kdca.go.kr/code/> .
+
+###############################################################################
+# Ontology Metadata
+###############################################################################
+
+<http://lghellodoctor.ai/ontology>
+    a owl:Ontology ;
+    dc:title       "LG HelloDoctor Korean Medical Voice AI Ontology"@en ,
+                   "LG HelloDoctor 한국어 시니어 의료 음성 AI 온톨로지"@ko ;
+    dc:creator     "LG HelloDoctor Project" ;
+    dc:date        "2026-05-15"^^xsd:date ;
+    owl:versionInfo "0.1.0" ;
+    rdfs:comment   "한국어 시니어 의료 음성 AI를 위한 도메인 온톨로지. STT 오인식 보정, 증상-진료과 매핑, 응급 분류, 의도 분류, 의료법 금지어를 형식적으로 표현한다. backend/main.py 내 6개 코드 사전(MEDICAL_CORRECTIONS / EMERGENCY_KEYWORDS / EMERGENCY_SCORES / SYMPTOM_DEPT_MAP / QUERY_REWRITE_MAP / FOLLOWUP_QUESTIONS)을 OWL/SKOS로 격상한다."@ko .
+
+###############################################################################
+# Top-level Classes
+###############################################################################
+
+hd:MedicalConcept a owl:Class ;
+    rdfs:label "Medical Concept"@en , "의료 개념"@ko ;
+    rdfs:comment "모든 의료 도메인 개체의 최상위 클래스" .
+
+hd:Symptom a owl:Class ;
+    rdfs:subClassOf hd:MedicalConcept ;
+    rdfs:label "Symptom"@en , "증상"@ko ;
+    skos:closeMatch snomed:404684003 .
+
+hd:BodyPart a owl:Class ;
+    rdfs:subClassOf hd:MedicalConcept ;
+    rdfs:label "Body Part"@en , "신체부위"@ko ;
+    skos:closeMatch snomed:123037004 .
+
+hd:MedicalDepartment a owl:Class ;
+    rdfs:subClassOf hd:MedicalConcept ;
+    rdfs:label "Medical Department"@en , "진료과"@ko .
+
+hd:Drug a owl:Class ;
+    rdfs:subClassOf hd:MedicalConcept ;
+    rdfs:label "Drug"@en , "약물"@ko ;
+    skos:closeMatch snomed:373873005 .
+
+hd:Disease a owl:Class ;
+    rdfs:subClassOf hd:MedicalConcept ;
+    rdfs:label "Disease"@en , "질병"@ko ;
+    skos:closeMatch snomed:64572001 .
+
+hd:DiagnosticTest a owl:Class ;
+    rdfs:subClassOf hd:MedicalConcept ;
+    rdfs:label "Diagnostic Test"@en , "검사"@ko .
+
+hd:Intent a owl:Class ;
+    rdfs:label "Intent"@en , "발화 의도"@ko ;
+    rdfs:comment "B팀(의도분류기)의 5개 출력 라벨" .
+
+hd:EmergencyLevel a owl:Class ;
+    rdfs:label "Emergency Level"@en , "응급도"@ko ;
+    rdfs:comment "EMERGENCY_SCORES 임계값(80/60)에 따른 응급 분류" .
+
+hd:ForbiddenTerm a owl:Class ;
+    rdfs:label "Forbidden Term"@en , "의료법 금지어"@ko ;
+    rdfs:comment "의료법 제27조 위반 가능 어휘 (FORBIDDEN_WORDS)" .
+
+hd:WakeWord a owl:Class ;
+    rdfs:label "Wake Word"@en , "호출어"@ko .
+
+###############################################################################
+# Body Part Anatomical Hierarchy
+###############################################################################
+
+hd:Head      a owl:Class ; rdfs:subClassOf hd:BodyPart ; rdfs:label "Head Region"@en   , "두부"@ko .
+hd:Torso     a owl:Class ; rdfs:subClassOf hd:BodyPart ; rdfs:label "Torso"@en         , "몸통"@ko .
+hd:UpperLimb a owl:Class ; rdfs:subClassOf hd:BodyPart ; rdfs:label "Upper Limb"@en    , "상지"@ko .
+hd:LowerLimb a owl:Class ; rdfs:subClassOf hd:BodyPart ; rdfs:label "Lower Limb"@en    , "하지"@ko .
+hd:Integument a owl:Class ; rdfs:subClassOf hd:BodyPart ; rdfs:label "Integumentary"@en , "피부계"@ko .
+
+###############################################################################
+# Object Properties
+###############################################################################
+
+hd:partOf a owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:domain  hd:BodyPart ;
+    rdfs:range   hd:BodyPart ;
+    rdfs:label   "part of"@en , "부위 소속"@ko ;
+    rdfs:comment "예: 무릎 partOf 하지" .
+
+hd:affectsBodyPart a owl:ObjectProperty ;
+    rdfs:domain  hd:Symptom ;
+    rdfs:range   hd:BodyPart ;
+    rdfs:label   "affects body part"@en , "관련 신체부위"@ko .
+
+hd:treatedBy a owl:ObjectProperty ;
+    rdfs:domain  hd:Symptom ;
+    rdfs:range   hd:MedicalDepartment ;
+    rdfs:label   "treated by department"@en , "진료과 매칭"@ko ;
+    rdfs:comment "SYMPTOM_DEPT_MAP 의 형식화" .
+
+hd:requiresDepartment a owl:ObjectProperty ;
+    rdfs:domain  hd:Disease ;
+    rdfs:range   hd:MedicalDepartment ;
+    rdfs:label   "requires department"@en , "필요 진료과"@ko .
+
+hd:triggersEmergency a owl:ObjectProperty ;
+    rdfs:domain  hd:Symptom ;
+    rdfs:range   hd:EmergencyLevel ;
+    rdfs:label   "triggers emergency level"@en , "응급도 트리거"@ko .
+
+hd:hasIntent a owl:ObjectProperty ;
+    rdfs:range   hd:Intent .
+
+###############################################################################
+# Datatype Properties
+###############################################################################
+
+hd:kakaoCategoryCode a owl:DatatypeProperty ;
+    rdfs:domain  hd:MedicalDepartment ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "Kakao Map category code"@en , "Kakao 카테고리 코드"@ko ;
+    rdfs:comment "카카오맵 병원 검색 카테고리. 예: 정형외과=05" .
+
+hd:emergencyScore a owl:DatatypeProperty ;
+    rdfs:range   xsd:integer ;
+    rdfs:label   "emergency score"@en , "응급 점수"@ko ;
+    rdfs:comment "0~100. EMERGENCY_SCORES 의 형식화" .
+
+hd:emergencyThreshold a owl:DatatypeProperty ;
+    rdfs:domain  hd:EmergencyLevel ;
+    rdfs:range   xsd:integer ;
+    rdfs:label   "emergency threshold"@en , "응급 임계값"@ko .
+
+hd:rewriteQuery a owl:DatatypeProperty ;
+    rdfs:domain  hd:Symptom ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "RAG query rewrite"@en , "RAG 확장 질의"@ko ;
+    rdfs:comment "QUERY_REWRITE_MAP — RAG 리트리버용 확장 질의" .
+
+hd:followupQuestion a owl:DatatypeProperty ;
+    rdfs:domain  hd:BodyPart ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "followup question"@en , "다중턴 후속 질문"@ko ;
+    rdfs:comment "FOLLOWUP_QUESTIONS — 부위별 2차 질문 프롬프트" .
+
+###############################################################################
+# Emergency Levels (Individuals)
+###############################################################################
+
+hd:CriticalEmergency a hd:EmergencyLevel ;
+    rdfs:label "Critical Emergency"@en , "최우선 응급"@ko ;
+    hd:emergencyThreshold 80 ;
+    rdfs:comment "즉시 119 안내. KTAS 1-2단계 상응" .
+
+hd:UrgentEmergency a hd:EmergencyLevel ;
+    rdfs:label "Urgent"@en , "강한 응급 권고"@ko ;
+    hd:emergencyThreshold 60 .
+
+hd:NonEmergency a hd:EmergencyLevel ;
+    rdfs:label "Non Emergency"@en , "일반 흐름"@ko ;
+    hd:emergencyThreshold 0 .
+
+###############################################################################
+# Intents (Individuals) — B팀 5개 라벨
+###############################################################################
+
+hd:SymptomInquiry   a hd:Intent ; skos:notation "symptom_inquiry"   ; rdfs:label "Symptom Inquiry"@en   , "증상 문의"@ko .
+hd:HospitalSearch   a hd:Intent ; skos:notation "hospital_search"   ; rdfs:label "Hospital Search"@en   , "병원 검색"@ko .
+hd:MedicationInquiry a hd:Intent ; skos:notation "medication_inquiry" ; rdfs:label "Medication Inquiry"@en , "약물 문의"@ko .
+hd:EmergencyIntent  a hd:Intent ; skos:notation "emergency"         ; rdfs:label "Emergency"@en         , "응급"@ko ;
+    hd:triggersEmergency hd:CriticalEmergency .
+hd:GeneralChat      a hd:Intent ; skos:notation "general_chat"      ; rdfs:label "General Chat"@en      , "일반 대화"@ko .
+
+###############################################################################
+# Medical Departments (Individuals) — SYMPTOM_DEPT_MAP + Kakao 코드
+###############################################################################
+
+hd:Orthopedics a hd:MedicalDepartment ;
+    rdfs:label "Orthopedics"@en , "정형외과"@ko ;
+    hd:kakaoCategoryCode "05" ;
+    skos:altLabel "정형외가"@ko , "정형외꽈"@ko , "정형외와"@ko , "정영외과"@ko .
+
+hd:Ophthalmology a hd:MedicalDepartment ;
+    rdfs:label "Ophthalmology"@en , "안과"@ko ;
+    hd:kakaoCategoryCode "12" ;
+    skos:altLabel "안과가"@ko .
+
+hd:Otorhinolaryngology a hd:MedicalDepartment ;
+    rdfs:label "Otorhinolaryngology"@en , "이비인후과"@ko ;
+    hd:kakaoCategoryCode "13" ;
+    skos:altLabel "이비인후가"@ko , "이비인호과"@ko , "이비인우과"@ko .
+
+hd:Dermatology a hd:MedicalDepartment ;
+    rdfs:label "Dermatology"@en , "피부과"@ko ;
+    hd:kakaoCategoryCode "14" ;
+    skos:altLabel "피부가"@ko , "피부부가"@ko .
+
+hd:ObstetricsGynecology a hd:MedicalDepartment ;
+    rdfs:label "Obstetrics & Gynecology"@en , "산부인과"@ko ;
+    hd:kakaoCategoryCode "15" ;
+    skos:altLabel "산부인가"@ko .
+
+hd:Neurology a hd:MedicalDepartment ;
+    rdfs:label "Neurology"@en , "신경과"@ko ;
+    hd:kakaoCategoryCode "02" ;
+    skos:altLabel "신경가"@ko .
+
+hd:Neuropsychiatry a hd:MedicalDepartment ;
+    rdfs:label "Neuropsychiatry"@en , "신경내과"@ko ;
+    skos:altLabel "신경내가"@ko .
+
+hd:InternalMedicine a hd:MedicalDepartment ;
+    rdfs:label "Internal Medicine"@en , "내과"@ko ;
+    hd:kakaoCategoryCode "01" ;
+    skos:altLabel "내과가"@ko .
+
+hd:Gastroenterology a hd:MedicalDepartment ;
+    rdfs:subClassOf hd:InternalMedicine ;
+    rdfs:label "Gastroenterology"@en , "소화기내과"@ko ;
+    hd:kakaoCategoryCode "01" ;
+    skos:altLabel "소화기가"@ko .
+
+hd:Pulmonology a hd:MedicalDepartment ;
+    rdfs:subClassOf hd:InternalMedicine ;
+    rdfs:label "Pulmonology"@en , "호흡기내과"@ko ;
+    hd:kakaoCategoryCode "01" .
+
+hd:Urology a hd:MedicalDepartment ;
+    rdfs:label "Urology"@en , "비뇨의학과"@ko ;
+    skos:altLabel "비뇨기가"@ko .
+
+hd:ThoracicSurgery a hd:MedicalDepartment ;
+    rdfs:label "Thoracic Surgery"@en , "흉부외과"@ko ;
+    skos:altLabel "흉부외가"@ko .
+
+hd:Rehabilitation a hd:MedicalDepartment ;
+    rdfs:label "Rehabilitation Medicine"@en , "재활의학과"@ko ;
+    skos:altLabel "재활의학가"@ko .
+
+hd:FamilyMedicine a hd:MedicalDepartment ;
+    rdfs:label "Family Medicine"@en , "가정의학과"@ko ;
+    skos:altLabel "가정의학가"@ko .
+
+###############################################################################
+# Body Parts (Individuals)
+###############################################################################
+
+hd:Knee a hd:BodyPart ;
+    rdfs:label "Knee"@en , "무릎"@ko ;
+    hd:partOf hd:LowerLimb ;
+    hd:followupQuestion "무릎이 많이 아프시군요. 혹시 걷기가 많이 힘드신가요?"@ko ;
+    skos:altLabel "무릅"@ko ;
+    skos:closeMatch snomed:72696002 .
+
+hd:LowerBack a hd:BodyPart ;
+    rdfs:label "Lower Back"@en , "허리"@ko ;
+    hd:partOf hd:Torso ;
+    hd:followupQuestion "허리가 아프시군요. 혹시 허리를 펴거나 숙이기가 어려우신가요?"@ko ;
+    skos:closeMatch snomed:122496007 .
+
+hd:Shoulder a hd:BodyPart ;
+    rdfs:label "Shoulder"@en , "어깨"@ko ;
+    hd:partOf hd:UpperLimb ;
+    hd:followupQuestion "어깨가 불편하시군요. 팔을 위로 올리기가 힘드신 상태인가요?"@ko ;
+    skos:altLabel "어꺠"@ko ;
+    skos:closeMatch snomed:16982005 .
+
+hd:Eye a hd:BodyPart ;
+    rdfs:label "Eye"@en , "눈"@ko ;
+    hd:partOf hd:Head ;
+    skos:closeMatch snomed:81745001 .
+
+hd:Ear a hd:BodyPart ;
+    rdfs:label "Ear"@en , "귀"@ko ;
+    hd:partOf hd:Head ;
+    skos:closeMatch snomed:117590005 .
+
+hd:Nose a hd:BodyPart ;
+    rdfs:label "Nose"@en , "코"@ko ;
+    hd:partOf hd:Head .
+
+hd:HeadAnatomy a hd:BodyPart ;
+    rdfs:label "Head"@en , "머리"@ko ;
+    hd:partOf hd:Head ;
+    hd:followupQuestion "머리가 아프시군요. 갑자기 핑 돌거나 망치로 맞은 듯이 아픈가요?"@ko ;
+    skos:closeMatch snomed:69536005 .
+
+hd:Abdomen a hd:BodyPart ;
+    rdfs:label "Abdomen"@en , "복부"@ko ;
+    hd:partOf hd:Torso ;
+    hd:followupQuestion "배가 아프시군요. 속이 메스껍거나 콕콕 찌르는 느낌이 드세요?"@ko ;
+    skos:altLabel "배"@ko ;
+    skos:closeMatch snomed:113345001 .
+
+hd:Chest a hd:BodyPart ;
+    rdfs:label "Chest"@en , "가슴"@ko ;
+    hd:partOf hd:Torso ;
+    hd:followupQuestion "가슴이 답답하시군요. 숨을 쉬기가 벅차거나 조이는 느낌인가요?"@ko ;
+    skos:closeMatch snomed:51185008 .
+
+hd:Skin a hd:BodyPart ;
+    rdfs:label "Skin"@en , "피부"@ko ;
+    hd:partOf hd:Integument ;
+    skos:closeMatch snomed:39937001 .
+
+###############################################################################
+# Symptoms (Individuals) — SYMPTOM_DEPT_MAP + QUERY_REWRITE_MAP 통합
+###############################################################################
+
+hd:KneePain a hd:Symptom ;
+    rdfs:label "Knee Pain"@en , "무릎통증"@ko ;
+    hd:affectsBodyPart hd:Knee ;
+    hd:treatedBy hd:Orthopedics ;
+    hd:rewriteQuery "무릎통증 정형외과 관련 증상 치료 방법"@ko ;
+    skos:closeMatch snomed:30989003 .
+
+hd:BackPain a hd:Symptom ;
+    rdfs:label "Lower Back Pain"@en , "허리통증"@ko ;
+    hd:affectsBodyPart hd:LowerBack ;
+    hd:treatedBy hd:Orthopedics ;
+    hd:rewriteQuery "허리디스크 정형외과 척추 관련 증상 치료"@ko ;
+    skos:closeMatch snomed:279039007 .
+
+hd:ShoulderPain a hd:Symptom ;
+    rdfs:label "Shoulder Pain"@en , "어깨통증"@ko ;
+    hd:affectsBodyPart hd:Shoulder ;
+    hd:treatedBy hd:Orthopedics ;
+    hd:rewriteQuery "어깨통증 정형외과 회전근개 관련 증상 치료"@ko ;
+    skos:closeMatch snomed:45326000 .
+
+hd:Headache a hd:Symptom ;
+    rdfs:label "Headache"@en , "두통"@ko ;
+    hd:affectsBodyPart hd:HeadAnatomy ;
+    hd:treatedBy hd:Neurology ;
+    hd:rewriteQuery "두통이나 어지럼증 관련 증상 치료"@ko ;
+    skos:altLabel "머리아포"@ko , "띵해"@ko ;
+    skos:closeMatch snomed:25064002 .
+
+hd:AbdominalPain a hd:Symptom ;
+    rdfs:label "Abdominal Pain"@en , "복통"@ko ;
+    hd:affectsBodyPart hd:Abdomen ;
+    hd:treatedBy hd:Gastroenterology ;
+    hd:rewriteQuery "복통 소화 소화기로 소화기내과 관련"@ko ;
+    skos:altLabel "배아포"@ko ;
+    skos:closeMatch snomed:21522001 .
+
+hd:ChestPain a hd:Symptom ;
+    rdfs:label "Chest Pain"@en , "흉통"@ko ;
+    hd:affectsBodyPart hd:Chest ;
+    hd:treatedBy hd:InternalMedicine ;
+    skos:altLabel "가슴답답"@ko ;
+    skos:closeMatch snomed:29857009 .
+
+hd:Cough a hd:Symptom ;
+    rdfs:label "Cough with Phlegm"@en , "기침가래"@ko ;
+    hd:affectsBodyPart hd:Chest ;
+    hd:treatedBy hd:Pulmonology ;
+    hd:rewriteQuery "기침가래 폐 기관지 관련 증상 치료"@ko ;
+    skos:closeMatch snomed:49727002 .
+
+hd:Nausea a hd:Symptom ;
+    rdfs:label "Nausea"@en , "구역질"@ko ;
+    hd:affectsBodyPart hd:Abdomen ;
+    hd:treatedBy hd:Gastroenterology ;
+    skos:altLabel "울렁거려"@ko , "오심이"@ko ;
+    skos:closeMatch snomed:422587007 .
+
+hd:Indigestion a hd:Symptom ;
+    rdfs:label "Indigestion"@en , "소화불량"@ko ;
+    hd:affectsBodyPart hd:Abdomen ;
+    hd:treatedBy hd:Gastroenterology ;
+    skos:altLabel "체했어"@ko , "소화안돼"@ko .
+
+hd:Dyspnea a hd:Symptom ;
+    rdfs:label "Dyspnea"@en , "호흡곤란"@ko ;
+    hd:affectsBodyPart hd:Chest ;
+    hd:treatedBy hd:Pulmonology ;
+    skos:altLabel "숨차"@ko ;
+    skos:closeMatch snomed:267036007 .
+
+###############################################################################
+# Emergency Symptoms — EMERGENCY_KEYWORDS + EMERGENCY_SCORES 통합
+###############################################################################
+
+hd:RespiratoryArrest a hd:Symptom ;
+    rdfs:label "Respiratory Arrest"@en , "호흡정지 (응급)"@ko ;
+    hd:triggersEmergency hd:CriticalEmergency ;
+    hd:emergencyScore 100 ;
+    skos:hiddenLabel "숨이 안 쉬어"@ko ;
+    skos:closeMatch snomed:271743003 ;
+    rdfs:comment "KTAS Level 1 — 즉시 119 안내" .
+
+hd:LossOfConsciousness a hd:Symptom ;
+    rdfs:label "Loss of Consciousness"@en , "의식 소실 (응급)"@ko ;
+    hd:triggersEmergency hd:CriticalEmergency ;
+    hd:emergencyScore 100 ;
+    skos:hiddenLabel "의식이 없"@ko ;
+    skos:closeMatch snomed:419045004 ;
+    rdfs:comment "KTAS Level 1" .
+
+hd:Hematemesis a hd:Symptom ;
+    rdfs:label "Hematemesis"@en , "토혈 (응급)"@ko ;
+    hd:triggersEmergency hd:CriticalEmergency ;
+    hd:emergencyScore 90 ;
+    skos:hiddenLabel "피를 토"@ko ;
+    skos:closeMatch snomed:8765008 .
+
+hd:SevereChestPain a hd:Symptom ;
+    rdfs:label "Severe Chest Pain"@en , "심한 흉통 (응급)"@ko ;
+    hd:triggersEmergency hd:CriticalEmergency ;
+    hd:emergencyScore 90 ;
+    skos:hiddenLabel "가슴이 너무 아파"@ko , "가슴통증이 심해"@ko ;
+    rdfs:comment "심근경색 의심 — FAST/KTAS 평가 권고" .
+
+hd:Collapse a hd:Symptom ;
+    rdfs:label "Collapse"@en , "쓰러짐 (응급)"@ko ;
+    hd:triggersEmergency hd:CriticalEmergency ;
+    hd:emergencyScore 85 ;
+    skos:hiddenLabel "쓰러"@ko , "쓰러졌"@ko ;
+    skos:closeMatch snomed:418638003 .
+
+hd:StrokeWarning a hd:Symptom ;
+    rdfs:label "Stroke Warning Signs (FAST)"@en , "뇌졸중 의심 (응급)"@ko ;
+    hd:triggersEmergency hd:CriticalEmergency ;
+    hd:emergencyScore 90 ;
+    skos:hiddenLabel "말이 어눌"@ko , "입이 돌아"@ko , "한쪽이 마비"@ko , "갑자기 안 보여"@ko ;
+    rdfs:comment "FAST 기준: Face(안면 비대칭), Arm(편마비), Speech(언어장애), Time" ;
+    skos:closeMatch snomed:230690007 .
+
+hd:HypertensiveCrisis a hd:Symptom ;
+    rdfs:label "Hypertensive Crisis"@en , "고혈압 위기"@ko ;
+    hd:triggersEmergency hd:UrgentEmergency ;
+    hd:emergencyScore 80 ;
+    skos:hiddenLabel "혈압이 200"@ko ;
+    skos:closeMatch snomed:706882009 .
+
+###############################################################################
+# Diseases — MEDICAL_CORRECTIONS 의 질병 카테고리
+###############################################################################
+
+hd:Hypertension a hd:Disease ;
+    rdfs:label "Hypertension"@en , "고혈압"@ko ;
+    hd:requiresDepartment hd:InternalMedicine ;
+    skos:altLabel "고혈암"@ko ;
+    skos:closeMatch snomed:38341003 .
+
+hd:Diabetes a hd:Disease ;
+    rdfs:label "Diabetes Mellitus"@en , "당뇨병"@ko ;
+    hd:requiresDepartment hd:InternalMedicine ;
+    skos:closeMatch snomed:73211009 .
+
+hd:Osteoporosis a hd:Disease ;
+    rdfs:label "Osteoporosis"@en , "골다공증"@ko ;
+    hd:requiresDepartment hd:Orthopedics ;
+    skos:altLabel "골다골증"@ko ;
+    skos:closeMatch snomed:64859006 .
+
+hd:Arthritis a hd:Disease ;
+    rdfs:label "Arthritis"@en , "관절염"@ko ;
+    hd:requiresDepartment hd:Orthopedics ;
+    skos:closeMatch snomed:3723001 .
+
+hd:Dementia a hd:Disease ;
+    rdfs:label "Dementia"@en , "치매"@ko ;
+    hd:requiresDepartment hd:Neurology ;
+    skos:closeMatch snomed:52448006 .
+
+hd:CerebralInfarction a hd:Disease ;
+    rdfs:label "Cerebral Infarction"@en , "뇌경색"@ko ;
+    hd:requiresDepartment hd:Neurology ;
+    skos:closeMatch snomed:432504007 .
+
+hd:CerebralHemorrhage a hd:Disease ;
+    rdfs:label "Cerebral Hemorrhage"@en , "뇌출혈"@ko ;
+    hd:requiresDepartment hd:Neurology ;
+    skos:closeMatch snomed:274100004 .
+
+hd:MyocardialInfarction a hd:Disease ;
+    rdfs:label "Myocardial Infarction"@en , "심근경색"@ko ;
+    hd:requiresDepartment hd:InternalMedicine ;
+    skos:altLabel "심근경새"@ko , "심근경섹"@ko ;
+    skos:closeMatch snomed:22298006 .
+
+###############################################################################
+# Drugs — MEDICAL_CORRECTIONS 의 약물 카테고리
+###############################################################################
+
+hd:Tylenol a hd:Drug ;
+    rdfs:label "Tylenol (Acetaminophen)"@en , "타이레놀"@ko ;
+    skos:altLabel "타이래놀"@ko ;
+    skos:closeMatch snomed:387517004 .
+
+hd:Analgesic a hd:Drug ;
+    rdfs:label "Analgesic"@en , "진통제"@ko ;
+    skos:altLabel "진통제가"@ko ;
+    skos:closeMatch snomed:373265006 .
+
+hd:AntiInflammatory a hd:Drug ;
+    rdfs:label "Anti-inflammatory"@en , "소염제"@ko ;
+    skos:altLabel "소염제가"@ko .
+
+hd:Antibiotic a hd:Drug ;
+    rdfs:label "Antibiotic"@en , "항생제"@ko ;
+    skos:altLabel "항생제가"@ko ;
+    skos:closeMatch snomed:255631004 .
+
+hd:HypertensionDrug a hd:Drug ;
+    rdfs:label "Anti-hypertensive"@en , "혈압약"@ko ;
+    skos:altLabel "혈압야"@ko , "혈압아"@ko , "혈압박"@ko .
+
+hd:DiabetesDrug a hd:Drug ;
+    rdfs:label "Anti-diabetic"@en , "당뇨약"@ko ;
+    skos:altLabel "당뇨야"@ko , "당뇨약이"@ko .
+
+hd:ColdMedicine a hd:Drug ;
+    rdfs:label "Cold Medicine"@en , "감기약"@ko ;
+    skos:altLabel "감기야"@ko , "감기박"@ko .
+
+hd:SleepingPill a hd:Drug ;
+    rdfs:label "Sleeping Pill"@en , "수면제"@ko ;
+    skos:altLabel "수면야"@ko .
+
+###############################################################################
+# Diagnostic Tests
+###############################################################################
+
+hd:XRay a hd:DiagnosticTest ;
+    rdfs:label "X-Ray"@en , "X선 검사"@ko ;
+    skos:altLabel "엑스레이"@ko , "엑스래이"@ko ;
+    skos:closeMatch snomed:168537006 .
+
+hd:MRI a hd:DiagnosticTest ;
+    rdfs:label "Magnetic Resonance Imaging"@en , "자기공명영상"@ko ;
+    skos:altLabel "엠알아이"@ko ;
+    skos:closeMatch snomed:113091000 .
+
+hd:CT a hd:DiagnosticTest ;
+    rdfs:label "Computed Tomography"@en , "전산화단층촬영"@ko ;
+    skos:altLabel "씨티"@ko ;
+    skos:closeMatch snomed:77477000 .
+
+hd:BloodTest a hd:DiagnosticTest ;
+    rdfs:label "Blood Test"@en , "혈액검사"@ko ;
+    skos:altLabel "피검사"@ko , "혈액검사가"@ko ;
+    skos:closeMatch snomed:396550006 .
+
+hd:UrineTest a hd:DiagnosticTest ;
+    rdfs:label "Urinalysis"@en , "소변검사"@ko ;
+    skos:altLabel "소변검사가"@ko ;
+    skos:closeMatch snomed:27171005 .
+
+hd:Ultrasound a hd:DiagnosticTest ;
+    rdfs:label "Ultrasound"@en , "초음파"@ko ;
+    skos:altLabel "초음파가"@ko ;
+    skos:closeMatch snomed:16310003 .
+
+###############################################################################
+# Forbidden Terms — FORBIDDEN_WORDS
+###############################################################################
+
+hd:Term_예후    a hd:ForbiddenTerm ; rdfs:label "예후"@ko    ; rdfs:comment "의료법 27조: 단정적 예후 금지" .
+hd:Term_처방전  a hd:ForbiddenTerm ; rdfs:label "처방전"@ko  ; rdfs:comment "의료법 18조: 의사만 발행 가능" .
+hd:Term_투약    a hd:ForbiddenTerm ; rdfs:label "투약"@ko    .
+hd:Term_병변    a hd:ForbiddenTerm ; rdfs:label "병변"@ko    ; rdfs:comment "단정적 병리 판정" .
+hd:Term_진단    a hd:ForbiddenTerm ; rdfs:label "진단"@ko    ; rdfs:comment "의료법 27조: 무면허 진단 금지" .
+hd:Term_확정    a hd:ForbiddenTerm ; rdfs:label "확정"@ko    .
+hd:Term_완치    a hd:ForbiddenTerm ; rdfs:label "완치"@ko    ; rdfs:comment "의료광고법: 과장 표현 금지" .
+hd:Term_확신    a hd:ForbiddenTerm ; rdfs:label "확신"@ko    .
+hd:Term_치료    a hd:ForbiddenTerm ; rdfs:label "치료"@ko    ; rdfs:comment "의료법 27조: 의료행위 단정 금지" .
+hd:Term_부작용  a hd:ForbiddenTerm ; rdfs:label "부작용"@ko  ; rdfs:comment "약사 검수 영역 — 비전문 안내 금지" .
+
+###############################################################################
+# Wake Words
+###############################################################################
+
+hd:Hellobi a hd:WakeWord ;
+    rdfs:label "Hellobi"@en , "헬로비"@ko ;
+    skos:prefLabel "헬로비"@ko ;
+    skos:altLabel "헬로비야"@ko , "헬로비이"@ko , "헬로 비"@ko ;
+    rdfs:comment "기본 음성 호출어 — 시니어 사용자 발음 변이 4종 포함" .

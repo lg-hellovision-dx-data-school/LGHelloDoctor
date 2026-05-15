@@ -463,7 +463,7 @@ export function useWakeWord(
       case 'uploading':
         return '음성을 분석 중입니다. 잠시만 기다려 주세요.'
       case 'armed':
-        return '호출어 대기 중입니다. "헬로비" 또는 "Hello B"라고 불러주세요.'
+        return '호출어 대기 중입니다. "헬로비" 라고 불러주세요.'
       default:
         return '탭이 활성화되면 호출어 감지가 자동으로 시작됩니다.'
     }

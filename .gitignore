@@ -29,3 +29,6 @@ models/*
 # 평가 캐시
 eval/__pycache__/
 eval/*.zip
+
+# Claude Code 로컬 권한 (사용자별 설정)
+.claude/settings.local.json

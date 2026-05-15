@@ -22,7 +22,7 @@ export function VoiceInputPanel({
 }: Props) {
   const buttonDisabled = disabled || passive || !onPress
   const idleHint = passive
-    ? `${ASSISTANT_NICKNAME} 호출어를 기다리는 중입니다. "헬로비"라고 불러주세요.`
+    ? '마이크를 눌러 직접 말씀하실 수도 있어요.'
     : `${ASSISTANT_NICKNAME}에게 마이크를 눌러 증상을 말씀해 주세요.`
 
   if (variant === 'compact') {

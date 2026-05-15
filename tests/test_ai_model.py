@@ -3,6 +3,18 @@ LG HelloDoctor AI 모델 테스트
 STT 전처리, 응답 품질, 금지어 필터 검증
 
 실행: python -m pytest tests/test_ai_model.py -v
+
+────────────────────────────────────────────────────────────────────────────
+HITL 거버넌스 — 본 테스트의 1차 책임자 매핑
+────────────────────────────────────────────────────────────────────────────
+  TestMedicalCorrections      → 의사 (일반의)        | STT 보정 의학적 정확성
+  TestForbiddenWords          → 법률·컴플라이언스   | 의료법 위반 차단
+  TestResponseQuality         → 노년학·시니어 UX    | 어조·길이·한국어 비율
+  TestIntentClassification    → 의사 (응급의학)      | 응급 100% 감지 강제
+────────────────────────────────────────────────────────────────────────────
+케이스 추가/수정 시: 해당 자문 검토 → PR → /test → /validate → 머지
+회귀 차단: 응급 100% · 금지어 0건 — 한 건이라도 실패하면 배포 불가
+상세: docs/HITL_3TIER.md, CLAUDE.md HITL 섹션 참조
 """
 import sys
 import os
@@ -15,7 +27,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'backend'))
 # ====== STT 전처리 테스트 ======
 
 class TestMedicalCorrections:
-    """MEDICAL_CORRECTIONS 보정 사전 테스트"""
+    """MEDICAL_CORRECTIONS 보정 사전 테스트
+    🧑‍⚕️ HITL 1차 책임자: 의사 (일반의) — STT 오인식의 의학적 정확성 검증
+    """
 
     def test_보정_사전_크기(self):
         from main import MEDICAL_CORRECTIONS
@@ -54,7 +68,9 @@ class TestMedicalCorrections:
 # ====== 금지어 필터 테스트 ======
 
 class TestForbiddenWords:
-    """FORBIDDEN_WORDS 의료법 금지어 필터 테스트"""
+    """FORBIDDEN_WORDS 의료법 금지어 필터 테스트
+    ⚖️ HITL 1차 책임자: 법률·컴플라이언스 — 의료법 제27조 위반 차단
+    """
 
     def test_금지어_개수(self):
         from main import FORBIDDEN_WORDS
@@ -78,7 +94,9 @@ class TestForbiddenWords:
 # ====== 응답 품질 테스트 ======
 
 class TestResponseQuality:
-    """format_response() 응답 품질 테스트"""
+    """format_response() 응답 품질 테스트
+    👴 HITL 1차 책임자: 노년학·시니어 UX — 어조·길이·한국어 비율 검증
+    """
 
     def test_영어단어_제거(self):
         from main import format_response
@@ -120,7 +138,10 @@ class TestResponseQuality:
 # ====== 의도 분류 품질 테스트 ======
 
 class TestIntentClassification:
-    """classify_intent() 키워드 기반 부분 테스트"""
+    """classify_intent() 키워드 기반 부분 테스트
+    🚨 HITL 1차 책임자: 의사 (응급의학) — 응급 100% 감지 강제
+    ⚠️ EMERGENCY_CASES 누락 시 인명 사고 위험 — 머지 전 자문 필수
+    """
 
     EMERGENCY_CASES = [
         "숨이 안 쉬어요",

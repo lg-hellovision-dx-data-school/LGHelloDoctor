@@ -1,0 +1,1006 @@
+[
+  {
+    "id": "MT-0001",
+    "scenario_type": "격상",
+    "turns": [
+      {
+        "text": "안녕하세요",
+        "label": "general_chat"
+      },
+      {
+        "text": "머리가 좀 어지러워요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "갑자기 한쪽 팔에 힘이 빠져요",
+        "label": "emergency"
+      },
+      {
+        "text": "119 불러야 하나요",
+        "label": "emergency"
+      }
+    ]
+  },
+  {
+    "id": "MT-0002",
+    "scenario_type": "격상",
+    "turns": [
+      {
+        "text": "안녕",
+        "label": "general_chat"
+      },
+      {
+        "text": "가슴이 좀 답답해요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "점점 심해져서 식은땀이 나요",
+        "label": "emergency"
+      },
+      {
+        "text": "빨리 도와주세요",
+        "label": "emergency"
+      }
+    ]
+  },
+  {
+    "id": "MT-0003",
+    "scenario_type": "격상",
+    "turns": [
+      {
+        "text": "도와주세요",
+        "label": "general_chat"
+      },
+      {
+        "text": "손주가 열이 38도예요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "갑자기 경련을 시작했어요",
+        "label": "emergency"
+      },
+      {
+        "text": "119 좀 불러주세요",
+        "label": "emergency"
+      }
+    ]
+  },
+  {
+    "id": "MT-0004",
+    "scenario_type": "격상",
+    "turns": [
+      {
+        "text": "잘 들리나요",
+        "label": "general_chat"
+      },
+      {
+        "text": "영감이 어지럽다고 해요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "갑자기 쓰러졌어요",
+        "label": "emergency"
+      },
+      {
+        "text": "의식이 없어요 어떡하죠",
+        "label": "emergency"
+      }
+    ]
+  },
+  {
+    "id": "MT-0005",
+    "scenario_type": "격상",
+    "turns": [
+      {
+        "text": "안녕하세요",
+        "label": "general_chat"
+      },
+      {
+        "text": "어제부터 두통이 있어요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "갑자기 한쪽 눈이 안 보여요",
+        "label": "emergency"
+      }
+    ]
+  },
+  {
+    "id": "MT-0006",
+    "scenario_type": "격상",
+    "turns": [
+      {
+        "text": "처음 써봐요",
+        "label": "general_chat"
+      },
+      {
+        "text": "배가 좀 아파요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "토했는데 피가 섞여 있어요",
+        "label": "emergency"
+      }
+    ]
+  },
+  {
+    "id": "MT-0007",
+    "scenario_type": "격상",
+    "turns": [
+      {
+        "text": "안녕",
+        "label": "general_chat"
+      },
+      {
+        "text": "알레르기 약 먹었어요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "갑자기 목이 부어요",
+        "label": "emergency"
+      },
+      {
+        "text": "숨을 못 쉬겠어요",
+        "label": "emergency"
+      }
+    ]
+  },
+  {
+    "id": "MT-0008",
+    "scenario_type": "격상",
+    "turns": [
+      {
+        "text": "도와줘",
+        "label": "general_chat"
+      },
+      {
+        "text": "영감이 변이 까매요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "의식이 흐려지고 있어요",
+        "label": "emergency"
+      }
+    ]
+  },
+  {
+    "id": "MT-0009",
+    "scenario_type": "격상",
+    "turns": [
+      {
+        "text": "어떻게 써요",
+        "label": "general_chat"
+      },
+      {
+        "text": "가슴이 좀 답답한데",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "점점 더 아파서 식은땀이 나요",
+        "label": "emergency"
+      }
+    ]
+  },
+  {
+    "id": "MT-0010",
+    "scenario_type": "격상",
+    "turns": [
+      {
+        "text": "안녕하세요",
+        "label": "general_chat"
+      },
+      {
+        "text": "손이 좀 저려요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "갑자기 말을 못 하겠어요",
+        "label": "emergency"
+      }
+    ]
+  },
+  {
+    "id": "MT-0011",
+    "scenario_type": "약상담",
+    "turns": [
+      {
+        "text": "감기 기운이 있어요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "감기약 먹어도 되나요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "혈압약이랑 같이 먹어도 돼요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "고마워요",
+        "label": "general_chat"
+      }
+    ]
+  },
+  {
+    "id": "MT-0012",
+    "scenario_type": "약상담",
+    "turns": [
+      {
+        "text": "머리가 아파요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "타이레놀 먹어도 돼요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "하루에 몇 번 먹어요",
+        "label": "medication_inquiry"
+      }
+    ]
+  },
+  {
+    "id": "MT-0013",
+    "scenario_type": "약상담",
+    "turns": [
+      {
+        "text": "무릎이 욱신거려요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "진통제 먹어도 돼요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "부작용이 뭐가 있나요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "알겠습니다",
+        "label": "general_chat"
+      }
+    ]
+  },
+  {
+    "id": "MT-0014",
+    "scenario_type": "약상담",
+    "turns": [
+      {
+        "text": "감기 걸렸어요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "감기약 추천해주세요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "식전 식후 언제 먹어요",
+        "label": "medication_inquiry"
+      }
+    ]
+  },
+  {
+    "id": "MT-0015",
+    "scenario_type": "약상담",
+    "turns": [
+      {
+        "text": "자꾸 어지러워요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "혈압약을 빼먹었어요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "한 번에 두 알 먹어도 돼요",
+        "label": "medication_inquiry"
+      }
+    ]
+  },
+  {
+    "id": "MT-0016",
+    "scenario_type": "약상담",
+    "turns": [
+      {
+        "text": "영감이 머리가 아파요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "진통제 두 알 먹여도 돼요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "위가 약한데 괜찮아요",
+        "label": "medication_inquiry"
+      }
+    ]
+  },
+  {
+    "id": "MT-0017",
+    "scenario_type": "약상담",
+    "turns": [
+      {
+        "text": "알레르기인 것 같아요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "알레르기약 먹어도 돼요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "졸음이 와도 운전해도 돼요",
+        "label": "medication_inquiry"
+      }
+    ]
+  },
+  {
+    "id": "MT-0018",
+    "scenario_type": "약상담",
+    "turns": [
+      {
+        "text": "위가 쓰려요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "위장약 먹어도 돼요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "식전에 먹는 게 맞나요",
+        "label": "medication_inquiry"
+      }
+    ]
+  },
+  {
+    "id": "MT-0019",
+    "scenario_type": "약상담",
+    "turns": [
+      {
+        "text": "손주가 열이 나요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "어린이 해열제 먹여도 돼요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "용량은 어떻게 되나요",
+        "label": "medication_inquiry"
+      }
+    ]
+  },
+  {
+    "id": "MT-0020",
+    "scenario_type": "약상담",
+    "turns": [
+      {
+        "text": "항생제 처방받았어요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "다 먹어야 하나요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "부작용이 있는데 계속 먹어요",
+        "label": "medication_inquiry"
+      }
+    ]
+  },
+  {
+    "id": "MT-0021",
+    "scenario_type": "병원검색",
+    "turns": [
+      {
+        "text": "허리가 너무 아파요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "근처 정형외과 알려주세요",
+        "label": "hospital_search"
+      },
+      {
+        "text": "지금 문 연 곳 있나요",
+        "label": "hospital_search"
+      },
+      {
+        "text": "감사합니다",
+        "label": "general_chat"
+      }
+    ]
+  },
+  {
+    "id": "MT-0022",
+    "scenario_type": "병원검색",
+    "turns": [
+      {
+        "text": "무릎이 시려요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "가까운 정형외과 좀요",
+        "label": "hospital_search"
+      },
+      {
+        "text": "예약 가능한 곳으로요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0023",
+    "scenario_type": "병원검색",
+    "turns": [
+      {
+        "text": "안녕하세요",
+        "label": "general_chat"
+      },
+      {
+        "text": "손주가 열이 나요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "가까운 소아과 알려주세요",
+        "label": "hospital_search"
+      },
+      {
+        "text": "야간 진료도 되나요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0024",
+    "scenario_type": "병원검색",
+    "turns": [
+      {
+        "text": "눈이 침침해요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "안과 어디 있어요",
+        "label": "hospital_search"
+      },
+      {
+        "text": "가까운 곳으로요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0025",
+    "scenario_type": "병원검색",
+    "turns": [
+      {
+        "text": "귀가 잘 안 들려요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "이비인후과 알려주세요",
+        "label": "hospital_search"
+      },
+      {
+        "text": "지금 영업 중인 곳요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0026",
+    "scenario_type": "병원검색",
+    "turns": [
+      {
+        "text": "영감이 다쳤어요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "외과 가까운 곳 알려줘요",
+        "label": "hospital_search"
+      },
+      {
+        "text": "응급실도 갈 수 있나요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0027",
+    "scenario_type": "병원검색",
+    "turns": [
+      {
+        "text": "어지러워요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "신경과 어디 있어요",
+        "label": "hospital_search"
+      },
+      {
+        "text": "종합병원도 좋아요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0028",
+    "scenario_type": "병원검색",
+    "turns": [
+      {
+        "text": "안녕",
+        "label": "general_chat"
+      },
+      {
+        "text": "노친네가 호흡이 가빠요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "응급실 가까운 곳",
+        "label": "hospital_search"
+      },
+      {
+        "text": "24시간 운영하는 곳요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0029",
+    "scenario_type": "병원검색",
+    "turns": [
+      {
+        "text": "변비가 심해요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "내과 추천해주세요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0030",
+    "scenario_type": "병원검색",
+    "turns": [
+      {
+        "text": "가슴이 답답해요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "심장내과 어디 있어요",
+        "label": "hospital_search"
+      },
+      {
+        "text": "큰 병원으로요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0031",
+    "scenario_type": "주제전환",
+    "turns": [
+      {
+        "text": "어제부터 두통이 있어요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "타이레놀 먹어도 돼요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "그런데 속도 안 좋아요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "병원 어디 가야 해요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0032",
+    "scenario_type": "주제전환",
+    "turns": [
+      {
+        "text": "무릎이 아파요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "근처 정형외과 알려주세요",
+        "label": "hospital_search"
+      },
+      {
+        "text": "진통제 먹어도 돼요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "가서 처방받을게요",
+        "label": "general_chat"
+      }
+    ]
+  },
+  {
+    "id": "MT-0033",
+    "scenario_type": "주제전환",
+    "turns": [
+      {
+        "text": "영감이 어지러워요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "혈압약 빼먹었어요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "한 번에 두 알 먹여도 돼요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "병원도 가야 하나요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0034",
+    "scenario_type": "주제전환",
+    "turns": [
+      {
+        "text": "감기 같아요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "약국 어디 있어요",
+        "label": "hospital_search"
+      },
+      {
+        "text": "감기약 추천해주세요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "잘 알겠습니다",
+        "label": "general_chat"
+      }
+    ]
+  },
+  {
+    "id": "MT-0035",
+    "scenario_type": "주제전환",
+    "turns": [
+      {
+        "text": "손주가 토해요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "소아과 알려주세요",
+        "label": "hospital_search"
+      },
+      {
+        "text": "그 사이 약 먹여도 돼요",
+        "label": "medication_inquiry"
+      }
+    ]
+  },
+  {
+    "id": "MT-0036",
+    "scenario_type": "주제전환",
+    "turns": [
+      {
+        "text": "가슴이 답답해요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "심장내과 알려주세요",
+        "label": "hospital_search"
+      },
+      {
+        "text": "진통제 먹어도 돼요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "갑자기 식은땀이 나요",
+        "label": "emergency"
+      }
+    ]
+  },
+  {
+    "id": "MT-0037",
+    "scenario_type": "주제전환",
+    "turns": [
+      {
+        "text": "안녕하세요",
+        "label": "general_chat"
+      },
+      {
+        "text": "알레르기인 것 같아요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "알레르기약 먹어도 돼요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "가까운 피부과 알려주세요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0038",
+    "scenario_type": "주제전환",
+    "turns": [
+      {
+        "text": "도와주세요",
+        "label": "general_chat"
+      },
+      {
+        "text": "영감이 화상을 입었어요",
+        "label": "emergency"
+      },
+      {
+        "text": "응급실 가까운 곳요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0039",
+    "scenario_type": "주제전환",
+    "turns": [
+      {
+        "text": "처음이에요",
+        "label": "general_chat"
+      },
+      {
+        "text": "무릎이 결려요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "진통제랑 같이 먹는 약요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "병원도 가야겠죠",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0040",
+    "scenario_type": "주제전환",
+    "turns": [
+      {
+        "text": "안녕",
+        "label": "general_chat"
+      },
+      {
+        "text": "자꾸 머리가 띵해요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "두통약 먹어도 돼요",
+        "label": "medication_inquiry"
+      },
+      {
+        "text": "신경과도 가야 해요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0041",
+    "scenario_type": "잡담섞임",
+    "turns": [
+      {
+        "text": "안녕하세요",
+        "label": "general_chat"
+      },
+      {
+        "text": "오늘 날씨가 추워요",
+        "label": "general_chat"
+      },
+      {
+        "text": "감기에 걸린 것 같아요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "감기약 추천해주세요",
+        "label": "medication_inquiry"
+      }
+    ]
+  },
+  {
+    "id": "MT-0042",
+    "scenario_type": "잡담섞임",
+    "turns": [
+      {
+        "text": "처음 써봐요",
+        "label": "general_chat"
+      },
+      {
+        "text": "손주가 깔아줬어요",
+        "label": "general_chat"
+      },
+      {
+        "text": "무릎이 좀 아파서요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "정형외과 알려주세요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0043",
+    "scenario_type": "잡담섞임",
+    "turns": [
+      {
+        "text": "잘 들리나요",
+        "label": "general_chat"
+      },
+      {
+        "text": "음성으로 말해도 돼요",
+        "label": "general_chat"
+      },
+      {
+        "text": "어지러운데 어떡하죠",
+        "label": "symptom_inquiry"
+      }
+    ]
+  },
+  {
+    "id": "MT-0044",
+    "scenario_type": "잡담섞임",
+    "turns": [
+      {
+        "text": "안녕",
+        "label": "general_chat"
+      },
+      {
+        "text": "화면 크게 좀 해줘",
+        "label": "general_chat"
+      },
+      {
+        "text": "허리가 자꾸 아파요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "정형외과 추천해주세요",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0045",
+    "scenario_type": "잡담섞임",
+    "turns": [
+      {
+        "text": "도와줘",
+        "label": "general_chat"
+      },
+      {
+        "text": "이거 어떻게 쓰는 거예요",
+        "label": "general_chat"
+      },
+      {
+        "text": "머리가 아파서요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "진통제 먹어도 돼요",
+        "label": "medication_inquiry"
+      }
+    ]
+  },
+  {
+    "id": "MT-0046",
+    "scenario_type": "잡담섞임",
+    "turns": [
+      {
+        "text": "안녕하세요",
+        "label": "general_chat"
+      },
+      {
+        "text": "음성 인식 잘 되나요",
+        "label": "general_chat"
+      },
+      {
+        "text": "영감이 가슴이 답답하다고 해요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "갑자기 너무 심해져요",
+        "label": "emergency"
+      }
+    ]
+  },
+  {
+    "id": "MT-0047",
+    "scenario_type": "잡담섞임",
+    "turns": [
+      {
+        "text": "처음이에요",
+        "label": "general_chat"
+      },
+      {
+        "text": "잘 부탁해요",
+        "label": "general_chat"
+      },
+      {
+        "text": "변비가 심해요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "약 추천해주세요",
+        "label": "medication_inquiry"
+      }
+    ]
+  },
+  {
+    "id": "MT-0048",
+    "scenario_type": "잡담섞임",
+    "turns": [
+      {
+        "text": "안녕",
+        "label": "general_chat"
+      },
+      {
+        "text": "고마워요",
+        "label": "general_chat"
+      },
+      {
+        "text": "손주가 열이 나요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "해열제 먹여도 돼요",
+        "label": "medication_inquiry"
+      }
+    ]
+  },
+  {
+    "id": "MT-0049",
+    "scenario_type": "잡담섞임",
+    "turns": [
+      {
+        "text": "도와주세요",
+        "label": "general_chat"
+      },
+      {
+        "text": "다시 말해줘요",
+        "label": "general_chat"
+      },
+      {
+        "text": "알레르기인 것 같아요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "가까운 피부과",
+        "label": "hospital_search"
+      }
+    ]
+  },
+  {
+    "id": "MT-0050",
+    "scenario_type": "잡담섞임",
+    "turns": [
+      {
+        "text": "안녕하세요",
+        "label": "general_chat"
+      },
+      {
+        "text": "글씨가 잘 안 보여요",
+        "label": "general_chat"
+      },
+      {
+        "text": "눈이 침침해요",
+        "label": "symptom_inquiry"
+      },
+      {
+        "text": "안과 알려주세요",
+        "label": "hospital_search"
+      }
+    ]
+  }
+]

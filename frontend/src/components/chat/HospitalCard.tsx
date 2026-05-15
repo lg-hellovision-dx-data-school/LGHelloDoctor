@@ -15,24 +15,46 @@ export function HospitalCard({ hospital: h }: Props) {
 
   return (
     <article className={styles.card}>
-      <h3 className={styles.name}>🏥{h.name}</h3>
-      <p className={styles.line}>📍{h.address}</p>
-      <p className={styles.line}>📞{h.phone}</p>
-      <p className={styles.time}>
-        🚶 도보 약 {h.walk_time}분
-        {h.drive_time != null ? ` / 🚗 차량 약 ${h.drive_time}분` : ''}
-      </p>
+      <header className={styles.header}>
+        <span className={styles.icon} aria-hidden>🏥</span>
+        <h3 className={styles.name}>{h.name}</h3>
+      </header>
+
+      <dl className={styles.meta}>
+        <div className={styles.metaRow}>
+          <dt className={styles.metaIcon} aria-hidden>📍</dt>
+          <dd className={styles.metaValue}>{h.address}</dd>
+        </div>
+        <div className={styles.metaRow}>
+          <dt className={styles.metaIcon} aria-hidden>📞</dt>
+          <dd className={styles.metaValue}>{h.phone}</dd>
+        </div>
+        <div className={styles.metaRow}>
+          <dt className={styles.metaIcon} aria-hidden>🚶</dt>
+          <dd className={styles.metaValue}>
+            도보 약 <strong>{h.walk_time}분</strong>
+            {h.drive_time != null ? (
+              <>
+                <span className={styles.metaSep} aria-hidden>·</span>
+                🚗 차량 약 <strong>{h.drive_time}분</strong>
+              </>
+            ) : null}
+          </dd>
+        </div>
+      </dl>
+
       <p className={styles.disclaimer}>
-        💡 방문 전 병원에 전화하여 영업시간을 꼭 확인해 주세요.
+        💡 방문 전 영업시간을 꼭 확인해 주세요.
       </p>
+
       <div className={styles.actions}>
         {tel ? (
           <a className={styles.btnSecondary} href={tel}>
-            📞 전화걸기
+            전화 걸기
           </a>
         ) : (
           <span className={`${styles.btnSecondary} ${styles.btnDisabled}`}>
-            📞 전화걸기
+            전화 걸기
           </span>
         )}
         <a
@@ -41,7 +63,7 @@ export function HospitalCard({ hospital: h }: Props) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          🗺️ 카카오맵 길찾기
+          길찾기
         </a>
       </div>
     </article>

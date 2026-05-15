@@ -11,7 +11,14 @@ export function HospitalInfoPanel({ hospitals }: Props) {
 
   return (
     <aside className={styles.panel} aria-label="주변 병원 안내">
-      <h2 className={styles.title}>주변 병원</h2>
+      <header className={styles.header}>
+        <h2 className={styles.title}>가까운 병원</h2>
+        {hasList ? (
+          <span className={styles.count} aria-label={`${hospitals.length}곳`}>
+            {hospitals.length}곳
+          </span>
+        ) : null}
+      </header>
       <div className={styles.scroll}>
         {hasList ? (
           <ul className={styles.list}>
@@ -22,7 +29,12 @@ export function HospitalInfoPanel({ hospitals }: Props) {
             ))}
           </ul>
         ) : (
-          <p className={styles.placeholder}>현재 안내된 병원이 없습니다.</p>
+          <div className={styles.placeholder}>
+            <p className={styles.placeholderTitle}>아직 안내된 병원이 없어요</p>
+            <p className={styles.placeholderHint}>
+              증상을 말씀해 주시면<br />주변 병원을 찾아드릴게요.
+            </p>
+          </div>
         )}
       </div>
     </aside>

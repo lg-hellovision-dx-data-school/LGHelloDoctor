@@ -4,27 +4,47 @@
   min-height: 0;
   flex: 1;
   background: var(--chat-card);
-  border-radius: clamp(1rem, 3vw, 1.5rem);
-  box-shadow: 0 0.5rem 2rem rgba(165, 0, 52, 0.07);
-  padding: clamp(1.25rem, 4vw, 1.75rem);
+  border-radius: var(--chat-radius-lg);
+  box-shadow: var(--chat-shadow-md);
   border: 1px solid var(--chat-border-soft);
+  padding: clamp(1.5rem, 4vw, 2rem);
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+  flex-shrink: 0;
 }
 
 .title {
-  margin: 0 0 0.75rem;
-  font-size: clamp(1.1rem, 3vw, 1.25rem);
+  margin: 0;
+  font-size: clamp(1.25rem, 3.2vw, 1.5rem);
   font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--chat-text);
-  flex-shrink: 0;
+}
+
+.count {
+  font-size: clamp(0.875rem, 2.4vw, 0.95rem);
+  font-weight: 500;
+  color: var(--chat-muted);
+  letter-spacing: -0.005em;
+  background: var(--chat-card-soft);
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--chat-radius-pill);
+  border: 1px solid var(--chat-border-soft);
 }
 
 .scroll {
   flex: 1;
   min-height: min(12rem, 40svh);
-  max-height: min(70svh, 36rem);
+  max-height: min(70svh, 38rem);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding-right: 0.2rem;
+  padding-right: 0.25rem;
 }
 
 .list {
@@ -33,17 +53,33 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: 0.875rem;
 }
 
 .placeholder {
   margin: 0;
-  padding: clamp(1.5rem, 5vw, 2rem) clamp(0.75rem, 3vw, 1rem);
+  padding: clamp(2rem, 5vw, 2.5rem) clamp(1rem, 3vw, 1.25rem);
   text-align: center;
-  font-size: clamp(0.95rem, 2.8vw, 1.05rem);
-  line-height: 1.5;
-  color: var(--chat-muted);
-  border-radius: 0.75rem;
+  border-radius: var(--chat-radius-md);
   border: 1px dashed var(--chat-border);
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--chat-card-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.placeholderTitle {
+  margin: 0;
+  font-size: clamp(1rem, 2.8vw, 1.125rem);
+  font-weight: 600;
+  color: var(--chat-text);
+  letter-spacing: -0.01em;
+}
+
+.placeholderHint {
+  margin: 0;
+  font-size: clamp(0.9375rem, 2.6vw, 1.0625rem);
+  line-height: 1.55;
+  color: var(--chat-muted);
 }

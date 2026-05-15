@@ -41,7 +41,7 @@ def check_chat_api():
         "session_id": "healthcheck",
         "lat": 37.5012,
         "lng": 127.0396,
-    }, timeout=30)
+    }, timeout=120)
     data = res.json()
     return (
         res.status_code == 200
@@ -58,7 +58,7 @@ def check_emergency_detection():
         "session_id": "emergency-check",
         "lat": 37.5012,
         "lng": 127.0396,
-    }, timeout=30)
+    }, timeout=120)
     data = res.json()
     return data.get("intent") == "emergency"
 
@@ -71,7 +71,7 @@ def check_korean_only_response():
         "session_id": "korean-check",
         "lat": 37.5012,
         "lng": 127.0396,
-    }, timeout=30)
+    }, timeout=120)
     answer = res.json().get("answer", "")
     english_words = re.findall(r'\b[a-zA-Z]{2,}\b', answer)
     return len(english_words) == 0

@@ -1,15 +1,16 @@
 .notice {
   width: 100%;
-  max-width: 28rem;
+  max-width: 30rem;
   margin: 0 auto;
-  padding: 0.75rem 1rem;
-  border-radius: 0.75rem;
-  font-size: clamp(0.9rem, 2.8vw, 1.05rem);
-  line-height: 1.45;
-  color: #4a2832;
-  background: #fff8fa;
-  border: 1px solid rgba(165, 0, 52, 0.18);
+  padding: 0.875rem 1.125rem;
+  border-radius: var(--chat-radius-sm);
+  font-size: clamp(0.95rem, 2.6vw, 1.0625rem);
+  line-height: 1.5;
+  color: var(--chat-text-secondary);
+  background: var(--chat-accent-bg);
+  border: 1px solid rgba(165, 0, 52, 0.15);
   text-align: center;
+  font-weight: 500;
 }
 
 .wrap {
@@ -17,23 +18,25 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(0.75rem, 2.5vw, 1rem);
+  gap: clamp(1.25rem, 3vw, 1.625rem);
   flex: 1;
-  min-height: clamp(12rem, 38vw, 16rem);
+  min-height: clamp(13rem, 38vw, 17rem);
 }
 
 .hint {
   margin: 0;
   text-align: center;
-  font-size: clamp(0.95rem, 3vw, 1.1rem);
+  font-size: clamp(1.0625rem, 3vw, 1.25rem);
   color: var(--chat-muted);
-  line-height: 1.45;
+  line-height: 1.5;
+  max-width: 26rem;
+  font-weight: 400;
 }
 
 .micOuter {
-  width: clamp(8.5rem, 42vw, 11rem);
-  height: clamp(8.5rem, 42vw, 11rem);
-  border-radius: 50%;
+  width: clamp(10rem, 44vw, 13rem);
+  height: clamp(10rem, 44vw, 13rem);
+  border-radius: var(--chat-radius-pill);
   background: var(--chat-accent-bg);
   display: flex;
   align-items: center;
@@ -41,58 +44,61 @@
   border: none;
   cursor: pointer;
   color: var(--chat-primary);
+  box-shadow: var(--chat-shadow-sm);
   transition:
-    transform 0.15s,
-    box-shadow 0.2s;
+    transform 0.18s var(--chat-ease),
+    box-shadow 0.25s var(--chat-ease);
 }
 
 .micOuter:hover {
-  box-shadow: 0 0.35rem 1.25rem var(--chat-primary-20);
+  box-shadow: var(--chat-shadow-md), 0 0 0 0.25rem var(--chat-primary-15);
+  transform: translateY(-1px);
 }
 
 .micOuter:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
 .micOuter:focus-visible {
   outline: 3px solid var(--chat-primary);
-  outline-offset: 4px;
+  outline-offset: 5px;
 }
 
 .micOuter:disabled {
   opacity: 0.55;
   cursor: not-allowed;
   animation: none;
-  box-shadow: none;
+  box-shadow: var(--chat-shadow-xs);
+  transform: none;
 }
 
 .micOuter svg {
-  width: clamp(3.5rem, 16vw, 4.5rem);
-  height: clamp(3.5rem, 16vw, 4.5rem);
+  width: clamp(4rem, 17vw, 5rem);
+  height: clamp(4rem, 17vw, 5rem);
 }
 
 .listening {
-  animation: pulse 1.2s ease-in-out infinite;
-  box-shadow: 0 0 0 0 var(--chat-primary-35);
+  animation: pulse 1.6s var(--chat-ease) infinite;
+  box-shadow: 0 0 0 0 var(--chat-primary-35), var(--chat-shadow-md);
 }
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 var(--chat-primary-35);
+    box-shadow: 0 0 0 0 var(--chat-primary-35), var(--chat-shadow-md);
   }
   70% {
-    box-shadow: 0 0 0 1rem rgba(165, 0, 52, 0);
+    box-shadow: 0 0 0 1.25rem rgba(165, 0, 52, 0), var(--chat-shadow-md);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(165, 0, 52, 0);
+    box-shadow: 0 0 0 0 rgba(165, 0, 52, 0), var(--chat-shadow-md);
   }
 }
 
-/* Compact variant (채팅 입력창 하단) */
+/* Compact variant — 채팅 진행 중 입력창 하단 */
 .compactWrap {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.625rem;
   width: 100%;
 }
 
@@ -100,19 +106,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 0.875rem;
 }
 
 .compactMic {
-  width: clamp(3.75rem, 14vw, 4.5rem);
-  height: clamp(3.75rem, 14vw, 4.5rem);
-  border-radius: 50%;
+  width: clamp(4rem, 14vw, 4.75rem);
+  height: clamp(4rem, 14vw, 4.75rem);
+  min-width: var(--chat-tap-min);
+  min-height: var(--chat-tap-min);
+  border-radius: var(--chat-radius-pill);
   background: var(--chat-accent-bg);
   border: none;
   cursor: pointer;
   color: var(--chat-primary);
   flex-shrink: 0;
-  transition: transform 0.15s;
+  box-shadow: var(--chat-shadow-xs);
+  transition:
+    transform 0.18s var(--chat-ease),
+    box-shadow 0.25s var(--chat-ease);
+}
+
+.compactMic:hover {
+  box-shadow: var(--chat-shadow-sm);
+  transform: translateY(-1px);
 }
 
 .compactMic:active {
@@ -121,27 +137,30 @@
 
 .compactMic:focus-visible {
   outline: 3px solid var(--chat-primary);
-  outline-offset: 3px;
+  outline-offset: 4px;
 }
 
 .compactMic:disabled {
   opacity: 0.55;
   cursor: not-allowed;
   animation: none;
+  transform: none;
 }
 
 .compactMic.listening {
-  animation: pulse 1.2s ease-in-out infinite;
+  animation: pulse 1.6s var(--chat-ease) infinite;
 }
 
 .compactMic svg {
-  width: clamp(1.75rem, 6vw, 2.25rem);
-  height: clamp(1.75rem, 6vw, 2.25rem);
+  width: clamp(1.875rem, 6vw, 2.375rem);
+  height: clamp(1.875rem, 6vw, 2.375rem);
 }
 
 .compactHint {
   margin: 0;
-  font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+  font-size: clamp(1rem, 2.8vw, 1.125rem);
   color: var(--chat-muted);
   text-align: center;
+  font-weight: 400;
+  line-height: 1.5;
 }

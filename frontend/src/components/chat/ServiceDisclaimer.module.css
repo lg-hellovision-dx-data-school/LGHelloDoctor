@@ -1,9 +1,11 @@
 .notice {
   margin: 0;
-  padding: 0.9rem 1rem;
+  padding: 1rem 0.5rem 0.25rem;
   border-top: 1px solid var(--chat-border-soft);
-  color: var(--chat-muted);
-  font-size: clamp(0.82rem, 2.5vw, 0.95rem);
-  line-height: 1.5;
+  color: var(--chat-muted-soft);
+  font-size: clamp(0.8125rem, 2.2vw, 0.9rem);
+  line-height: 1.6;
   text-align: center;
+  letter-spacing: -0.005em;
+  font-weight: 400;
 }

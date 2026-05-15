@@ -1,5 +1,25 @@
 {
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/scripts/session-start.sh"
+          }
+        ]
+      },
+      {
+      
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/scripts/session-start.sh"
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Bash",
@@ -16,6 +36,15 @@
           {
             "type": "command",
             "command": "echo '[하네스] 파일 쓰기 전 — 경로 확인 중...'"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_TOOL_INPUT\" | grep -qE '(FORBIDDEN_WORDS|EMERGENCY_KEYWORDS|EMERGENCY_SCORES|MEDICAL_CORRECTIONS|EMERGENCY_CASES)'; then echo '⚠️  [HITL] 의료/법률 자문 영역 수정 감지'; echo '    EMERGENCY_*  → 의사(응급의학) 검수 필요'; echo '    FORBIDDEN_*  → 법률·컴플라이언스 검수 필요'; echo '    MEDICAL_CORRECTIONS → 의사(일반의) 검수 필요'; echo '    PR 머지 전 체크리스트 확인: docs/HITL_3TIER.md'; fi"
           }
         ]
       }
