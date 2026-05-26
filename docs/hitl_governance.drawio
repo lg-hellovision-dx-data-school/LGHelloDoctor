@@ -1,65 +1,48 @@
-<mxfile host="app.diagrams.net" agent="HelloDoctor" version="24.0.0">
+<mxfile host="app.diagrams.net" agent="HelloDoctor">
   <diagram name="HITL 3-Tier Governance" id="hitl-gov">
-    <mxGraphModel dx="1422" dy="900" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+    <mxGraphModel dx="1342" dy="844" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-
-        <!-- ============== Tier 1: Domain Advisory ============== -->
-        <mxCell id="tier1" value="Tier 1: Domain Advisory&#xa;&#xa;Doctor (Emergency · GP)&#xa;Pharmacist&#xa;Geriatric UX&#xa;Legal / Compliance" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=18;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.5;spacing=10;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="60" y="60" width="320" height="200" as="geometry" />
+        <mxCell id="tier1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=28;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.5;spacing=10;verticalAlign=middle;" value="Tier 1: Domain Advisory&#xa;&#xa;Doctor (Emergency · GP)&#xa;Pharmacist&#xa;Geriatric UX&#xa;Legal / Compliance" vertex="1">
+          <mxGeometry height="200" width="320" x="60" y="60" as="geometry" />
         </mxCell>
-
-        <!-- ============== Tier 2: Developers ============== -->
-        <mxCell id="tier2" value="Tier 2: Developers&#xa;&#xa;Pull Request Review&#xa;Test (/test)&#xa;Validate (/validate)&#xa;Pre-commit Hooks" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=18;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.5;spacing=10;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="440" y="60" width="320" height="200" as="geometry" />
+        <mxCell id="tier2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=28;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.5;spacing=10;verticalAlign=middle;" value="Tier 2: Developers&#xa;&#xa;Pull Request Review&#xa;Test (/test)&#xa;Validate (/validate)&#xa;Pre-commit Hooks" vertex="1">
+          <mxGeometry height="200" width="320" x="440" y="60" as="geometry" />
         </mxCell>
-
-        <!-- ============== Tier 3: Senior Beta ============== -->
-        <mxCell id="tier3" value="Tier 3: Senior Beta&#xa;&#xa;Comprehensibility Test&#xa;Voice Recognition Survey&#xa;Usability Interview&#xa;Dialect Diversity" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=18;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.5;spacing=10;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="820" y="60" width="320" height="200" as="geometry" />
+        <mxCell id="tier3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=28;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.5;spacing=10;verticalAlign=middle;" value="Tier 3: Senior Beta&#xa;&#xa;Comprehensibility Test&#xa;Voice Recognition Survey&#xa;Usability Interview&#xa;Dialect Diversity" vertex="1">
+          <mxGeometry height="200" width="320" x="820" y="60" as="geometry" />
         </mxCell>
-
-        <!-- ============== AI System (HelloDoctor) ============== -->
-        <mxCell id="ai" value="AI System&#xa;(HelloDoctor)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=22;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=2;fontStyle=1;spacing=10;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="440" y="500" width="320" height="120" as="geometry" />
+        <mxCell id="ai" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=28;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=2;fontStyle=1;spacing=10;verticalAlign=middle;" value="AI System&#xa;(HelloDoctor)" vertex="1">
+          <mxGeometry height="120" width="320" x="440" y="500" as="geometry" />
         </mxCell>
-
-        <!-- ============== Principle box (footer) ============== -->
-        <mxCell id="principle" value="Principle: Zero Autonomous Decisions by AI&#xa;7 Checkpoints across code, test, hook, and PR layers" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=15;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1;fontStyle=2;spacing=8;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="340" y="680" width="520" height="60" as="geometry" />
+        <mxCell id="principle" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=28;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1;fontStyle=2;spacing=8;dashed=1;" value="Principle: Zero Autonomous Decisions by AI&#xa;7 Checkpoints across code, test, hook, and PR layers" vertex="1">
+          <mxGeometry height="128" width="520" x="340" y="655" as="geometry" />
         </mxCell>
-
-        <!-- ============== Arrows: Tiers → AI ============== -->
-        <!-- Tier 1 → AI (curate) -->
-        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeColor=#000000;strokeWidth=1.5;endSize=12;exitX=0.5;exitY=1;entryX=0.2;entryY=0;" edge="1" parent="1" source="tier1" target="ai">
+        <mxCell id="e1" edge="1" parent="1" source="tier1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeColor=#000000;strokeWidth=1.5;endSize=12;exitX=0.5;exitY=1;entryX=0.2;entryY=0;fontSize=28;" target="ai">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e1_lbl" value="curate&#xa;(rules / data)" style="text;html=1;align=center;fontSize=15;fontStyle=2;fontFamily=Times New Roman;fontColor=#000000;" vertex="1" parent="1">
-          <mxGeometry x="170" y="370" width="140" height="40" as="geometry" />
+        <mxCell id="e1_lbl" parent="1" style="text;html=1;align=center;fontSize=28;fontStyle=2;fontFamily=Times New Roman;fontColor=#000000;" value="curate&#xa;(rules / data)" vertex="1">
+          <mxGeometry height="40" width="140" x="77" y="294" as="geometry" />
         </mxCell>
-
-        <!-- Tier 2 → AI (enforce) -->
-        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeColor=#000000;strokeWidth=1.5;endSize=12;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="tier2" target="ai">
+        <mxCell id="e2" edge="1" parent="1" source="tier2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeColor=#000000;strokeWidth=1.5;endSize=12;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=28;" target="ai">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e2_lbl" value="enforce&#xa;(test / hook)" style="text;html=1;align=center;fontSize=15;fontStyle=2;fontFamily=Times New Roman;fontColor=#000000;" vertex="1" parent="1">
-          <mxGeometry x="610" y="370" width="140" height="40" as="geometry" />
+        <mxCell id="e2_lbl" parent="1" style="text;html=1;align=center;fontSize=28;fontStyle=2;fontFamily=Times New Roman;fontColor=#000000;" value="enforce&#xa;(test / hook)" vertex="1">
+          <mxGeometry height="40" width="140" x="601" y="290" as="geometry" />
         </mxCell>
-
-        <!-- Tier 3 → AI (feedback) -->
-        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeColor=#000000;strokeWidth=1.5;endSize=12;exitX=0.5;exitY=1;entryX=0.8;entryY=0;" edge="1" parent="1" source="tier3" target="ai">
+        <mxCell id="e3" edge="1" parent="1" source="tier3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeColor=#000000;strokeWidth=1.5;endSize=12;exitX=0.5;exitY=1;entryX=0.8;entryY=0;fontSize=28;" target="ai">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e3_lbl" value="feedback&#xa;(usability)" style="text;html=1;align=center;fontSize=15;fontStyle=2;fontFamily=Times New Roman;fontColor=#000000;" vertex="1" parent="1">
-          <mxGeometry x="930" y="370" width="140" height="40" as="geometry" />
+        <mxCell id="e3_lbl" parent="1" style="text;html=1;align=center;fontSize=28;fontStyle=2;fontFamily=Times New Roman;fontColor=#000000;" value="feedback&#xa;(usability)" vertex="1">
+          <mxGeometry height="40" width="140" x="969" y="294" as="geometry" />
         </mxCell>
-
-        <!-- AI → Principle -->
-        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeColor=#000000;strokeWidth=1.5;dashed=1;endSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="ai" target="principle">
+        <mxCell id="e4" edge="1" parent="1" source="ai" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeColor=#000000;strokeWidth=1.5;dashed=1;endSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=28;" target="principle">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
+        <mxCell id="xZWrGG46hItqZwvnDVng-4" parent="1" style="whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="60" width="120" x="1005" y="798" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>

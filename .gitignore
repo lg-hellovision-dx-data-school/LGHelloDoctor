@@ -32,3 +32,9 @@ eval/*.zip
 
 # Claude Code 로컬 권한 (사용자별 설정)
 .claude/settings.local.json
+
+# pytest-cov 산출물 (리포트 .md는 추적, 바이너리는 제외)
+.coverage
+.coverage.*
+docs/coverage_html/
+htmlcov/

@@ -1,60 +1,198 @@
-<mxfile host="app.diagrams.net" agent="HelloDoctor">
+<mxfile host="app.diagrams.net" agent="HelloDoctor" version="24.0.0">
   <diagram name="System Architecture" id="hellodoctor-arch">
-    <mxGraphModel dx="1585" dy="811" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="950" math="0" shadow="0">
+    <mxGraphModel dx="1422" dy="900" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="user" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=24;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;" value="User Voice" vertex="1">
-          <mxGeometry height="60" width="200" x="350" y="40" as="geometry" />
+
+        <!-- ============== COLUMN HEADERS ============== -->
+        <mxCell id="hdr_input" value="Input Sources" style="text;html=1;align=center;verticalAlign=middle;fontSize=17;fontStyle=1;fontFamily=Times New Roman;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="260" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="stt" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=24;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;" value="Speech-to-Text&#xa;(Whisper)" vertex="1">
-          <mxGeometry height="80" width="260" x="320" y="150" as="geometry" />
+        <mxCell id="hdr_system" value="HelloDoctor System" style="text;html=1;align=center;verticalAlign=middle;fontSize=17;fontStyle=1;fontFamily=Times New Roman;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="360" y="30" width="900" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="intent" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=24;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;" value="Intent Classifier&#xa;(LLaMA + Rule)" vertex="1">
-          <mxGeometry height="80" width="260" x="320" y="280" as="geometry" />
+        <mxCell id="hdr_output" value="Output Services" style="text;html=1;align=center;verticalAlign=middle;fontSize=17;fontStyle=1;fontFamily=Times New Roman;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="30" width="280" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="rag" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=24;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;" value="Hybrid RAG" vertex="1">
-          <mxGeometry height="80" width="220" x="60" y="430" as="geometry" />
+
+        <!-- ============== LEFT: INPUT SOURCES ============== -->
+        <mxCell id="in_voice" value="Senior Voice Input&#xa;(자연어 발화)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=13;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="60" y="100" width="220" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="hosp" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=24;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;" value="Hospital Search" vertex="1">
-          <mxGeometry height="80" width="220" x="340" y="430" as="geometry" />
+        <mxCell id="in_kdca" value="Medical Knowledge&#xa;KDCA 국가건강정보포털" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=13;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="320" width="220" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="emerg" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=24;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;" value="Emergency Score" vertex="1">
-          <mxGeometry height="80" width="220" x="620" y="430" as="geometry" />
+        <mxCell id="in_kakao" value="External API&#xa;Kakao Local API" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=13;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="430" width="220" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="answer" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=24;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;" value="Answer Generator (LLaMA) + Evaluator" vertex="1">
-          <mxGeometry height="80" width="460" x="220" y="610" as="geometry" />
+
+        <!-- ============== CENTER: SYSTEM CONTAINER ============== -->
+        <mxCell id="sys_container" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="340" y="80" width="940" height="640" as="geometry" />
         </mxCell>
-        <mxCell id="output" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=24;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;" value="Response Output" vertex="1">
-          <mxGeometry height="60" width="200" x="350" y="750" as="geometry" />
+
+        <mxCell id="stt" value="Speech-to-Text&#xa;(Whisper)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=14;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="610" y="110" width="280" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="a1" edge="1" parent="1" source="user" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=24;" target="stt">
+        <mxCell id="intent" value="Intent Classifier&#xa;(LLaMA + Emergency Rule)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=14;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="590" y="220" width="320" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="tool_group" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="330" width="900" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="tool_label" value="Tool Dispatch  (Parallel Execution)" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=3;fontFamily=Times New Roman;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="376" y="336" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="rag" value="Hybrid RAG" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=14;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="380" y="380" width="280" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="hosp" value="Hospital Search" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=14;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="690" y="380" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="emerg" value="Emergency Score" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=14;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="960" y="380" width="280" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="answer" value="Answer Generator (LLaMA) + Evaluator (Quality Check)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=14;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="400" y="530" width="820" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hitl_strip" value="HITL Governance  ·  3-Tier Review  (Doctor / Pharmacist / Geriatric UX / Legal · Developers · Senior Beta)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1;fontStyle=3;spacing=4;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="630" width="820" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ============== RIGHT: OUTPUT SERVICES ============== -->
+        <mxCell id="out_dept" value="Department Recommendation&#xa;진료과 안내" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=13;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="100" width="280" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="out_hosp" value="Nearby Hospital Guidance&#xa;인근 병원 정보 (거리·전화)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=13;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="200" width="280" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="out_emerg" value="Emergency 119 Alert&#xa;응급 119 안내" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=13;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="300" width="280" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="out_med" value="Medical Q&amp;A Response&#xa;증상·의료 정보 응답" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=13;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="400" width="280" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="out_drug" value="Medication Inquiry&#xa;약물 문의 응답" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=13;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="500" width="280" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- ============== ARROWS — Input → System ============== -->
+        <mxCell id="in1" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=1;exitY=0.5;entryX=0;entryY=0.5;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="in_voice" target="stt">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a2" edge="1" parent="1" source="stt" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=24;" target="intent">
+        <mxCell id="in2" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;dashed=1;endSize=10;exitX=1;exitY=0.5;entryX=0;entryY=0.5;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="in_kdca" target="rag">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a3a" edge="1" parent="1" source="intent" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=24;" target="rag">
+        <mxCell id="in3" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;dashed=1;endSize=10;exitX=1;exitY=0.5;entryX=0;entryY=0.5;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="in_kakao" target="hosp">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a3b" edge="1" parent="1" source="intent" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=24;" target="hosp">
+
+        <!-- ============== Internal flow ============== -->
+        <mxCell id="f1" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="stt" target="intent">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a3c" edge="1" parent="1" source="intent" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=24;" target="emerg">
+        <mxCell id="f2a" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="intent" target="rag">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a4a" edge="1" parent="1" source="rag" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.25;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=24;" target="answer">
+        <mxCell id="f2b" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="intent" target="hosp">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a4b" edge="1" parent="1" source="hosp" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=24;" target="answer">
+        <mxCell id="f2c" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="intent" target="emerg">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a4c" edge="1" parent="1" source="emerg" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.75;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=24;" target="answer">
+        <mxCell id="f3a" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.2;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="rag" target="answer">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a5" edge="1" parent="1" source="answer" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=24;" target="output">
+        <mxCell id="f3b" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="hosp" target="answer">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="f3c" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=0.5;exitY=1;entryX=0.8;entryY=0;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="emerg" target="answer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============== System → Output ============== -->
+        <mxCell id="o1" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=1;exitY=0.5;entryX=0;entryY=0.5;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="answer" target="out_dept">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1260" y="565" />
+              <mxPoint x="1260" y="132" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o2" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=1;exitY=0.5;entryX=0;entryY=0.5;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="answer" target="out_hosp">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1260" y="565" />
+              <mxPoint x="1260" y="232" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o3" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=1;exitY=0.5;entryX=0;entryY=0.5;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="answer" target="out_emerg">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1260" y="565" />
+              <mxPoint x="1260" y="332" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o4" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=1;exitY=0.5;entryX=0;entryY=0.5;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="answer" target="out_med">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o5" style="endArrow=classic;html=1;strokeColor=#000000;strokeWidth=1.2;endSize=10;exitX=1;exitY=0.5;entryX=0;entryY=0.5;edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" parent="1" source="answer" target="out_drug">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1260" y="565" />
+              <mxPoint x="1260" y="532" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ============== ENGINEERING FOUNDATION (Bottom Section) ============== -->
+        <mxCell id="eng_hdr" value="AI Native Engineering Stack  ·  Development Methodology" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;fontStyle=1;fontFamily=Times New Roman;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="40" y="760" width="1540" height="28" as="geometry" />
+        </mxCell>
+
+        <mxCell id="eng_prompt" value="Prompt Engineering&#xa;&#xa;LLaMA System Prompts&#xa;Few-shot Examples&#xa;Intent Label Constraints&#xa;.github/prompts/" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="800" width="290" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="eng_context" value="Context Engineering&#xa;&#xa;CLAUDE.md (Project Constitution)&#xa;docs/PRODUCT.md · context-packet&#xa;AI Native 6-Stage Assets&#xa;Domain Ontology (OWL/SKOS)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="350" y="800" width="290" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="eng_harness" value="Harness Engineering&#xa;&#xa;.claude/settings.json Hooks&#xa;PreToolUse · PostToolUse&#xa;SessionStart Auto-Brief&#xa;Risk Command Block" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="660" y="800" width="290" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="eng_claude" value="Claude Code Tooling&#xa;&#xa;Slash Commands  /test  /deploy  /validate&#xa;Subagents (TDD-*, module-*)&#xa;Skills · TaskList · Memory&#xa;.claude/commands/" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="970" y="800" width="290" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="eng_tdd" value="TDD &amp; Validation&#xa;&#xa;pytest  tests/test_*.py&#xa;Agent Pattern Regression (14)&#xa;Integration /validate 7/7&#xa;LangSmith @traceable" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="800" width="300" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- ============== EXTERNAL TOOLS / MODELS (Very Bottom) ============== -->
+        <mxCell id="tools_hdr" value="External Tools / Models / Libraries" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;fontStyle=1;fontFamily=Times New Roman;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="40" y="985" width="1540" height="28" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t_speech" value="Speech&#xa;&#xa;Whisper (HuggingFace)&#xa;SungBeom/whisper-small-ko&#xa;Silero VAD" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=11;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1025" width="290" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="t_llm" value="Language Model&#xa;&#xa;LLaMA 3.2-3B (Ollama)&#xa;GGUF Q4_K_M + LoRA&#xa;Groq llama-3.3-70b (Fallback)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=11;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=4;" vertex="1" parent="1">
+          <mxGeometry x="350" y="1025" width="290" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="t_rag" value="Retrieval&#xa;&#xa;ChromaDB (Vector)&#xa;rank_bm25 (Lexical)&#xa;Dongjin-kr/ko-reranker&#xa;jhgan/ko-sroberta" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=11;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=4;" vertex="1" parent="1">
+          <mxGeometry x="660" y="1025" width="290" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="t_serve" value="Service Infra&#xa;&#xa;FastAPI · uvicorn&#xa;React 19 + Vite + TypeScript&#xa;Docker Compose · nginx" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=11;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=4;" vertex="1" parent="1">
+          <mxGeometry x="970" y="1025" width="290" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="t_ext" value="External Services&#xa;&#xa;Kakao Local API&#xa;KDCA Health Portal&#xa;LangSmith (Tracing)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=11;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=4;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="1025" width="300" height="140" as="geometry" />
+        </mxCell>
+
       </root>
     </mxGraphModel>
   </diagram>

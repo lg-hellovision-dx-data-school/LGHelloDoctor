@@ -1,0 +1,129 @@
+<mxfile host="app.diagrams.net" agent="HelloDoctor" version="24.0.0">
+  <diagram name="SDLC Process" id="sdlc-proc">
+    <mxGraphModel dx="1422" dy="900" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ============== Title ============== -->
+        <mxCell id="title" value="개발 프로세스 · SDLC 7-Stage" style="text;html=1;align=center;verticalAlign=middle;fontSize=22;fontStyle=1;fontFamily=Helvetica;fontColor=#1A237E;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1820" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="기획 → 분해 → 개발 → 검증 → 배포 · 회고를 통한 지속적 개선 루프" style="text;html=1;align=center;verticalAlign=middle;fontSize=14;fontColor=#5C6BC0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="68" width="1820" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- ============== STAGE 1: PRD (Indigo) ============== -->
+        <mxCell id="s1_h" value="📋  1. PRD&#xa;Product Requirements" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5B6CFF;strokeColor=#5B6CFF;fontSize=14;align=center;fontFamily=Helvetica;fontColor=#FFFFFF;fontStyle=1;spacing=8;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="s1_d" value="• 기능·비기능 요구사항&#xa;&#xa;• 완료 조건 (DoD)&#xa;&#xa;• 범위 정의" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#5B6CFF;fontSize=12;align=left;fontFamily=Helvetica;fontColor=#212121;strokeWidth=1.5;spacing=12;verticalAlign=middle;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="205" width="240" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="s1_f" value="문서" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EAF6;strokeColor=#5B6CFF;fontSize=12;align=center;fontFamily=Helvetica;fontColor=#3F51B5;strokeWidth=1.2;fontStyle=2;spacing=6;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="495" width="240" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============== STAGE 2: Task 분해 (Blue) ============== -->
+        <mxCell id="s2_h" value="✂️  2. Task 분해&#xa;Backlog Decomposition" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4F8FFF;strokeColor=#4F8FFF;fontSize=14;align=center;fontFamily=Helvetica;fontColor=#FFFFFF;fontStyle=1;spacing=8;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="340" y="120" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="s2_d" value="• Task 목록 (백로그)&#xa;&#xa;• 인수 조건 (AC)&#xa;&#xa;• 테스트 전략&#xa;&#xa;• 실행 순서·일정" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#4F8FFF;fontSize=12;align=left;fontFamily=Helvetica;fontColor=#212121;strokeWidth=1.5;spacing=12;verticalAlign=middle;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="340" y="205" width="240" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="s2_f" value="문서 + 티켓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#4F8FFF;fontSize=12;align=center;fontFamily=Helvetica;fontColor=#1976D2;strokeWidth=1.2;fontStyle=2;spacing=6;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="340" y="495" width="240" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============== STAGE 3: TDD 단위테스트 (Teal) ============== -->
+        <mxCell id="s3_h" value="🧪  3. TDD 단위테스트&#xa;Unit Test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3FB8AF;strokeColor=#3FB8AF;fontSize=14;align=center;fontFamily=Helvetica;fontColor=#FFFFFF;fontStyle=1;spacing=8;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="600" y="120" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="s3_d" value="• 단위 테스트 코드&#xa;&#xa;• 구현 코드&#xa;&#xa;• 리팩터링된 소스&#xa;&#xa;• 테스트 커버리지 리포트" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#3FB8AF;fontSize=12;align=left;fontFamily=Helvetica;fontColor=#212121;strokeWidth=1.5;spacing=12;verticalAlign=middle;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="600" y="205" width="240" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="s3_f" value="코드 + 리포트" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2F1;strokeColor=#3FB8AF;fontSize=12;align=center;fontFamily=Helvetica;fontColor=#00796B;strokeWidth=1.2;fontStyle=2;spacing=6;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="600" y="495" width="240" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============== STAGE 4: 통합 테스트 (Mint) ============== -->
+        <mxCell id="s4_h" value="🔗  4. 통합 테스트&#xa;Integration Test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4DD0AF;strokeColor=#4DD0AF;fontSize=14;align=center;fontFamily=Helvetica;fontColor=#FFFFFF;fontStyle=1;spacing=8;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="860" y="120" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="s4_d" value="• 통합 테스트 코드&#xa;&#xa;• API · DB 연동 검증 결과&#xa;&#xa;• 결함 리포트" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#4DD0AF;fontSize=12;align=left;fontFamily=Helvetica;fontColor=#212121;strokeWidth=1.5;spacing=12;verticalAlign=middle;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="860" y="205" width="240" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="s4_f" value="코드 + 리포트" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F7FA;strokeColor=#4DD0AF;fontSize=12;align=center;fontFamily=Helvetica;fontColor=#00897B;strokeWidth=1.2;fontStyle=2;spacing=6;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="860" y="495" width="240" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============== STAGE 5: 스모크 테스트 (Amber) ============== -->
+        <mxCell id="s5_h" value="💨  5. 스모크 테스트&#xa;Smoke Test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFB627;strokeColor=#FFB627;fontSize=14;align=center;fontFamily=Helvetica;fontColor=#FFFFFF;fontStyle=1;spacing=8;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="120" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="s5_d" value="• 핵심 경로 체크리스트&#xa;&#xa;• 스테이징 배포 확인 결과&#xa;&#xa;• 롤백 판단 기록" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FFB627;fontSize=12;align=left;fontFamily=Helvetica;fontColor=#212121;strokeWidth=1.5;spacing=12;verticalAlign=middle;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="205" width="240" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="s5_f" value="체크리스트 + 로그" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FFB627;fontSize=12;align=center;fontFamily=Helvetica;fontColor=#F57F17;strokeWidth=1.2;fontStyle=2;spacing=6;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="495" width="240" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============== STAGE 6: E2E 테스트 (Orange) ============== -->
+        <mxCell id="s6_h" value="🎬  6. E2E 테스트&#xa;End-to-End Test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF8E3C;strokeColor=#FF8E3C;fontSize=14;align=center;fontFamily=Helvetica;fontColor=#FFFFFF;fontStyle=1;spacing=8;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="120" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="s6_d" value="• E2E 시나리오 스크립트&#xa;&#xa;• 실행 결과 리포트&#xa;&#xa;• 스크린샷·영상&#xa;&#xa;• 회귀 결함 목록" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FF8E3C;fontSize=12;align=left;fontFamily=Helvetica;fontColor=#212121;strokeWidth=1.5;spacing=12;verticalAlign=middle;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="205" width="240" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="s6_f" value="코드 + 리포트" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#FF8E3C;fontSize=12;align=center;fontFamily=Helvetica;fontColor=#E65100;strokeWidth=1.2;fontStyle=2;spacing=6;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="495" width="240" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============== STAGE 7: 배포 완료 (Green - Success Highlight) ============== -->
+        <mxCell id="s7_h" value="🚀  7. 배포 완료&#xa;Release" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5CB85C;strokeColor=#5CB85C;fontSize=15;align=center;fontFamily=Helvetica;fontColor=#FFFFFF;fontStyle=1;spacing=8;arcSize=10;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1640" y="115" width="240" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="s7_d" value="• 릴리즈 노트&#xa;&#xa;• 배포 로그&#xa;&#xa;• 모니터링 대시보드&#xa;&#xa;• 회고 문서" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#5CB85C;fontSize=12;align=left;fontFamily=Helvetica;fontColor=#212121;strokeWidth=2;spacing=12;verticalAlign=middle;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1640" y="205" width="240" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="s7_f" value="문서 + 로그" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#5CB85C;fontSize=12;align=center;fontFamily=Helvetica;fontColor=#2E7D32;strokeWidth=1.5;fontStyle=2;spacing=6;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1640" y="495" width="240" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============== Arrows between stages ============== -->
+        <mxCell id="a12" style="endArrow=classic;html=1;strokeColor=#9E9E9E;strokeWidth=2.5;endSize=14;exitX=1;exitY=0.5;entryX=0;entryY=0.5;edgeStyle=none;" edge="1" parent="1" source="s1_d" target="s2_d">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a23" style="endArrow=classic;html=1;strokeColor=#9E9E9E;strokeWidth=2.5;endSize=14;exitX=1;exitY=0.5;entryX=0;entryY=0.5;edgeStyle=none;" edge="1" parent="1" source="s2_d" target="s3_d">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a34" style="endArrow=classic;html=1;strokeColor=#9E9E9E;strokeWidth=2.5;endSize=14;exitX=1;exitY=0.5;entryX=0;entryY=0.5;edgeStyle=none;" edge="1" parent="1" source="s3_d" target="s4_d">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a45" style="endArrow=classic;html=1;strokeColor=#9E9E9E;strokeWidth=2.5;endSize=14;exitX=1;exitY=0.5;entryX=0;entryY=0.5;edgeStyle=none;" edge="1" parent="1" source="s4_d" target="s5_d">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a56" style="endArrow=classic;html=1;strokeColor=#9E9E9E;strokeWidth=2.5;endSize=14;exitX=1;exitY=0.5;entryX=0;entryY=0.5;edgeStyle=none;" edge="1" parent="1" source="s5_d" target="s6_d">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a67" style="endArrow=classic;html=1;strokeColor=#9E9E9E;strokeWidth=2.5;endSize=14;exitX=1;exitY=0.5;entryX=0;entryY=0.5;edgeStyle=none;" edge="1" parent="1" source="s6_d" target="s7_d">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============== Feedback loop ============== -->
+        <mxCell id="feedback" style="endArrow=classic;html=1;strokeColor=#5CB85C;strokeWidth=2.5;dashed=1;endSize=14;exitX=0.5;exitY=1;entryX=0.5;entryY=1;edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="s7_f" target="s2_f">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1760" y="600" />
+              <mxPoint x="460" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="feedback_lbl" value="🔄  회고 → 차기 백로그 반영 (Continuous Improvement)" style="text;html=1;align=center;fontSize=13;fontStyle=2;fontFamily=Helvetica;fontColor=#2E7D32;" vertex="1" parent="1">
+          <mxGeometry x="900" y="610" width="400" height="24" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
