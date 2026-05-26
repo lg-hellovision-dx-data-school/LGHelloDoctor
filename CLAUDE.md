@@ -64,6 +64,23 @@ docker compose logs -f backend  # 로그 확인
 
 ---
 
+## Agent Design Patterns (Anthropic 5패턴 적용)
+
+Anthropic의 *Building effective agents* 5가지 워크플로 패턴을 본 프로젝트에 적용했다.
+전체 매핑표·다이어그램·HITL 연결은 [docs/AGENT_PATTERNS.md](./docs/AGENT_PATTERNS.md) 참조.
+
+| # | 패턴 | 적용 위치 |
+|---|---|---|
+| ① | Prompt Chaining | `full_pipeline` A→B→C→D 게이트 체인 (`backend/agent_patterns.py::PromptChain`) |
+| ② | Routing | `tool_router` 의도별 분기 (`agent_patterns.py::IntentRouter`) |
+| ③ | Parallelization | C팀 RAG·Kakao·Emergency 병렬 (`agent_patterns.py::run_c_team_parallel`) |
+| ④ | Orchestrator-Worker | `full_pipeline` 중앙 조율 (`agent_patterns.py::PipelineOrchestrator`) |
+| ⑤ | Evaluator-Optimizer | D팀 답변 한국어·금지어·길이 평가→재생성 (`agent_patterns.py::AnswerEvaluator`) |
+
+> 자동화는 패턴이, 의사결정(금지어·응급 키워드 큐레이션 등)은 HITL 3-Tier가 담당한다.
+
+---
+
 ## 컨텍스트 엔지니어링 (Few-shot 예시)
 
 Claude가 이 프로젝트에서 올바르게 동작하도록 하는 예시 패턴입니다.

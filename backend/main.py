@@ -22,6 +22,14 @@ from pydantic import BaseModel
 from typing import Optional
 from dotenv import load_dotenv
 from langsmith import traceable
+from agent_patterns import (
+    AnswerEvaluator,
+    IntentRouter,
+    PipelineOrchestrator,
+    PipelineWorkers,
+    generate_with_evaluator,
+    run_c_team_parallel,
+)
 
 load_dotenv()
 
@@ -530,35 +538,42 @@ def emergency_check(text: str) -> dict:
 
 
 def tool_router(output_from_B: dict, lat: float = 37.5012, lng: float = 127.0396) -> dict:
+    """Routing(②) + Parallelization(③) 패턴.
+
+    - 의도(intent)에 따라 필요한 도구만 선별 호출 → Routing
+    - 선별된 도구(RAG·Hospital·Emergency)는 ThreadPoolExecutor로 병렬 실행 → Parallelization
+    - HIGH 응급은 조기 종료(early exit)로 다른 결과 무시
+    """
     intent = output_from_B.get("intent", "symptom_inquiry")
     query = output_from_B.get("query", "")
-    result = {
+
+    parallel = run_c_team_parallel(
+        query=query,
+        intent=intent,
+        lat=lat,
+        lng=lng,
+        rag_fn=full_rag_pipeline,
+        hospital_fn=search_hospital,
+        emergency_fn=emergency_check,
+    )
+
+    emerg = parallel["emergency"]
+    if emerg.get("is_emergency") and emerg.get("severity") == "HIGH":
+        return {
+            "intent": intent,
+            "rag_context": None,
+            "rag_sources": [],
+            "hospitals": None,
+            "emergency": emerg,
+        }
+
+    return {
         "intent": intent,
-        "rag_context": None,
-        "rag_sources": [],   # v2: citation 출처 리스트 ({doc_id, score, source})
-        "hospitals": None,
-        "emergency": None,
+        "rag_context": parallel["rag_context"],
+        "rag_sources": parallel["rag_sources"],
+        "hospitals": parallel["hospitals"],
+        "emergency": emerg if emerg.get("is_emergency") else None,
     }
-
-    emerg = emergency_check(query)
-    if emerg["is_emergency"]:
-        result["emergency"] = emerg
-        if emerg["severity"] == "HIGH":
-            return result
-
-    if intent == "symptom_inquiry":
-        rag = full_rag_pipeline(query)
-        result["rag_context"] = rag["context"]
-        result["rag_sources"] = rag["sources"]
-        result["hospitals"] = search_hospital(query, lat, lng)
-    elif intent == "medication_info":
-        rag = full_rag_pipeline(query)
-        result["rag_context"] = rag["context"]
-        result["rag_sources"] = rag["sources"]
-    elif intent == "hospital_search":
-        result["hospitals"] = search_hospital(query, lat, lng)
-
-    return result
 
 
 # ====== D팀: 응답 생성 ======
@@ -648,6 +663,12 @@ def full_pipeline(
     lat: float = 37.5012,
     lng: float = 127.0396,
 ) -> dict:
+    """Orchestrator-Worker(④) 진입점. A→B→C→D 워커를 조율한다.
+
+    적용 패턴: Prompt Chaining(①) · Routing/Parallelization(② ③ — tool_router) ·
+    Orchestrator-Worker(④ — 본 함수) · Evaluator-Optimizer(⑤ — D팀 답변 검증).
+    상세 매핑: docs/AGENT_PATTERNS.md
+    """
     print(f'\n[Pipeline] 입력: {raw_text}')
 
     # A: STT
@@ -693,18 +714,31 @@ def full_pipeline(
     rag_context = c_result.get('rag_context') or ""
     combined_context = f"{rag_context}\n{hospital_info_text}".strip()
 
-    # D: 응답 생성
+    # D: 응답 생성 — Evaluator-Optimizer(⑤) 적용 (최대 2회 재생성)
+    eval_meta = None
     if c_result['emergency'] and c_result['emergency']['severity'] == 'HIGH':
         final_answer = format_response('', is_emergency=True)
     else:
         if combined_context:
-            answer_result = generate_answer(
-                text,
-                context=combined_context,
-                confidence=output_from_B.get('confidence', 0.85),
-                entities=output_from_B.get('entities'),
+            evaluator = AnswerEvaluator(forbidden_words=FORBIDDEN_WORDS)
+            eval_result = generate_with_evaluator(
+                generator=lambda: generate_answer(
+                    text,
+                    context=combined_context,
+                    confidence=output_from_B.get('confidence', 0.85),
+                    entities=output_from_B.get('entities'),
+                ),
+                evaluator=evaluator,
+                max_retries=2,
             )
-            raw_answer = answer_result['answer']
+            raw_answer = eval_result['answer']
+            eval_meta = {
+                'attempts': eval_result['attempts'],
+                'passed': eval_result['eval_passed'],
+                'issues': eval_result['eval_issues'],
+                'score': eval_result['eval_score'],
+            }
+            print(f"[D-eval] attempts={eval_meta['attempts']} passed={eval_meta['passed']} issues={eval_meta['issues']}")
         else:
             raw_answer = b_result.get('answer') or "죄송해요, 관련 정보를 찾지 못했습니다."
         final_answer = format_response(raw_answer)
@@ -718,6 +752,7 @@ def full_pipeline(
         'hospitals': c_result.get('hospitals'),
         'emergency': c_result.get('emergency'),
         'rag_sources': c_result.get('rag_sources') or [],
+        'eval': eval_meta,
     }
 
 

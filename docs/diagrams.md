@@ -26,43 +26,43 @@ graph LR
     classDef external fill:#FFF3E0,stroke:#FF8F00,color:#000
     classDef deploy   fill:#E8F5E9,stroke:#388E3C,color:#000
 
-    TV(["📺 TV\n어르신"]):::user
-    Mobile(["📱 모바일\n어르신"]):::user
+    TV(["📺 TV<br/>어르신"]):::user
+    Mobile(["📱 모바일<br/>어르신"]):::user
     Dev(["💻 개발자"]):::deploy
-    GitHub(["🐙 GitHub\nRepository"]):::deploy
+    GitHub(["🐙 GitHub<br/>Repository"]):::deploy
 
     subgraph OnPrem["🖥️  On-Premise Server"]
         subgraph DC["🐳 Docker Compose"]
-            FE["🐳 nginx:alpine\nfrontend\nport 80\nReact 19 + TypeScript"]:::docker
-            BE["🐳 python:3.11-slim\nFastAPI backend\nport 8000"]:::docker
+            FE["🐳 nginx:alpine<br/>frontend<br/>port 80<br/>React 19 + TypeScript"]:::docker
+            BE["🐳 python:3.11-slim<br/>FastAPI backend<br/>port 8000"]:::docker
 
             subgraph Models["Built-in AI Models"]
-                Whisper["Whisper STT\nopenai/whisper-small"]:::aimodel
-                Silero["Silero VAD\nthreshold 0.4"]:::aimodel
-                Sroberta["ko-sroberta-multitask\nEmbedding"]:::aimodel
+                Whisper["Whisper STT<br/>openai/whisper-small"]:::aimodel
+                Silero["Silero VAD<br/>threshold 0.4"]:::aimodel
+                Sroberta["ko-sroberta-multitask<br/>Embedding"]:::aimodel
             end
         end
 
-        Ollama["🦙 Ollama\nport 11434\nLLaMA 3.2-3B GGUF Q4_K_M"]:::aimodel
+        Ollama["🦙 Ollama<br/>port 11434<br/>LLaMA 3.2-3B GGUF Q4_K_M"]:::aimodel
 
         subgraph Vols["📦 Docker Volumes"]
-            ChromaDB[("RAG/db\nChromaDB 1.5.5\n418 chunks")]:::volume
-            ModelVol[("model-cache\nHuggingFace cache")]:::volume
+            ChromaDB[("RAG/db<br/>ChromaDB 1.5.5<br/>418 chunks")]:::volume
+            ModelVol[("model-cache<br/>HuggingFace cache")]:::volume
         end
     end
 
     subgraph Cloud["☁️  External Cloud"]
-        HF(["🤗 HuggingFace Hub\nModel Download"]):::external
-        Groq(["⚡ Groq Cloud API\nllama-3.3-70b\nFallback"]):::external
-        Kakao(["🗺️ Kakao Map API\nHospital Search"]):::external
+        HF(["🤗 HuggingFace Hub<br/>Model Download"]):::external
+        Groq(["⚡ Groq Cloud API<br/>llama-3.3-70b<br/>Fallback"]):::external
+        Kakao(["🗺️ Kakao Map API<br/>Hospital Search"]):::external
     end
 
     Dev       -->|"git push"| GitHub
-    GitHub    -->|"docker compose\nup --build"| FE
+    GitHub    -->|"docker compose<br/>up --build"| FE
 
     TV        -->|"HTTP Request"| FE
     Mobile    -->|"HTTP Request"| FE
-    FE        -->|"POST /chat\nPOST /api/stt"| BE
+    FE        -->|"POST /chat<br/>POST /api/stt"| BE
     BE        -->|"ChatResponse JSON"| FE
     FE        -->|"Render UI"| TV
     FE        -->|"Render UI"| Mobile
@@ -73,9 +73,9 @@ graph LR
     Sroberta  <-->|"Vector Search"| ChromaDB
     Models    <-.->|"Model Cache"| ModelVol
 
-    BE        -->|"Intent / Answer\nPOST /api/generate"| Ollama
+    BE        -->|"Intent / Answer<br/>POST /api/generate"| Ollama
     BE        -.->|"Fallback HTTPS"| Groq
-    BE        -->|"Hospital Search\nHTTPS"| Kakao
+    BE        -->|"Hospital Search<br/>HTTPS"| Kakao
     ModelVol  <-.->|"First-time Download"| HF
 ```
 
