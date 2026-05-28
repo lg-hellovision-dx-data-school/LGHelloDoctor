@@ -30,6 +30,19 @@ from agent_patterns import (
     generate_with_evaluator,
     run_c_team_parallel,
 )
+from graph_pipeline import build_graph, run_graph
+from ontology_store import ontology
+# ── Clean Architecture: 도메인 규칙(domain) · 프리젠터(adapters) 계층 ──
+from domain.rules import (
+    WAKE_WORDS, FILLER_PATTERN, MEDICAL_CORRECTIONS, EMERGENCY_KEYWORDS,
+    FOLLOWUP_QUESTIONS, QUERY_REWRITE_MAP, SYMPTOM_DEPT_MAP, EMERGENCY_SCORES,
+    FORBIDDEN_WORDS, preprocess_text, query_rewrite, contains_emergency_keyword,
+    score_emergency, classify_emergency, lookup_department,
+)
+from adapters.presenters import format_response, format_hospital_text
+from infra.map_kakao import search_kakao
+from usecases.hospital import find_nearby_hospital
+from usecases.rag import rrf_fuse, select_confident
 
 load_dotenv()
 
@@ -113,123 +126,11 @@ reranker = CrossEncoder("Dongjin-kr/ko-reranker", max_length=512)
 print(f"[Init] BM25 corpus={len(corpus_texts)}개, Reranker(ko-reranker) 로드 완료")
 
 # ====== 상수 ======
+# 도메인 규칙·상수(WAKE_WORDS·MEDICAL_CORRECTIONS·EMERGENCY_*·SYMPTOM_DEPT_MAP·
+# FORBIDDEN_WORDS 등)는 Clean Architecture domain 계층(backend/domain/rules.py)으로
+# 분리했고, 상단 import 로 재노출(re-export)하여 기존 호출부·테스트 호환을 유지한다.
+# HITL 거버넌스 책임자 주석도 domain/rules.py 로 이동.
 SAMPLE_RATE = 16000
-WAKE_WORDS  = ['헬로비야', '헬로비이', '헬로 비', '헬로비']
-FILLER_PATTERN = re.compile(r'(?<!\w)(어+~*|음+~*|에+~*|그+~*|뭐+~*|저+~*|아+~*)(?=\s|$)(?!\w)')
-
-# ─────────────────────────────────────────────────────────────────────────────
-# MEDICAL_CORRECTIONS — STT 오인식 보정 사전 (진료과명·증상·약물·검사명·질병명)
-#
-# 🧑‍⚕️ HITL 1차 책임자: 의사 (일반의)
-# 📅 검수 주기: 분기 1회 + STT 정확도 회귀 발견 시
-# 🔁 추가/수정 절차:
-#   1. STT 로그에서 신규 오인식 패턴 발견
-#   2. 의사 자문 → 보정 후보 검증 (의학적 정확성)
-#   3. PR → tests/test_ai_model.py::test_진료과명_보정 케이스 추가
-#   4. /test 통과 → 머지
-# 📋 변경 이력: CHANGELOG 또는 git blame 으로 추적
-# ─────────────────────────────────────────────────────────────────────────────
-MEDICAL_CORRECTIONS = {
-    "정형외가": "정형외과", "정형외꽈": "정형외과", "정형외와": "정형외과", "정영외과": "정형외과",
-    "이비인후가": "이비인후과", "이비인호과": "이비인후과", "이비인우과": "이비인후과",
-    "소화기가": "소화기내과", "피부가": "피부과", "피부부가": "피부과", "안과가": "안과",
-    "내과가": "내과", "신경가": "신경과", "신경내가": "신경내과", "산부인가": "산부인과",
-    "흉부외가": "흉부외과", "비뇨기가": "비뇨의학과", "재활의학가": "재활의학과", "가정의학가": "가정의학과",
-    "무릅": "무릎", "어꺠": "어깨", "머리아포": "두통", "배아포": "복통", "울렁거려": "구역질",
-    "체했어": "소화불량", "소화안돼": "소화불량", "오심이": "오심", "구통이": "구토",
-    "기침이": "기침", "가래가": "가래", "콧물나": "콧물", "숨차": "호흡곤란", "붓기": "부종",
-    "쑤셔": "통증", "결려": "통증", "욱신거려": "통증", "띵해": "두통", "가슴답답": "흉통",
-    "혈압야": "혈압약", "혈압아": "혈압약", "혈압박": "혈압약", "당뇨야": "당뇨약", "당뇨약이": "당뇨약",
-    "감기야": "감기약", "감기박": "감기약", "수면야": "수면약", "타이래놀": "타이레놀",
-    "진통제가": "진통제", "소염제가": "소염제", "항생제가": "항생제",
-    "엑스레이": "X-ray", "엑스래이": "X-ray", "엠알아이": "MRI", "씨티": "CT",
-    "피검사": "혈액검사", "혈액검사가": "혈액검사", "소변검사가": "소변검사", "초음파가": "초음파",
-    "고혈암": "고혈압", "당뇨병이": "당뇨병", "골다골증": "골다공증", "관절염이": "관절염",
-    "치매가": "치매", "뇌경색이": "뇌경색", "뇌출혈이": "뇌출혈", "심근경새": "심근경색", "심근경섹": "심근경색",
-}
-
-# ─────────────────────────────────────────────────────────────────────────────
-# EMERGENCY_KEYWORDS — 응급 발화 트리거 (즉시 119 안내 분기)
-#
-# 🚨 HITL 1차 책임자: 의사 (응급의학)
-# 📅 검수 주기: 분기 1회 + 인명 사고/누락 사례 발생 시 즉시
-# ⚠️ 위반 시 영향: 인명 사고 — 가장 엄격한 검수 영역
-# 🔁 추가/수정 절차:
-#   1. 응급의학과 자문 (FAST 기준, golden time, triage 분류)
-#   2. tests/test_ai_model.py::EMERGENCY_CASES 에 케이스 추가
-#   3. test_응급_키워드_100퍼센트_감지 통과 필수
-#   4. /validate 7항목 체크 후 머지
-# 📋 회귀 차단: 100% 감지율 — 한 건이라도 누락되면 머지 X
-# ─────────────────────────────────────────────────────────────────────────────
-EMERGENCY_KEYWORDS = [
-    '숨이 안 쉬어', '가슴이 너무 아프', '의식이 없', '쓰러', '피를 토',
-    '말이 어눌', '입이 돌아', '한쪽이 마비', '갑자기 안 보여',
-]
-
-FOLLOWUP_QUESTIONS = {
-    '무릎': '무릎이 많이 아프시군요. 혹시 걷기가 많이 힘드신가요?',
-    '허리': '허리가 아프시군요. 혹시 허리를 펴거나 숙이기가 어려우신가요?',
-    '어깨': '어깨가 불편하시군요. 팔을 위로 올리기가 힘드신 상태인가요?',
-    '머리': '머리가 아프시군요. 갑자기 핑 돌거나 망치로 맞은 듯이 아픈가요?',
-    '배': '배가 아프시군요. 속이 메스껍거나 콕콕 찌르는 느낌이 드세요?',
-    '가슴': '가슴이 답답하시군요. 숨을 쉬기가 벅차거나 조이는 느낌인가요?',
-}
-
-QUERY_REWRITE_MAP = {
-    "무릎": "무릎통증 정형외과 관련 증상 치료 방법",
-    "허리": "허리디스크 정형외과 척추 관련 증상 치료",
-    "어깨": "어깨통증 정형외과 회전근개 관련 증상 치료",
-    "머리": "두통이나 어지럼증 관련 증상 치료",
-    "배": "복통 소화 소화기로 소화기내과 관련",
-    "가래": "기침가래 폐 기관지 관련 증상 치료",
-    "비뇨의학과": "비뇨의학과 관련 증상 전문 의원",
-    "산부인과": "산부인과 관련 증상 전문 의원",
-}
-
-SYMPTOM_DEPT_MAP = {
-    "무릎": ("정형외과", "05"),
-    "허리": ("정형외과", "05"),
-    "어깨": ("정형외과", "05"),
-    "눈": ("안과", "12"),
-    "귀": ("이비인후과", "13"),
-    "코": ("이비인후과", "13"),
-    "피부": ("피부과", "14"),
-    "산부": ("산부인과", "15"),
-    "머리": ("신경과", "02"),
-    "가래": ("호흡기내과", "01"),
-    "배": ("소화기내과", "01"),
-    "가슴": ("내과", "01"),
-}
-
-# ─────────────────────────────────────────────────────────────────────────────
-# EMERGENCY_SCORES — 응급도 가중치 (0~100, 분기 임계값 결정용)
-#
-# 🚨 HITL 1차 책임자: 의사 (응급의학) — EMERGENCY_KEYWORDS 와 동일 책임자
-# 📅 검수 주기: 분기 1회 + 사고 시
-# 💡 점수 의미: ≥80 즉시 119 / 60~79 강한 권고 / <60 일반 RAG 흐름
-# ⚠️ 점수 조정 시 임계값 재실험 + 회귀 테스트 필수
-# ─────────────────────────────────────────────────────────────────────────────
-EMERGENCY_SCORES = {
-    "숨이 안 쉬어": 100, "의식이 없": 100, "피를 토": 90,
-    "가슴이 너무 아파": 90, "가슴통증이 심해": 90, "쓰러": 85,
-    "쓰러졌": 80, "혈압이 200": 80, "혈압약을": 30, "혈압이 높아": 40,
-}
-
-# ─────────────────────────────────────────────────────────────────────────────
-# FORBIDDEN_WORDS — 의료법 위반 가능 어휘 차단 (단정적 진단·처방 금지)
-#
-# ⚖️ HITL 1차 책임자: 법률·컴플라이언스
-# 📅 검수 주기: 의료법 개정 시 + 분기 1회
-# 📜 근거: 의료법 제27조 (무면허 의료행위 금지), 의료광고법
-# 🔁 추가/삭제 절차:
-#   1. 법률 자문 → 의료법·의료광고법 위반 가능성 검토
-#   2. 의사 자문 (보조) → 임상적 단정성 판단
-#   3. PR → tests/test_ai_model.py::test_핵심_금지어_포함, test_금지어_필터링 통과
-#   4. /test → /validate → 머지
-# ⚠️ 절대 금지: 단정성 완화 핑계로 임의 삭제 (예: "AI가 답변 못 함" → 삭제 금지)
-# 📋 최소 10개 유지 — test_금지어_개수 가 강제
-# ─────────────────────────────────────────────────────────────────────────────
-FORBIDDEN_WORDS = ['예후', '처방전', '투약', '병변', '진단', '확정', '완치', '확신', '치료', '부작용']
 
 conversation_state: dict = {}
 
@@ -246,20 +147,6 @@ def remove_silence(audio_path: str) -> str:
     tmp = tempfile.NamedTemporaryFile(suffix=".wav", delete=False)
     sf.write(tmp.name, speech_audio.numpy(), SAMPLE_RATE)
     return tmp.name
-
-
-def preprocess_text(raw_text: str) -> str:
-    text = raw_text
-    for ww in WAKE_WORDS:
-        text = text.replace(ww, '')
-    text = re.sub(r'^[야아아]+\s*', '', text).strip()
-    text = FILLER_PATTERN.sub('', text).strip()
-    for wrong, correct in MEDICAL_CORRECTIONS.items():
-        text = text.replace(wrong, correct)
-    words = text.split()
-    deduped = [w for i, w in enumerate(words) if i == 0 or w != words[i - 1]]
-    text = ' '.join(deduped)
-    return re.sub(r'\s+', ' ', text).strip()
 
 
 def stt_pipeline(audio_path: str = None, raw_text: str = None, confidence: float = 0.94) -> dict:
@@ -280,8 +167,7 @@ def stt_pipeline(audio_path: str = None, raw_text: str = None, confidence: float
 
 @traceable(name="B팀-의도분류-LLaMA3.2")
 def classify_intent(text: str) -> dict:
-    clean_text = text.strip().replace(" ", "")
-    if any(kw.replace(" ", "") in clean_text for kw in EMERGENCY_KEYWORDS):
+    if contains_emergency_keyword(text):   # domain.rules — EMERGENCY_KEYWORDS
         return {'intent': 'emergency', 'confidence': 1.0}
 
     intent_prompt = (
@@ -407,13 +293,6 @@ def chat_with_followup(user_input: str, session_id: str = 'default') -> dict:
 
 # ====== C팀: RAG & 병원 검색 & 응급 판단 ======
 
-def query_rewrite(query: str) -> str:
-    for kw, rewritten in QUERY_REWRITE_MAP.items():
-        if kw in query:
-            return rewritten
-    return query
-
-
 def full_rag_pipeline(query: str) -> dict:
     """Hybrid RAG v2: Vector + BM25 → RRF fusion → CrossEncoder rerank → confidence threshold.
 
@@ -443,25 +322,19 @@ def full_rag_pipeline(query: str) -> dict:
         for i in top_idx if bm_scores[i] > 0
     ]
 
-    # 3) RRF fusion (top-20)
-    sc = defaultdict(float); info = {}
-    for hits in (vec_hits, bm25_hits):
-        for rank, r in enumerate(hits, 1):
-            sc[r["doc_id"]] += 1.0 / (60 + rank)
-            info[r["doc_id"]] = r
-    candidates = [info[d] for d in sorted(sc, key=lambda x: -sc[x])[:20]]
+    # 3) RRF fusion — 검색 전략은 usecases.rag (모델 의존 0)
+    candidates = rrf_fuse((vec_hits, bm25_hits), k=60, top_n=20)
     if not candidates:
         return {"context": NO_INFO, "sources": []}
 
-    # 4) Cross-Encoder rerank → top-3
+    # 4) Cross-Encoder rerank (infra 모델 호출)
     pairs = [[query, c["text"]] for c in candidates]
     rerank_scores = reranker.predict(pairs)
     for c, s in zip(candidates, rerank_scores):
         c["rerank_score"] = float(s)
-    top3 = sorted(candidates, key=lambda x: -x["rerank_score"])[:3]
 
-    # 5) Confidence threshold (rerank_score < 0 → 미사용)
-    confident = [c for c in top3 if c["rerank_score"] >= 0]
+    # 5) 신뢰도 임계 선택 — usecases.rag
+    confident = select_confident(candidates, threshold=0.0, top=3)
     if not confident:
         return {"context": NO_INFO, "sources": []}
 
@@ -478,63 +351,20 @@ def full_rag_pipeline(query: str) -> dict:
     return {"context": context, "sources": sources}
 
 
-def search_kakao(dept_name: str, lat: float, lng: float) -> list:
-    url = "https://dapi.kakao.com/v2/local/search/keyword.json"
-    headers = {"Authorization": f"KakaoAK {KAKAO_API_KEY}"}
-    params = {
-        "query": dept_name,
-        "x": lng,
-        "y": lat,
-        "radius": 3000,
-        "category_group_code": "HP8",
-        "size": 5,
-    }
-    try:
-        res = requests.get(url, headers=headers, params=params, timeout=5)
-        docs = res.json().get("documents", [])
-        results = []
-        for p in docs:
-            navi_link = f"https://map.kakao.com/link/to/{p['place_name']},{p['y']},{p['x']}"
-            results.append({
-                "name": p["place_name"],
-                "address": p.get("road_address_name", ""),
-                "phone": p.get("phone", ""),
-                "distance": int(p.get("distance", 999999)),
-                "navi_url": navi_link,
-                "lat": p["y"],
-                "lng": p["x"],
-            })
-        return results
-    except Exception:
-        return []
-
-
 def search_hospital(symptom_text: str, lat: float = 37.5012, lng: float = 127.0396) -> dict:
-    dept_name = "내과"
-    for symptom, (name, _) in SYMPTOM_DEPT_MAP.items():
-        if symptom in symptom_text:
-            dept_name = name
-            break
-    hospitals = sorted(
-        [h for h in search_kakao(dept_name, lat, lng) if h.get("phone")],
-        key=lambda x: x["distance"],
+    """합성 루트 어댑터 — usecases.find_nearby_hospital 에 infra(Kakao)·Graph DB 주입."""
+    return find_nearby_hospital(
+        symptom_text, lat, lng,
+        map_search=search_kakao,   # infra.map_kakao (MapGateway)
+        ontology=ontology,         # infra.ontology_store (OntologyGateway)
     )
-    return {"department": dept_name, "nearby": hospitals[:3]}
 
 
 def emergency_check(text: str) -> dict:
-    total, matched = 0, []
-    for kw, score in EMERGENCY_SCORES.items():
-        if kw in text:
-            total += score
-            matched.append(kw)
-    if len(matched) >= 2:
-        total = min(total * 1.2, 100)
-    if total >= 70:
-        return {"is_emergency": True, "severity": "HIGH", "score": round(total), "action": "지금 바로 119에 전화해 주세요."}
-    if total >= 40:
-        return {"is_emergency": True, "severity": "MEDIUM", "score": round(total), "action": "응급실에 방문하시는 게 좋을 수 있어요."}
-    return {"is_emergency": False, "severity": "LOW", "score": round(total), "action": None}
+    """domain 규칙 점수 + Graph DB(온톨로지) SPARQL 점수 중 높은 쪽으로 분류."""
+    dom = score_emergency(text)["score"]
+    total = max(dom, ontology.emergency_score(text)["score"])
+    return classify_emergency(total)
 
 
 def tool_router(output_from_B: dict, lat: float = 37.5012, lng: float = 127.0396) -> dict:
@@ -634,28 +464,20 @@ def generate_answer(query: str, context: str, confidence: float = 0.85, entities
         return {'answer': "어르신, 잠시 정보를 정리하는 데 시간이 조금 걸리네요. 다시 한번 말씀해 주시겠어요?"}
 
 
-def format_response(raw_answer: str, is_emergency: bool = False) -> str:
-    if is_emergency:
-        return '지금 바로 119에 전화해 주세요. 매우 위험한 상황일 수 있습니다.'
-    if not raw_answer:
-        return "죄송합니다. 다시 한번 말씀해 주시겠어요?"
-    answer = raw_answer
-    for word in FORBIDDEN_WORDS:
-        answer = answer.replace(word, '')
-    # 영어 단어 제거 (한국어 문장 사이에 섞인 영어 접속사/단어)
-    answer = re.sub(r'\b[a-zA-Z]+\b', '', answer)
-    answer = re.sub(r'\s+', ' ', answer).strip()
-    sentences = re.split(r'([.!?])', answer)
-    combined = []
-    for i in range(0, len(sentences) - 1, 2):
-        s = sentences[i].strip() + sentences[i + 1]
-        if s:
-            combined.append(s)
-    final_text = ' '.join(combined[:6]).strip()
-    return final_text if final_text else answer
+# ====== 통합 파이프라인 (LangGraph StateGraph) ======
 
+# A/B/C/D 워커를 LangGraph 노드로 주입 → 컴파일된 그래프를 1회 생성한다.
+_PIPELINE_WORKERS = PipelineWorkers(
+    stt=stt_pipeline,
+    chat_followup=chat_with_followup,
+    tool_router=tool_router,
+    answer_generator=generate_answer,
+    formatter=format_response,
+)
+_PIPELINE_EVALUATOR = AnswerEvaluator(forbidden_words=FORBIDDEN_WORDS)
+_GRAPH_APP = build_graph(_PIPELINE_WORKERS, evaluator=_PIPELINE_EVALUATOR)
+print("[Init] LangGraph 파이프라인 컴파일 완료")
 
-# ====== 통합 파이프라인 ======
 
 def full_pipeline(
     raw_text: str,
@@ -663,97 +485,19 @@ def full_pipeline(
     lat: float = 37.5012,
     lng: float = 127.0396,
 ) -> dict:
-    """Orchestrator-Worker(④) 진입점. A→B→C→D 워커를 조율한다.
+    """LangGraph StateGraph 기반 A→B→C→D 오케스트레이션 진입점.
 
+    그래프 구조: START → stt → intent ─┬─(다중턴)→ followup → END
+                                       └─(ready)→ tools → answer → END
     적용 패턴: Prompt Chaining(①) · Routing/Parallelization(② ③ — tool_router) ·
-    Orchestrator-Worker(④ — 본 함수) · Evaluator-Optimizer(⑤ — D팀 답변 검증).
-    상세 매핑: docs/AGENT_PATTERNS.md
+    Orchestrator-Worker(④ — LangGraph) · Evaluator-Optimizer(⑤ — answer 노드).
+    상세 매핑: docs/AGENT_PATTERNS.md / backend/graph_pipeline.py
     """
     print(f'\n[Pipeline] 입력: {raw_text}')
-
-    # A: STT
-    audio_extensions = ('.wav', '.mp3', '.m4a', '.flac', '.ogg')
-    if isinstance(raw_text, str) and raw_text.lower().endswith(audio_extensions):
-        stt_output = stt_pipeline(raw_text)
-        text = stt_output['text']
-    else:
-        text = raw_text
-    print(f'[A] 인식 문장: {text}')
-
-    # B: 의도 분류 & 다중턴
-    b_result = chat_with_followup(text, session_id)
-    print(f'[B] 의도: {b_result["intent"]} / ready_for_c: {b_result["ready_for_c"]}')
-
-    if not b_result['ready_for_c']:
-        answer = format_response(b_result['answer'])
-        return {
-            'answer': answer,
-            'intent': b_result['intent'],
-            'ready_for_c': False,
-            'hospitals': None,
-            'emergency': None,
-        }
-
-    # C: 도구 활용
-    
-    output_from_B = b_result['output_for_c']
-    c_result = tool_router(output_from_B, lat, lng)
-
-    hospital_info_text = ""
-    if c_result.get('hospitals') and c_result['hospitals'].get('nearby'):
-        h_list = c_result['hospitals']['nearby']
-        hospital_info_text = "\n[주변 추천 병원 목록]\n"
-        for i, h in enumerate(h_list[:3]):
-            walk_time = max(1, round(h['distance'] / 66.6))
-            hospital_info_text += (
-                f"{i+1}. {h['name']}: 거리 {h['distance']}m, 도보 약 {walk_time}분\n"
-                f"   - 주소: {h['address']}\n"
-                f"   - 전화: {h['phone']}\n"
-            )
-
-    rag_context = c_result.get('rag_context') or ""
-    combined_context = f"{rag_context}\n{hospital_info_text}".strip()
-
-    # D: 응답 생성 — Evaluator-Optimizer(⑤) 적용 (최대 2회 재생성)
-    eval_meta = None
-    if c_result['emergency'] and c_result['emergency']['severity'] == 'HIGH':
-        final_answer = format_response('', is_emergency=True)
-    else:
-        if combined_context:
-            evaluator = AnswerEvaluator(forbidden_words=FORBIDDEN_WORDS)
-            eval_result = generate_with_evaluator(
-                generator=lambda: generate_answer(
-                    text,
-                    context=combined_context,
-                    confidence=output_from_B.get('confidence', 0.85),
-                    entities=output_from_B.get('entities'),
-                ),
-                evaluator=evaluator,
-                max_retries=2,
-            )
-            raw_answer = eval_result['answer']
-            eval_meta = {
-                'attempts': eval_result['attempts'],
-                'passed': eval_result['eval_passed'],
-                'issues': eval_result['eval_issues'],
-                'score': eval_result['eval_score'],
-            }
-            print(f"[D-eval] attempts={eval_meta['attempts']} passed={eval_meta['passed']} issues={eval_meta['issues']}")
-        else:
-            raw_answer = b_result.get('answer') or "죄송해요, 관련 정보를 찾지 못했습니다."
-        final_answer = format_response(raw_answer)
-
-    print(f'[D] 최종 답변: {final_answer}')
-
-    return {
-        'answer': final_answer,
-        'intent': b_result['intent'],
-        'ready_for_c': True,
-        'hospitals': c_result.get('hospitals'),
-        'emergency': c_result.get('emergency'),
-        'rag_sources': c_result.get('rag_sources') or [],
-        'eval': eval_meta,
-    }
+    result = run_graph(_GRAPH_APP, raw_text, session_id, lat, lng)
+    print(f"[Pipeline] intent={result['intent']} ready_for_c={result['ready_for_c']} "
+          f"answer={(result['answer'] or '')[:40]}")
+    return result
 
 
 # ====== FastAPI ======
@@ -821,6 +565,20 @@ def chat(request: ChatRequest):
         ready_for_c=result.get('ready_for_c', True),
         session_id=request.session_id,
     )
+
+
+@app.get('/ontology/body-parts/{region}')
+def ontology_body_parts(region: str):
+    """Graph DB(온톨로지) 추이추론 데모 — hd:partOf* SPARQL property path.
+
+    예: /ontology/body-parts/LowerLimb → ['하지', '무릎']
+    코드 사전(dict)으로는 불가능한 형식 온톨로지의 추론을 런타임에 노출한다.
+    """
+    return {
+        "region": region,
+        "parts": ontology.body_parts_under(region),
+        "available": ontology.available,
+    }
 
 
 if __name__ == '__main__':

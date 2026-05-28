@@ -3,6 +3,13 @@
 Robert C. Martin 의 Clean Architecture 4계층을 시니어 음성 의료 AI 서비스에 매핑.
 가장 안쪽은 **변하지 않는 의료 도메인 규칙**, 가장 바깥은 **언제든 교체 가능한 프레임워크** 입니다.
 
+> ✅ **구현 상태 (2026-05): 4계층 물리 분리 완료**
+> `backend/domain/` (Entities·Rules·Ports) · `backend/usecases/` (LangGraph·5패턴 파사드 + 병원탐색·RAG 전략) ·
+> `backend/adapters/` (Presenters) · `backend/infra/` (Graph DB·Kakao MapGateway).
+> 검증: `tests/test_domain.py`·`test_usecases.py` 등 **순수 계층 84개 테스트** · 의존 방향 안→밖 단방향.
+> main.py 는 상수·규칙을 정의하지 않고 domain 을 import 해 재노출(re-export)하며, 모델 핸들을 유스케이스에
+> 주입하는 **합성 루트(composition root)** 역할만 한다 (기존 호출부·테스트 100% 호환).
+
 ## 핵심 원칙 — 의존성 규칙 (Dependency Rule)
 
 > **소스 코드 의존성은 안쪽으로만 향한다.**
@@ -75,7 +82,7 @@ PowerPoint/Figma 로 옮길 때:
 - **진료과명 보정**: `MEDICAL_CORRECTIONS` ("안과가" → "안과")
 - **시니어 친화 규칙**: 한국어 존댓말, 1~3문장, 어려운 용어 풀어쓰기, 권유형 어조
 
-> 📁 코드 위치: 현재는 `backend/main.py` 에 인라인. 추후 `backend/domain/` 으로 분리 권장.
+> 📁 **코드 위치 (구현 완료):** `backend/domain/entities.py` (dataclasses Intent·Symptom·Hospital·Emergency·MedicalKnowledge·Conversation) + `backend/domain/rules.py` (FORBIDDEN_WORDS·EMERGENCY_*·MEDICAL_CORRECTIONS·SYMPTOM_DEPT_MAP + 순수 함수 `preprocess_text·score_emergency·classify_emergency·lookup_department·query_rewrite·filter_forbidden·contains_emergency_keyword`). 외부 라이브러리 0개(표준 `re`만 사용). HITL 책임자 주석 동거.
 
 ---
 
@@ -111,7 +118,7 @@ context + sources
 시니어 친화 답변(text + 병원 카드)
 ```
 
-> 📁 코드 위치: `backend/main.py` 안의 함수들 (`stt_endpoint`, `classify_intent`, `rag_search`, `generate_answer` ...). 분리 시 `backend/usecases/` 로.
+> 📁 **코드 위치 (구현 완료):** `backend/usecases/` — LangGraph 그래프(`graph_pipeline.py`)+5패턴(`agent_patterns.py`) 파사드에 더해 **순수 유스케이스를 실제 추출**했다: `usecases/hospital.py::find_nearby_hospital`(MapGateway·OntologyGateway를 인자로 주입), `usecases/rag.py::rrf_fuse`·`select_confident`(Hybrid RAG 검색 전략, 모델 의존 0). `main.full_rag_pipeline`·`search_hospital` 은 이 유스케이스에 infra(Kakao·ChromaDB·reranker)를 주입하는 합성 어댑터로 축소됐다. 워커는 `PipelineWorkers` DI 로 주입되어 **의존성 역전(Dependency Inversion)** 을 구현.
 
 ---
 
@@ -154,7 +161,7 @@ context + sources
 | `useWakeWord` | 호출어 감지 | `frontend/src/hooks/` |
 | `ChatCard`/`HospitalCard` | View 컴포넌트 | `frontend/src/components/chat/` |
 
-> 📁 코드 위치: `backend/main.py` (혼재) + `frontend/src/`. 분리 시 `backend/adapters/{controllers,presenters,gateways}/`.
+> 📁 **코드 위치 (부분 완료):** Presenters는 `backend/adapters/presenters.py` (`format_response`·`format_hospital_text`)로 추출. Gateway 인터페이스(Protocol)는 `backend/domain/ports.py`에서 `STTGateway·LLMGateway·VectorRepository·MapGateway·OntologyGateway·ConversationRepository` 로 정의. Controllers(FastAPI 라우트)와 외부 호출 어댑터 구현체는 아직 `backend/main.py` 합성 루트에 동거.
 
 ---
 
@@ -311,11 +318,12 @@ graph LR
 ## 이 문서를 어떻게 활용하나
 
 1. **도식화** — 위 "동심원 4계층" 섹션을 바탕으로 PPT/Figma 슬라이드 1장에 그리기
-2. **리팩토링 로드맵** — 현재 `backend/main.py` 에 혼재된 코드를 다음 단계로 분리
-   - `backend/domain/` (Entities)
-   - `backend/usecases/` (Use Cases)
-   - `backend/adapters/` (Controllers, Presenters, Gateways)
-   - `backend/infra/` (외부 라이브러리 구현체)
+2. **리팩토링 구현 결과** — 4계층 물리 폴더 + 의존성 규칙 실제 적용 (`test_domain.py`·`test_usecases.py` 등 순수 84개로 회귀 잠금)
+   - ✅ `backend/domain/` — entities, rules(순수 함수+상수), ports(Protocol)
+   - ✅ `backend/usecases/` — `graph_pipeline`+`agent_patterns` 파사드 + `hospital.find_nearby_hospital`(DI) + `rag.rrf_fuse`·`select_confident`
+   - ✅ `backend/adapters/` — presenters(`format_response`, `format_hospital_text`)
+   - ✅ `backend/infra/` — Graph DB(`ontology_store`) + Kakao MapGateway(`map_kakao`)
+   - 🟡 합성 루트 유지: `classify_intent`/`generate_answer`(LLM·프롬프트 결합), FastAPI Controllers, 모델 로딩 — Frameworks 계층 특성상 `main.py`(composition root)에 두는 것이 정석
 3. **테스트 전략** — 각 계층별 테스트 분리 가능
    - Entities: 순수 단위 테스트 (의료법 규칙)
    - Use Cases: Mock Gateway 로 단위 테스트

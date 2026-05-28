@@ -2,6 +2,7 @@
 
 ## 목차
 0. [시스템 아키텍처](#0-시스템-아키텍처)
+0-2. [레이어드 아키텍처 (포트폴리오용)](#0-2-레이어드-아키텍처-포트폴리오용)
 1. [클래스 다이어그램](#클래스-다이어그램)
    - [FastAPI 스키마](#1-fastapi-스키마)
    - [A팀 STT 모듈](#2-a팀-stt-모듈)
@@ -34,7 +35,7 @@ graph LR
     subgraph OnPrem["🖥️  On-Premise Server"]
         subgraph DC["🐳 Docker Compose"]
             FE["🐳 nginx:alpine<br/>frontend<br/>port 80<br/>React 19 + TypeScript"]:::docker
-            BE["🐳 python:3.11-slim<br/>FastAPI backend<br/>port 8000"]:::docker
+            BE["🐳 python:3.11-slim<br/>FastAPI + LangGraph<br/>port 8000"]:::docker
 
             subgraph Models["Built-in AI Models"]
                 Whisper["Whisper STT<br/>openai/whisper-small"]:::aimodel
@@ -48,6 +49,7 @@ graph LR
         subgraph Vols["📦 Docker Volumes"]
             ChromaDB[("RAG/db<br/>ChromaDB 1.5.5<br/>418 chunks")]:::volume
             ModelVol[("model-cache<br/>HuggingFace cache")]:::volume
+            Ontology[("docs/ontology<br/>hellodoctor.ttl<br/>rdflib Graph DB")]:::volume
         end
     end
 
@@ -71,6 +73,7 @@ graph LR
     BE        --> Silero
     BE        --> Sroberta
     Sroberta  <-->|"Vector Search"| ChromaDB
+    BE        -->|"SPARQL · 온톨로지"| Ontology
     Models    <-.->|"Model Cache"| ModelVol
 
     BE        -->|"Intent / Answer<br/>POST /api/generate"| Ollama
@@ -78,6 +81,90 @@ graph LR
     BE        -->|"Hospital Search<br/>HTTPS"| Kakao
     ModelVol  <-.->|"First-time Download"| HF
 ```
+
+---
+
+## 0-2. 레이어드 아키텍처 (포트폴리오용)
+
+> 데이터 흐름·인프라 중심인 위 다이어그램과 달리, **책임 계층(Layer)** 관점으로 본 구조다.
+> 위에서 아래로 의존(상위 계층이 하위 계층을 호출)하며, **RAG는 에이전트가 호출하는 여러 도구(Tools) 중 하나**로 배치된다.
+
+```mermaid
+graph TB
+    classDef presentation fill:#E8F4FD,stroke:#2196F3,color:#000
+    classDef api          fill:#E1F5FE,stroke:#0288D1,color:#000
+    classDef agent        fill:#7B2FBE,stroke:#7B2FBE,color:#fff
+    classDef tool         fill:#E8F5E9,stroke:#388E3C,color:#000
+    classDef external     fill:#FFF3E0,stroke:#FF8F00,color:#000
+
+    subgraph L1["① Presentation Layer · React 19 + Vite (nginx)"]
+        direction LR
+        UI_TV["📺 TV UI<br/>components/tv"]:::presentation
+        UI_Chat["💬 Chat UI<br/>components/chat"]:::presentation
+        Hooks["🪝 Hooks<br/>useMedicalChat · useVoiceInput · useWakeWord"]:::presentation
+        ApiClient["🔌 API Client<br/>api/chat.ts · api/stt.ts"]:::presentation
+    end
+
+    subgraph L2["② API Gateway Layer · FastAPI (port 8000)"]
+        direction LR
+        EP_Chat["POST /chat"]:::api
+        EP_STT["POST /api/stt"]:::api
+    end
+
+    subgraph L3["③ Agent Layer · full_pipeline / PipelineOrchestrator"]
+        direction LR
+        A["A · STT 전처리"]:::agent
+        B["B · 의도분류 + 다중턴"]:::agent
+        C["C · 라우팅 + 병렬 도구호출"]:::agent
+        D["D · 답변생성 + Evaluator"]:::agent
+    end
+
+    subgraph L4["④ Tools / Capability Layer"]
+        direction LR
+        STT["🎙️ Whisper STT<br/>+ Silero VAD"]:::tool
+        RAG["📚 RAG<br/>ChromaDB + ko-sroberta<br/>418 chunks"]:::tool
+        Emg["🚨 Emergency Check<br/>EMERGENCY_SCORES"]:::tool
+        LLM["🦙 LLaMA 3.2-3B<br/>Ollama · B·D 공용"]:::tool
+    end
+
+    subgraph EXT["External Services"]
+        direction LR
+        Kakao(["🗺️ Kakao Map API<br/>병원 검색"]):::external
+        Groq(["⚡ Groq Cloud<br/>llama-3.3-70b · Fallback"]):::external
+    end
+
+    UI_TV --> Hooks
+    UI_Chat --> Hooks
+    Hooks --> ApiClient
+    ApiClient -->|"음성 파일"| EP_STT
+    ApiClient -->|"텍스트"| EP_Chat
+    EP_Chat -->|"ChatResponse JSON"| ApiClient
+
+    EP_STT --> A
+    EP_Chat --> A
+    A --> B --> C --> D
+    D -->|"final answer"| EP_Chat
+
+    A --> STT
+    B --> LLM
+    C --> RAG
+    C --> Emg
+    C --> Kakao
+    D --> LLM
+    LLM -.->|"장애 시 폴백"| Groq
+```
+
+### 계층별 책임
+
+| 계층 | 구성 | 책임 | 핵심 코드 |
+|------|------|------|-----------|
+| ① **Presentation** | React 19 · Vite · nginx | TV/모바일 UI 렌더, 음성 입력·호출어 감지, API 호출 | `frontend/src/{components,hooks,api}` |
+| ② **API Gateway** | FastAPI (port 8000) | HTTP 진입점, 요청/응답 스키마 검증 | `backend/main.py` — `POST /chat`, `POST /api/stt` |
+| ③ **Agent** | A→B→C→D 오케스트레이터 | 게이트·라우팅·병렬 조율·답변 평가 (Anthropic 5패턴) | `full_pipeline`, `agent_patterns.py::PipelineOrchestrator` |
+| ④ **Tools** | STT · RAG · Emergency · LLM | 단일 능력 단위. 에이전트가 의도별로 선택 호출 | `stt_pipeline`, `full_rag_pipeline`, `emergency_check` |
+| — **External** | Kakao Map · Groq | 외부 API (병원 위치, LLM 폴백) | `search_kakao`, Groq SDK |
+
+> **왜 RAG가 Tools에?** RAG·Kakao 병원검색·Emergency 체크는 모두 C팀 라우터가 의도(intent)에 따라 **선택적으로 병렬 호출**하는 동급 도구다([AGENT_PATTERNS.md](./AGENT_PATTERNS.md) ③ Parallelization). RAG만 별도 계층으로 빼면 같은 성격의 호출이 두 계층으로 쪼개진다.
 
 ---
 
@@ -219,10 +306,19 @@ classDiagram
         +tool_router(output_from_B, lat, lng) dict
     }
 
+    class OntologyStore {
+        +ttl_path : str
+        +emergency_score(text) dict
+        +symptom_to_department(text) tuple
+        +followup_question(text) tuple
+        +body_parts_under(region) list
+    }
+
     ToolRouter --> RAGPipeline : symptom_inquiry, medication_info
     ToolRouter --> HospitalSearch : symptom_inquiry, hospital_search
     RAGPipeline --> ChromaDB : 벡터 검색
     HospitalSearch --> KakaoAPI : 병원 위치 검색
+    HospitalSearch --> OntologyStore : 진료과 폴백 · 응급점수 (SPARQL)
 ```
 
 ---

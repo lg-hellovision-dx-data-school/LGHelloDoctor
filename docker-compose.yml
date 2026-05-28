@@ -10,10 +10,14 @@ services:
       - ./RAG/db:/app/RAG/db
       # HuggingFace / torch 모델 캐시 재사용
       - model-cache:/root/.cache
+      # 도메인 온톨로지(.ttl) — Graph DB(rdflib) 런타임 로드용
+      - ./docs/ontology:/app/docs/ontology:ro
     env_file:
       - .env
     environment:
       - DB_PATH=/app/RAG/db
+      # Graph DB 온톨로지 경로 (컨테이너 내 마운트 경로)
+      - ONTOLOGY_PATH=/app/docs/ontology/hellodoctor.ttl
       # Whisper 모델 (기본: SungBeom/whisper-small-ko — 한국어 fine-tuned)
       # - 다른 모델 사용 시 아래 주석 해제 후 모델 ID 또는 로컬 경로 입력
       # - WHISPER_MODEL_PATH=openai/whisper-small

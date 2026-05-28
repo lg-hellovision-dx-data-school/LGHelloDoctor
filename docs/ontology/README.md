@@ -204,6 +204,16 @@ riot --validate hellodoctor.ttl
 
 ---
 
+## 런타임 적용 (구현 완료)
+
+> ✅ 본 온톨로지는 더 이상 설계 문서에 머무르지 않고 **런타임 Graph DB**로 동작한다.
+
+- `backend/ontology_store.py` — rdflib로 `.ttl`을 인프로세스 로드, SPARQL 질의 제공.
+- `backend/main.py` 연계 — `emergency_check`(응급 점수), `search_hospital`(증상→진료과 폴백)에서 호출.
+- `GET /ontology/body-parts/{region}` — `hd:partOf*` 추이추론 데모 엔드포인트.
+- 테스트 — `tests/test_ontology_store.py` (응급·진료과·금지어·추이추론).
+- Docker — `docker-compose.yml`이 `.ttl`을 마운트하고 `ONTOLOGY_PATH`로 주입.
+
 ## 향후 작업 (Future Work)
 
 1. **KCD-8 매핑 추가** — 한국 표준 질병분류 코드 직접 부착

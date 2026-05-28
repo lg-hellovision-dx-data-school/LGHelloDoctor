@@ -10,6 +10,12 @@ groq==0.11.0
 langchain-groq==0.2.0
 httpx<0.28.0
 
+# Agent Orchestration (LangGraph StateGraph)
+langgraph==1.1.8
+
+# Graph DB (Ontology — rdflib in-process RDF/SPARQL)
+rdflib==7.6.0
+
 # STT & Audio (CPU only)
 torch==2.3.1+cpu
 torchaudio==2.3.1+cpu

@@ -1,0 +1,235 @@
+<mxfile host="app.diagrams.net" agent="Claude Code" version="24.0.0">
+  <diagram name="LG HelloDoctor Architecture" id="hellodoctor-arch">
+    <mxGraphModel dx="1400" dy="820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ===== Title ===== -->
+        <mxCell id="title" value="LG HelloDoctor — 시스템 아키텍처 (시니어 음성 의료 AI)" style="text;html=1;align=left;verticalAlign=middle;fontStyle=1;fontSize=18;fontColor=#1F3864;" vertex="1" parent="1">
+          <mxGeometry x="20" y="12" width="900" height="26" as="geometry" />
+        </mxCell>
+
+        <!-- ============ PANELS (backgrounds) ============ -->
+        <mxCell id="C1panel" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#EAF1FB;strokeColor=#B6CCE8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="50" width="280" height="565" as="geometry" />
+        </mxCell>
+        <mxCell id="C2panel" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#EAF1FB;strokeColor=#B6CCE8;" vertex="1" parent="1">
+          <mxGeometry x="330" y="50" width="280" height="565" as="geometry" />
+        </mxCell>
+        <mxCell id="C3panel" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#EAF1FB;strokeColor=#B6CCE8;" vertex="1" parent="1">
+          <mxGeometry x="650" y="50" width="470" height="565" as="geometry" />
+        </mxCell>
+        <mxCell id="C4panel" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#EAF1FB;strokeColor=#B6CCE8;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="50" width="380" height="565" as="geometry" />
+        </mxCell>
+
+        <!-- ============ HEADERS ============ -->
+        <mxCell id="C1head" value="프론트엔드 (React + Vite)" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#1F3864;strokeColor=#1F3864;fontColor=#FFFFFF;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="32" y="60" width="256" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="C2head" value="백엔드 (FastAPI · 서빙)" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#1F3864;strokeColor=#1F3864;fontColor=#FFFFFF;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="342" y="60" width="256" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="C3head" value="RAG · ML 파이프라인" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#1F3864;strokeColor=#1F3864;fontColor=#FFFFFF;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="662" y="60" width="446" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="C4head" value="에이전트 오케스트레이션 (LangGraph)" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#1F3864;strokeColor=#1F3864;fontColor=#FFFFFF;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1162" y="60" width="356" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- ============ C1: Frontend boxes ============ -->
+        <mxCell id="f1" value="음성 입력&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;useVoiceInput&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="104" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" value="호출어 감지 · &quot;헬로비&quot;&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;useWakeWord&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="172" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="f3" value="의료 채팅&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;useMedicalChat&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="240" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="f4" value="병원 안내 카드 · 지도" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="308" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="f5" value="응급 119 안내 화면" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="376" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="f6" value="TV / 모바일 반응형 UI&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;components/tv · chat&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="444" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="f7" value="API 클라이언트&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;api/chat.ts · stt.ts&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="512" width="240" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ============ C2: Backend boxes ============ -->
+        <mxCell id="b1" value="API · 요청 처리&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;POST /chat&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="350" y="104" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b2" value="STT 엔드포인트&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;POST /api/stt&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="350" y="172" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b3" value="모델 로드&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;Whisper · Ollama&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="350" y="240" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b4" value="벡터 검색&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;ChromaDB&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="350" y="308" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b5" value="외부 API 연동&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;Kakao · Groq&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="350" y="376" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b6" value="세션 · 다중턴 상태 관리" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="350" y="444" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b7" value="응답 조립&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;ChatResponse JSON&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="350" y="512" width="240" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ============ C3: nested sections ============ -->
+        <!-- Knowledge -->
+        <mxCell id="ksec" value="Knowledge / 데이터" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#E3ECF7;strokeColor=#B6CCE8;verticalAlign=top;align=center;fontStyle=1;fontSize=12;fontColor=#1F3864;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="668" y="100" width="434" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="k1" value="원본 의료지식&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;KDCA 공공자료&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="676" y="136" width="132" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="k2" value="청킹 · 임베딩&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;ko-sroberta&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="818" y="136" width="132" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="k3" value="벡터 DB&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;Chroma · 418 chunks&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="960" y="136" width="132" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Tools -->
+        <mxCell id="tsec" value="Tools" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#E3ECF7;strokeColor=#B6CCE8;verticalAlign=top;align=center;fontStyle=1;fontSize=12;fontColor=#1F3864;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="668" y="206" width="434" height="268" as="geometry" />
+        </mxCell>
+        <mxCell id="tl1" value="음성 · STT" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#D6E2F3;strokeColor=#B6CCE8;fontStyle=1;fontSize=11;fontColor=#1F3864;" vertex="1" parent="1">
+          <mxGeometry x="676" y="244" width="104" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tv1" value="Whisper-small · Silero VAD" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="790" y="244" width="304" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tl2" value="LLM" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#D6E2F3;strokeColor=#B6CCE8;fontStyle=1;fontSize=11;fontColor=#1F3864;" vertex="1" parent="1">
+          <mxGeometry x="676" y="276" width="104" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tv2" value="LLaMA 3.2-3B (Ollama) · Groq fallback" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="790" y="276" width="304" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tl3" value="RAG" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#D6E2F3;strokeColor=#B6CCE8;fontStyle=1;fontSize=11;fontColor=#1F3864;" vertex="1" parent="1">
+          <mxGeometry x="676" y="308" width="104" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tv3" value="ChromaDB · ko-sroberta · Hybrid RAG v2" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="790" y="308" width="304" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tl4" value="병원검색" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#D6E2F3;strokeColor=#B6CCE8;fontStyle=1;fontSize=11;fontColor=#1F3864;" vertex="1" parent="1">
+          <mxGeometry x="676" y="340" width="104" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tv4" value="Kakao Map API (반경 3km)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="790" y="340" width="304" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tl5" value="응급판단" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#D6E2F3;strokeColor=#B6CCE8;fontStyle=1;fontSize=11;fontColor=#1F3864;" vertex="1" parent="1">
+          <mxGeometry x="676" y="372" width="104" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tv5" value="EMERGENCY_SCORES · 키워드 가중합" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="790" y="372" width="304" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tl6" value="지식그래프" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#E0A080;fontStyle=1;fontSize=11;fontColor=#8A4B2A;" vertex="1" parent="1">
+          <mxGeometry x="676" y="404" width="104" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tv6" value="Graph DB · rdflib + SPARQL (온톨로지 .ttl)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF3E9;strokeColor=#E0A080;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="790" y="404" width="304" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tl7" value="개발 MCP" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#E2EFDA;strokeColor=#A9C47F;fontStyle=1;fontSize=11;fontColor=#4F6228;" vertex="1" parent="1">
+          <mxGeometry x="676" y="436" width="104" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tv7" value="Claude MCP · html.to.design(HTML→Figma) · Context7(라이브러리 문서)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F2F8EC;strokeColor=#A9C47F;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="790" y="436" width="304" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- DevOps -->
+        <mxCell id="dsec" value="DevOps" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#E3ECF7;strokeColor=#B6CCE8;verticalAlign=top;align=center;fontStyle=1;fontSize=12;fontColor=#1F3864;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="668" y="486" width="434" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" value="Docker Compose" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="676" y="524" width="132" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="nginx&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;frontend 서빙&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="818" y="524" width="132" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="pytest / TDD" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="960" y="524" width="132" height="52" as="geometry" />
+        </mxCell>
+
+        <!-- ============ C4: Agent orchestration (LangGraph nodes) ============ -->
+        <mxCell id="ctrl" value="LangGraph StateGraph 오케스트레이터&lt;br&gt;&lt;font color=&quot;#D6E2F3&quot;&gt;흐름 · 게이트 · 라우팅&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#2E5C9A;strokeColor=#1F3864;fontColor=#FFFFFF;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="100" width="340" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" value="① 음성인식 노드 (STT)&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;Whisper + Silero VAD 전처리&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#EEF3FB;strokeColor=#6C8EBF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="150" width="340" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="② 의도분류 노드 + 다중턴&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;Intent 분류 · followup 분기&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#EEF3FB;strokeColor=#6C8EBF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="198" width="340" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="③ 도구호출 노드 (라우팅 · 병렬)&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;RAG · 병원검색 · 응급판단 · 온톨로지&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#EEF3FB;strokeColor=#6C8EBF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="246" width="340" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="④ 답변생성 노드&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;LLaMA 3.2-3B (Ollama)&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#EEF3FB;strokeColor=#6C8EBF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="294" width="340" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="eval" value="⑤ Evaluator-Optimizer 노드&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;한국어 ≥ 0.4 · 금지어 X · 길이 ≥ 15&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A9C0DE;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="344" width="340" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="pass" value="✅ 통과 → 최종 답변" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#E2EFDA;strokeColor=#70AD47;fontColor=#375623;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="400" width="160" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="fail" value="❌ 미달 → 재생성 (2회)" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#E0A800;fontColor=#7F6000;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1350" y="400" width="160" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="hitl" value="Human-In-the-Loop · 3-Tier 거버넌스&lt;br&gt;&lt;font color=&quot;#9C2C2C&quot;&gt;응급키워드 · 금지어 · 약물 검수 (사람 승인)&lt;/font&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FCE4E4;strokeColor=#D9534F;fontColor=#9C2C2C;fontStyle=1;fontSize=12;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="456" width="340" height="56" as="geometry" />
+        </mxCell>
+
+        <!-- ============ Inter-column arrows ============ -->
+        <mxCell id="x12" value="HTTP 요청 / 응답" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;startArrow=block;endArrow=block;strokeColor=#1F3864;fontSize=11;fontColor=#1F3864;exitX=1;exitY=0.45;exitDx=0;exitDy=0;entryX=0;entryY=0.45;entryDx=0;entryDy=0;" edge="1" parent="1" source="C1panel" target="C2panel">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x23" value="모델 · 데이터" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;startArrow=block;endArrow=block;strokeColor=#1F3864;fontSize=11;fontColor=#1F3864;exitX=1;exitY=0.45;exitDx=0;exitDy=0;entryX=0;entryY=0.45;entryDx=0;entryDy=0;" edge="1" parent="1" source="C2panel" target="C3panel">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x34" value="도구 호출" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;startArrow=block;endArrow=block;strokeColor=#1F3864;fontSize=11;fontColor=#1F3864;exitX=1;exitY=0.45;exitDx=0;exitDy=0;entryX=0;entryY=0.45;entryDx=0;entryDy=0;" edge="1" parent="1" source="C3panel" target="C4panel">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============ Agent column internal arrows (5-node chain) ============ -->
+        <mxCell id="a_c1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#2E5C9A;strokeWidth=2;" edge="1" parent="1" source="ctrl" target="n1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#2E5C9A;strokeWidth=2;" edge="1" parent="1" source="n1" target="n2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_23" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#2E5C9A;strokeWidth=2;" edge="1" parent="1" source="n2" target="n3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_34" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#2E5C9A;strokeWidth=2;" edge="1" parent="1" source="n3" target="n4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_4e" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#2E5C9A;strokeWidth=2;" edge="1" parent="1" source="n4" target="eval">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_ep" value="pass" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#70AD47;fontSize=10;fontColor=#375623;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="eval" target="pass">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_ef" value="fail" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#E0A800;fontSize=10;fontColor=#7F6000;exitX=0.7;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="eval" target="fail">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_fr" value="재시도" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;dashed=1;strokeColor=#E0A800;fontSize=10;fontColor=#7F6000;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="fail" target="n4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_he" value="금지어 · 키워드 큐레이션" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;dashed=1;strokeColor=#D9534F;fontSize=10;fontColor=#9C2C2C;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="hitl" target="eval">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

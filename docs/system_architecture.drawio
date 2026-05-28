@@ -42,8 +42,8 @@
         <mxCell id="tool_group" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=1;dashed=1;" vertex="1" parent="1">
           <mxGeometry x="360" y="330" width="900" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="tool_label" value="Tool Dispatch  (Parallel Execution)" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=3;fontFamily=Times New Roman;fontColor=#000000;" vertex="1" parent="1">
-          <mxGeometry x="376" y="336" width="260" height="20" as="geometry" />
+        <mxCell id="tool_label" value="Tool Dispatch · LangGraph StateGraph  (Parallel Execution)" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=3;fontFamily=Times New Roman;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="376" y="336" width="440" height="20" as="geometry" />
         </mxCell>
         <mxCell id="rag" value="Hybrid RAG" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=14;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
           <mxGeometry x="380" y="380" width="280" height="80" as="geometry" />
@@ -51,7 +51,7 @@
         <mxCell id="hosp" value="Hospital Search" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=14;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
           <mxGeometry x="690" y="380" width="240" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="emerg" value="Emergency Score" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=14;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+        <mxCell id="emerg" value="Emergency Score&#xa;(Ontology SPARQL)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=14;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
           <mxGeometry x="960" y="380" width="280" height="80" as="geometry" />
         </mxCell>
 
@@ -156,20 +156,21 @@
           <mxGeometry x="40" y="760" width="1540" height="28" as="geometry" />
         </mxCell>
 
-        <mxCell id="eng_prompt" value="Prompt Engineering&#xa;&#xa;LLaMA System Prompts&#xa;Few-shot Examples&#xa;Intent Label Constraints&#xa;.github/prompts/" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="40" y="800" width="290" height="160" as="geometry" />
+        <!-- Nested: Harness Engineering ⊃ Context Engineering ⊃ Prompt Engineering -->
+        <mxCell id="eng_harness" value="Harness Engineering&#xa;.claude/ Hooks · PreToolUse · PostToolUse · SessionStart Auto-Brief · Risk Command Block" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F2F2F2;strokeColor=#000000;fontSize=13;align=center;verticalAlign=top;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.4;spacing=6;spacingTop=8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="795" width="910" height="172" as="geometry" />
         </mxCell>
-        <mxCell id="eng_context" value="Context Engineering&#xa;&#xa;CLAUDE.md (Project Constitution)&#xa;docs/PRODUCT.md · context-packet&#xa;AI Native 6-Stage Assets&#xa;Domain Ontology (OWL/SKOS)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="350" y="800" width="290" height="160" as="geometry" />
+        <mxCell id="eng_context" value="Context Engineering&#xa;CLAUDE.md (Constitution) · docs/PRODUCT.md · AI Native 6-Stage Assets · Domain Ontology (OWL/SKOS · rdflib)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#000000;fontSize=12;align=center;verticalAlign=top;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;spacingTop=8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="64" y="846" width="862" height="116" as="geometry" />
         </mxCell>
-        <mxCell id="eng_harness" value="Harness Engineering&#xa;&#xa;.claude/settings.json Hooks&#xa;PreToolUse · PostToolUse&#xa;SessionStart Auto-Brief&#xa;Risk Command Block" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="660" y="800" width="290" height="160" as="geometry" />
+        <mxCell id="eng_prompt" value="Prompt Engineering&#xa;LLaMA System Prompts · Few-shot Examples · Intent Label Constraints · .github/prompts/" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;verticalAlign=middle;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="90" y="896" width="810" height="58" as="geometry" />
         </mxCell>
-        <mxCell id="eng_claude" value="Claude Code Tooling&#xa;&#xa;Slash Commands  /test  /deploy  /validate&#xa;Subagents (TDD-*, module-*)&#xa;Skills · TaskList · Memory&#xa;.claude/commands/" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="970" y="800" width="290" height="160" as="geometry" />
+        <mxCell id="eng_claude" value="Claude Code Tooling&#xa;&#xa;Slash Commands  /test  /deploy  /validate&#xa;Subagents (TDD-*, module-*)&#xa;Skills · TaskList · Memory&#xa;MCP: Context7 · html.to.design&#xa;.claude/commands/" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="970" y="795" width="290" height="172" as="geometry" />
         </mxCell>
-        <mxCell id="eng_tdd" value="TDD &amp; Validation&#xa;&#xa;pytest  tests/test_*.py&#xa;Agent Pattern Regression (14)&#xa;Integration /validate 7/7&#xa;LangSmith @traceable" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="1280" y="800" width="300" height="160" as="geometry" />
+        <mxCell id="eng_tdd" value="TDD &amp; Validation&#xa;&#xa;pytest  tests/test_*.py&#xa;Agent Pattern Regression&#xa;Integration /validate 7/7&#xa;LangSmith @traceable" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="795" width="300" height="172" as="geometry" />
         </mxCell>
 
         <!-- ============== EXTERNAL TOOLS / MODELS (Very Bottom) ============== -->
@@ -183,10 +184,10 @@
         <mxCell id="t_llm" value="Language Model&#xa;&#xa;LLaMA 3.2-3B (Ollama)&#xa;GGUF Q4_K_M + LoRA&#xa;Groq llama-3.3-70b (Fallback)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=11;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=4;" vertex="1" parent="1">
           <mxGeometry x="350" y="1025" width="290" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="t_rag" value="Retrieval&#xa;&#xa;ChromaDB (Vector)&#xa;rank_bm25 (Lexical)&#xa;Dongjin-kr/ko-reranker&#xa;jhgan/ko-sroberta" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=11;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=4;" vertex="1" parent="1">
+        <mxCell id="t_rag" value="Retrieval / Knowledge&#xa;&#xa;ChromaDB (Vector) · rank_bm25 (Lexical)&#xa;Dongjin-kr/ko-reranker · jhgan/ko-sroberta&#xa;Graph DB — rdflib + SPARQL (Ontology)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=11;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=4;" vertex="1" parent="1">
           <mxGeometry x="660" y="1025" width="290" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="t_serve" value="Service Infra&#xa;&#xa;FastAPI · uvicorn&#xa;React 19 + Vite + TypeScript&#xa;Docker Compose · nginx" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=11;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=4;" vertex="1" parent="1">
+        <mxCell id="t_serve" value="Service / Orchestration&#xa;&#xa;FastAPI · uvicorn · LangGraph&#xa;React 19 + Vite + TypeScript&#xa;Docker Compose · nginx" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=11;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=4;" vertex="1" parent="1">
           <mxGeometry x="970" y="1025" width="290" height="140" as="geometry" />
         </mxCell>
         <mxCell id="t_ext" value="External Services&#xa;&#xa;Kakao Local API&#xa;KDCA Health Portal&#xa;LangSmith (Tracing)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=11;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=4;" vertex="1" parent="1">

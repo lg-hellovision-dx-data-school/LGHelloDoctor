@@ -13,19 +13,38 @@
     ↓
 [B팀] 의도 분류 & 다중턴 (파인튜닝 LLaMA 3.2-3B / Ollama)
     ↓
-[C팀] RAG + 병원 검색 + 응급 판단 (ChromaDB + Kakao API)
+[C팀] RAG + 병원 검색 + 응급 판단 (ChromaDB 벡터 + 온톨로지 Graph DB + Kakao API)
     ↓
 [D팀] 답변 생성 (파인튜닝 LLaMA 3.2-3B / Ollama)
     ↓
 프론트엔드 (React + Vite)
 ```
 
+> **오케스트레이션**: A→B→C→D 흐름은 **LangGraph StateGraph**(`backend/graph_pipeline.py`)로 구성된다.
+> **Graph DB**: `docs/ontology/hellodoctor.ttl`(OWL/SKOS)을 **rdflib**로 인프로세스 로드해 응급 점수·증상→진료과·후속질문·금지어를 SPARQL로 질의한다 (`backend/ontology_store.py`).
+
 ## 구조
 
 ```
 LGHelloDoctor/
-├── backend/
-│   ├── main.py              # FastAPI 서버 (A→B→C→D 통합 파이프라인)
+├── backend/                 # Clean Architecture 4계층 (docs/CLEAN_ARCHITECTURE.md)
+│   ├── domain/              # ① Entities + 순수 규칙 + Ports (Protocol) — 외부 의존 0
+│   │   ├── entities.py      #     Intent · Symptom · Hospital · Emergency · …
+│   │   ├── rules.py         #     FORBIDDEN_WORDS · EMERGENCY_* · preprocess_text · …
+│   │   └── ports.py         #     STTGateway · LLMGateway · OntologyGateway · …
+│   ├── usecases/            # ② 애플리케이션 흐름·전략
+│   │   ├── __init__.py      #     graph_pipeline + agent_patterns 파사드
+│   │   ├── hospital.py      #     find_nearby_hospital (MapGateway·Ontology 주입)
+│   │   └── rag.py           #     Hybrid RAG 전략 (rrf_fuse · select_confident)
+│   ├── adapters/            # ③ Presenters
+│   │   └── presenters.py    #     format_response · format_hospital_text
+│   ├── infra/               # ④ 외부 시스템 구현체
+│   │   ├── __init__.py      #     ontology_store 재노출
+│   │   └── map_kakao.py     #     Kakao Local API (MapGateway)
+│   ├── main.py              # 합성 루트 + FastAPI 컨트롤러 + 모델/DB 로딩
+│   ├── graph_pipeline.py    # LangGraph StateGraph 오케스트레이션
+│   ├── ontology_store.py    # Graph DB — rdflib로 .ttl 로드 + SPARQL
+│   ├── agent_patterns.py    # Anthropic 5패턴 (워커·평가자·라우터)
 │   ├── requirements.txt
 │   └── Dockerfile
 ├── frontend/
@@ -48,6 +67,7 @@ LGHelloDoctor/
 | `WHISPER_MODEL_PATH` | Whisper 모델 경로 (기본: openai/whisper-small) | 선택 |
 | `DB_PATH` | ChromaDB 경로 (기본: /app/RAG/db) | 선택 |
 | `OLLAMA_URL` | Ollama 서버 주소 (기본: http://localhost:11434) | 선택 |
+| `ONTOLOGY_PATH` | Graph DB 온톨로지 .ttl 경로 (기본: docs/ontology/hellodoctor.ttl 자동 탐색) | 선택 |
 
 ## Docker 실행
 ```bash
@@ -74,8 +94,9 @@ Anthropic의 *Building effective agents* 5가지 워크플로 패턴을 본 프�
 | ① | Prompt Chaining | `full_pipeline` A→B→C→D 게이트 체인 (`backend/agent_patterns.py::PromptChain`) |
 | ② | Routing | `tool_router` 의도별 분기 (`agent_patterns.py::IntentRouter`) |
 | ③ | Parallelization | C팀 RAG·Kakao·Emergency 병렬 (`agent_patterns.py::run_c_team_parallel`) |
-| ④ | Orchestrator-Worker | `full_pipeline` 중앙 조율 (`agent_patterns.py::PipelineOrchestrator`) |
+| ④ | Orchestrator-Worker | **LangGraph StateGraph** 중앙 조율 (`graph_pipeline.py::build_graph`, `agent_patterns.py::PipelineOrchestrator`) |
 | ⑤ | Evaluator-Optimizer | D팀 답변 한국어·금지어·길이 평가→재생성 (`agent_patterns.py::AnswerEvaluator`) |
+| ⑥ | Graph DB (온톨로지) | 응급·진료과·후속질문·금지어 SPARQL 질의 + partOf* 추이추론 (`ontology_store.py`) |
 
 > 자동화는 패턴이, 의사결정(금지어·응급 키워드 큐레이션 등)은 HITL 3-Tier가 담당한다.
 

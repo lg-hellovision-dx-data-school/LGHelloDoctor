@@ -1,0 +1,83 @@
+<mxfile host="app.diagrams.net" agent="Claude Code" version="24.0.0">
+  <diagram name="Clean Architecture" id="hellodoctor-clean-arch">
+    <mxGraphModel dx="1280" dy="820" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1280" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ===== Title ===== -->
+        <mxCell id="title" value="LG HelloDoctor — Clean Architecture (의존성 규칙: 소스 의존성은 항상 밖 → 안)" style="text;html=1;align=left;verticalAlign=middle;fontStyle=1;fontSize=18;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="30" y="36" width="1000" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Concentric rings (outer → inner) ===== -->
+        <mxCell id="ring_fw" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;" vertex="1" parent="1">
+          <mxGeometry x="30" y="80" width="820" height="640" as="geometry" />
+        </mxCell>
+        <mxCell id="ring_ad" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;" vertex="1" parent="1">
+          <mxGeometry x="140" y="165" width="600" height="470" as="geometry" />
+        </mxCell>
+        <mxCell id="ring_uc" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;" vertex="1" parent="1">
+          <mxGeometry x="250" y="250" width="380" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="ring_en" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;" vertex="1" parent="1">
+          <mxGeometry x="330" y="320" width="220" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Ring labels (top band of each ring) ===== -->
+        <mxCell id="lbl_fw" value="&lt;b&gt;Frameworks &amp; Drivers&lt;/b&gt;  (외부 · 언제든 교체)&lt;br&gt;FastAPI · React · Vite · nginx · Docker · LangGraph · ChromaDB · rdflib/SPARQL · Whisper · LLaMA (Ollama) · Groq · Kakao API" style="text;html=1;align=center;verticalAlign=middle;fillColor=none;fontSize=12;fontColor=#1F3864;" vertex="1" parent="1">
+          <mxGeometry x="70" y="94" width="740" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_ad" value="&lt;b&gt;Interface Adapters&lt;/b&gt;&lt;br&gt;Controllers (/chat · /api/stt) · Presenters (HospitalCard · ChatFormatter)&lt;br&gt;Gateways (STT · LLM · Map · Vector · OntologyGraph) · Hooks" style="text;html=1;align=center;verticalAlign=middle;fillColor=none;fontSize=12;fontColor=#2E5E1C;" vertex="1" parent="1">
+          <mxGeometry x="180" y="176" width="520" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_uc" value="&lt;b&gt;Use Cases&lt;/b&gt;  (음성인식→의도분류→도구호출→답변생성 · LangGraph 흐름)&lt;br&gt;Transcribe · ClassifyIntent · MultiTurn · SearchKnowledge · FindHospital · DetectEmergency · GenerateAnswer" style="text;html=1;align=center;verticalAlign=middle;fillColor=none;fontSize=11;fontColor=#7A2E2A;" vertex="1" parent="1">
+          <mxGeometry x="270" y="260" width="340" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_en" value="&lt;b&gt;Entities&lt;/b&gt; · 도메인 핵심&lt;br&gt;Symptom · Intent · Hospital&lt;br&gt;Conversation · Emergency&lt;br&gt;의료법 · 응급 · 시니어 규칙&lt;br&gt;도메인 온톨로지 (OWL/SKOS)" style="text;html=1;align=center;verticalAlign=middle;fillColor=none;fontSize=11;fontColor=#7A5C00;" vertex="1" parent="1">
+          <mxGeometry x="336" y="336" width="208" height="128" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Dependency direction arrow (inward) ===== -->
+        <mxCell id="dep_arrow" value="의존성 방향 (밖 → 안)" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;strokeWidth=2;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="400" as="sourcePoint" />
+            <mxPoint x="340" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ===== Right legend ===== -->
+        <mxCell id="leg_title" value="의존성 규칙 (Dependency Rule)" style="text;html=1;align=left;verticalAlign=middle;fontStyle=1;fontSize=14;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="930" y="116" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_fw" value="Frameworks &amp; Drivers — 교체 가능" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="970" y="158" width="280" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_ad" value="Interface Adapters — 어댑터·번역" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="970" y="216" width="280" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_uc" value="Use Cases — 애플리케이션 흐름" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="970" y="274" width="280" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_en" value="Entities — 도메인 핵심 (불변)" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="970" y="332" width="280" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_arrow" value="밖→안&#10;안정성 ↑" style="endArrow=block;html=1;rounded=0;strokeColor=#333333;strokeWidth=2;fontSize=10;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="945" y="166" as="sourcePoint" />
+            <mxPoint x="945" y="372" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg_note" value="바깥 계층(Frameworks)은 교체해도&#10;안쪽(Entities)은 불변.&#10;안쪽은 바깥의 이름·API를 모른다&#10;(Dependency Inversion)." style="text;html=1;align=left;verticalAlign=top;fillColor=none;fontSize=11;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="930" y="396" width="320" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Bottom caption ===== -->
+        <mxCell id="cap" value="교체 시나리오: Kakao → Naver / Ollama → vLLM / ChromaDB → Pinecone — 어댑터(Gateway) 한 곳만 수정, 안쪽 코드 불변." style="text;html=1;align=left;verticalAlign=middle;fillColor=none;fontSize=11;fontColor=#555555;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="30" y="730" width="900" height="24" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

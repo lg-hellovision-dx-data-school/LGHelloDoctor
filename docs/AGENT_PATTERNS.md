@@ -14,7 +14,7 @@
 | ① | **Prompt Chaining** | A(STT) → B(Intent) → C(RAG/Hospital) → D(Answer) 순차 체인 + 게이트 | `backend/agent_patterns.py::PromptChain`, `gate_*` |
 | ② | **Routing** | 의도 분류 결과로 RAG/Hospital/Emergency 분기 | `backend/main.py::tool_router`, `agent_patterns.py::IntentRouter` |
 | ③ | **Parallelization** | RAG · Kakao 병원 검색 · Emergency 체크를 동시에 호출 | `agent_patterns.py::run_c_team_parallel` (ThreadPoolExecutor) |
-| ④ | **Orchestrator-Worker** | A/B/C/D 워커를 조율하는 중앙 파이프라인 | `backend/main.py::full_pipeline`, `agent_patterns.py::PipelineOrchestrator` |
+| ④ | **Orchestrator-Worker** | A/B/C/D 워커를 조율하는 **LangGraph StateGraph** | `backend/graph_pipeline.py::build_graph`, `agent_patterns.py::PipelineOrchestrator` |
 | ⑤ | **Evaluator-Optimizer** | D팀 답변을 한국어 비율·금지어·길이로 평가 → 실패 시 최대 2회 재생성 | `agent_patterns.py::AnswerEvaluator`, `generate_with_evaluator` |
 
 ---
@@ -23,20 +23,20 @@
 
 ```mermaid
 graph LR
-    User([사용자 음성]) --> A[A: STT<br/>Whisper + VAD]
-    A -->|게이트: text ≥ 2자| B[B: Intent Classifier<br/>LLaMA 3.2 fine-tuned]
+    User([사용자 음성]) --> A[음성인식 STT<br/>Whisper + VAD]
+    A -->|게이트: text ≥ 2자| B[의도분류<br/>LLaMA 3.2 fine-tuned]
     B -->|"ready_for_c?"| Router{Router②}
-    Router -->|emergency| EMG[Emergency Check]
-    Router -->|symptom_inquiry| P[병렬 실행③]
-    Router -->|medication_info| P
-    Router -->|hospital_search| P
-    P --> RAG[Hybrid RAG v2]
+    Router -->|"다중턴"| FU[후속 질문<br/>followup → END]
+    Router -->|"emergency / symptom<br/>medication / hospital"| P[도구호출 병렬③]
+    P --> RAG[Hybrid RAG v2<br/>ChromaDB]
     P --> Kakao[Kakao 병원 API]
     P --> EmgCheck[Emergency Score]
+    Onto[("Graph DB⑥<br/>온톨로지<br/>rdflib · SPARQL")] -.->|"응급점수·진료과"| EmgCheck
+    Onto -.->|"진료과 폴백"| Kakao
     RAG --> Compose[컨텍스트 조립]
     Kakao --> Compose
     EmgCheck --> Compose
-    Compose --> D[D: Answer Generator<br/>LLaMA 3.2 fine-tuned]
+    Compose --> D[답변생성<br/>LLaMA 3.2 fine-tuned]
     D --> Eval{Evaluator⑤<br/>한국어 ≥ 0.4<br/>금지어 X<br/>길이 ≥ 15}
     Eval -->|fail| D
     Eval -->|pass| Format[format_response]
@@ -45,9 +45,10 @@ graph LR
     style Router fill:#ffe0b2
     style P fill:#c8e6c9
     style Eval fill:#bbdefb
+    style Onto fill:#ffe0cc
 ```
 
-체이닝(①)은 전체 흐름, 라우팅(②)·병렬(③)·평가-최적화(⑤)는 색칠된 노드, 오케스트레이터(④)는 다이어그램 전체를 감싸는 `full_pipeline`/`PipelineOrchestrator`다.
+전체 그래프는 **LangGraph StateGraph**(`backend/graph_pipeline.py`)로 오케스트레이션된다(④). 체이닝(①)은 전체 흐름, 라우팅(②)·병렬(③)·평가-최적화(⑤)는 색칠된 노드, Graph DB(⑥)는 온톨로지 SPARQL로 응급 점수·진료과를 보강한다(`ontology_store.py`).
 
 ---
 
@@ -110,7 +111,16 @@ orch = PipelineOrchestrator(workers, evaluator=AnswerEvaluator(FORBIDDEN_WORDS))
 result = orch.run(raw_text, session_id, lat, lng)
 ```
 
-현재 진입점은 `backend/main.py::full_pipeline` — 동일한 책임을 가지며 함수형으로 구현. `PipelineOrchestrator`는 클래스 추상화로 테스트·의존성 주입 시 유리.
+현재 진입점은 `backend/main.py::full_pipeline` → **LangGraph StateGraph**(`graph_pipeline.py::build_graph`)에 위임한다. 그래프 구조:
+
+```
+START → stt → intent ─┬─(다중턴: ready_for_c=False)→ followup → END
+                      └─(ready_for_c=True)──────────→ tools → answer → END
+```
+
+워커(stt/chat_followup/tool_router/answer_generator/formatter)는 `PipelineWorkers`로 주입(DI)되므로 그래프는 langchain/모델 의존성 없이 단독 테스트 가능(`tests/test_graph_pipeline.py`). `PipelineOrchestrator`(함수형 클래스 버전)도 동일 책임으로 유지 — 비교·폴백용.
+
+> **Graph DB(⑥) 연계**: `tool_router` 내부 `emergency_check`·`search_hospital`은 코드 dict 와 함께 `ontology_store`(rdflib SPARQL)를 호출한다. 응급 점수는 dict·온톨로지 중 높은 값 채택, 진료과는 dict 미매칭 시 온톨로지로 폴백. 추이추론(partOf*)은 `GET /ontology/body-parts/{region}`로 노출 (`tests/test_ontology_store.py`).
 
 ### ⑤ Evaluator-Optimizer
 
