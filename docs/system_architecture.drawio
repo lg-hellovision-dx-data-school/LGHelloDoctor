@@ -152,7 +152,7 @@
         </mxCell>
 
         <!-- ============== ENGINEERING FOUNDATION (Bottom Section) ============== -->
-        <mxCell id="eng_hdr" value="AI Native Engineering Stack  ·  Development Methodology" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;fontStyle=1;fontFamily=Times New Roman;fontColor=#000000;" vertex="1" parent="1">
+        <mxCell id="eng_hdr" value="AI Native Engineering Stack  ·  Spec-Driven Development (Spec Kit)  ·  Methodology" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;fontStyle=1;fontFamily=Times New Roman;fontColor=#000000;" vertex="1" parent="1">
           <mxGeometry x="40" y="760" width="1540" height="28" as="geometry" />
         </mxCell>
 
@@ -166,7 +166,7 @@
         <mxCell id="eng_prompt" value="Prompt Engineering&#xa;LLaMA System Prompts · Few-shot Examples · Intent Label Constraints · .github/prompts/" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;verticalAlign=middle;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
           <mxGeometry x="90" y="896" width="810" height="58" as="geometry" />
         </mxCell>
-        <mxCell id="eng_claude" value="Claude Code Tooling&#xa;&#xa;Slash Commands  /test  /deploy  /validate&#xa;Subagents (TDD-*, module-*)&#xa;Skills · TaskList · Memory&#xa;MCP: Context7 · html.to.design&#xa;.claude/commands/" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
+        <mxCell id="eng_claude" value="Claude Code Tooling&#xa;&#xa;Spec Kit (SDD): /specify · /plan · /tasks · /analyze&#xa;Slash Commands: /test · /deploy · /validate&#xa;Subagents (TDD-*, module-*) · Skills · Memory&#xa;MCP: Context7 · html.to.design&#xa;.specify/ · .claude/commands/" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=11;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">
           <mxGeometry x="970" y="795" width="290" height="172" as="geometry" />
         </mxCell>
         <mxCell id="eng_tdd" value="TDD &amp; Validation&#xa;&#xa;pytest  tests/test_*.py&#xa;Agent Pattern Regression&#xa;Integration /validate 7/7&#xa;LangSmith @traceable" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=center;fontFamily=Times New Roman;fontColor=#000000;strokeWidth=1.2;spacing=6;" vertex="1" parent="1">

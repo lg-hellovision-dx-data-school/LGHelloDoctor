@@ -11,7 +11,7 @@
 | **Database** | ![ChromaDB](https://img.shields.io/badge/ChromaDB_1.5.5-FF6B35?style=flat&logo=databricks&logoColor=white) |
 | **External API** | ![Kakao](https://img.shields.io/badge/Kakao_Map_API-FFCD00?style=flat&logo=kakao&logoColor=black) |
 | **UI/Design** | ![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat&logo=figma&logoColor=white) ![html.to.design](https://img.shields.io/badge/html.to.design-9B59B6?style=flat&logo=figma&logoColor=white) ![Claude MCP](https://img.shields.io/badge/Claude_MCP-CC785C?style=flat&logo=anthropic&logoColor=white) |
-| **AI 개발 도구** | ![Claude Code](https://img.shields.io/badge/Claude_Code-CC785C?style=flat&logo=anthropic&logoColor=white) ![Context7](https://img.shields.io/badge/Context7_MCP-000000?style=flat) |
+| **AI 개발 도구** | ![Claude Code](https://img.shields.io/badge/Claude_Code-CC785C?style=flat&logo=anthropic&logoColor=white) ![Spec Kit](https://img.shields.io/badge/Spec_Kit-SDD-2088FF?style=flat&logo=github&logoColor=white) ![Context7](https://img.shields.io/badge/Context7_MCP-000000?style=flat) |
 | **협업** | ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) |
 
 > **프론트엔드 디자인 워크플로우**
@@ -19,6 +19,9 @@
 >
 > **문서 검색 워크플로우**
 > [Context7](https://github.com/upstash/context7) MCP를 연결해 LangGraph·rdflib·FastAPI 등 라이브러리의 최신 문서를 코드 작성 중 실시간 참조했습니다.
+>
+> **명세 주도 개발(SDD) 워크플로우**
+> [Spec Kit](https://github.com/github/spec-kit)으로 헌법(`.specify/memory/constitution.md`) → `/specify` → `/plan` → `/tasks` → `/analyze` → `/implement` 흐름을 따라 명세 우선으로 기능을 구축했습니다 (`specs/000-baseline-hellodoctor/`).
 
 ---
 
